@@ -1,8 +1,10 @@
 // priority: 1000
 const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
+const $TagKey = Java.loadClass('net.minecraft.tags.TagKey')
 const STATUS_IDLE = 'idle'
 const STATUS_ROUTE_MOVE = 'route_move'
 const STATUS_POI_MOVE = 'poi_move'
+
 /**
  * 获取生物状态
  * @param {Internal.PathfinderMob} mob 
@@ -77,21 +79,32 @@ EntityRouteMove.prototype = {
      * 实体移动到某位置
      * @param {BlockPos} pos 
      */
-    moveToPos: function(pos) {
+    moveToPos: function (pos) {
         this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, 1.0)
     },
     /**
      * 移动到目前目标位置
      */
-    moveToCurPos: function() {
+    moveToCurPos: function () {
         this.moveToPos(this.getCurMovePos())
     },
     /**
      * 移动到下一目标位置
      */
-    moveToNextPos: function() {
+    moveToNextPos: function () {
         this.moveToPos(this.getNextMovePos())
         this.curPointNum = this.curPointNum + 1
         this.routeMoveConfig.putInt('curPointNum', this.curPointNum)
+    },
+    /**
+     * 在一定范围内寻找可用的POI
+     * @param {number} dist 
+     */
+    findNearByPOIs: function (dist) {
+        let movPos = this.mob.getPosition(1.0)
+        findNearestBlock(this.mob, dist, 3, -1, (level, blockPos) => {
+            // todo
+            level.getBlockState(blockPos)["is(net.minecraft.world.level.block.Block)"]()
+        })
     }
 }
