@@ -1,10 +1,6 @@
 // priority: 1000
 const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
-const $TagKey = Java.loadClass('net.minecraft.tags.TagKey')
-const STATUS_IDLE = 'idle'
-const STATUS_ROUTE_MOVE = 'route_move'
-const STATUS_POI_MOVE = 'poi_move'
-
+const $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
 /**
  * 获取生物状态
  * @param {Internal.PathfinderMob} mob 
@@ -14,7 +10,7 @@ function GetEntityStatus(mob) {
     if (mob.persistentData.contains('status')) {
         return mob.persistentData.getString('status')
     }
-    return 'idle'
+    return STATUS_IDLE
 }
 
 function EntityRouteMove(mob) {
@@ -102,9 +98,24 @@ EntityRouteMove.prototype = {
      */
     findNearByPOIs: function (dist) {
         let movPos = this.mob.getPosition(1.0)
-        findNearestBlock(this.mob, dist, 3, -1, (level, blockPos) => {
-            // todo
-            level.getBlockState(blockPos)["is(net.minecraft.world.level.block.Block)"]()
+        FindNearBlocks(this.mob, dist, 3, -1, (level, blockPos) => {
+            let block = level.getBlockState(blockPos)
+            let res = block.tags.anyMatch(tag => {
+                return tag.equals(POI_ENTRANCE)
+            })
         })
     }
+}
+
+
+function ConvertPosListIntoNbt(posList) {
+    let res = new $ListTag()
+    posList.forEach(/** @param {BlockPos} pos */pos => {
+        let nbt = new $CompoundTag()
+        nbt.putInt('x', pos.getX())
+        nbt.putInt('y', pos.getY())
+        nbt.putInt('z', pos.getZ())
+        res.add(nbt)
+    })
+    return res
 }

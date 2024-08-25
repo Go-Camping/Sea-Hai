@@ -7,18 +7,18 @@ const $Vec3 = Java.loadClass('net.minecraft.world.phys.Vec3')
  */
 function SetLongDistancePatrolGoal(entity) {
     entity.goalSelector.addGoal(10, new $CustomGoal(
-        'route_move',
+        'route_move_find_poi',
         entity,
         /** @param {Internal.PathfinderMob} mob **/ mob => {
             // 何时能够使用
-            if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE) {
+            if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE_FIND_POI) {
                 return true
             }
             return false
         },
         /** @param {Internal.PathfinderMob} mob **/ mob => {
             // 能否继续使用 
-            if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE) {
+            if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE_FIND_POI) {
                 return true
             }
             return false
