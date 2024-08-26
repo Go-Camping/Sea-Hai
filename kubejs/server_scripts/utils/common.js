@@ -14,7 +14,7 @@
  * @param {number} verticalSearchRange 
  * @param {number} verticalOffset 
  * @param {isValidTarget} isValidTarget
- * @returns {[]Internal.BlockPos$MutableBlockPos}
+ * @returns {Internal.BlockPos$MutableBlockPos[]}
  */
 function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, isValidTarget) {
     let blockPos = mob.blockPosition().offset(0, verticalOffset, 0);
@@ -52,7 +52,7 @@ function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, i
  * @param {number} verticalSearchRange 
  * @param {number} verticalOffset 
  * @param {isValidTarget} isValidTarget
- * @returns {[]Internal.BlockPos$MutableBlockPos}
+ * @returns {Internal.BlockPos$MutableBlockPos[]}
  */
 function FindDirectionNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, isValidTarget) {
     let blockPos = mob.blockPosition().offset(0, verticalOffset, 0);
@@ -64,8 +64,8 @@ function FindDirectionNearBlocks(mob, searchRange, verticalSearchRange, vertical
     let dz = facing.getZ()
     let dx = facing.getX()
     let dy = facing.getY()
-    // 如果Y相关，那么全域搜索
-    if (dy != 0) return FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, isValidTarget)
+    // 如果Y相关，那么全域搜索，但视野减半，纵向扩展
+    if (dy != 0) return FindNearBlocks(mob, Math.ceil(searchRange / 2), verticalSearchRange + 1, verticalOffset, isValidTarget)
 
     // 遍历范围内的每个方块
     for (let k = 0; k <= verticalSearchRange; k = k > 0 ? -k : 1 - k) {
@@ -160,8 +160,8 @@ function FindDirectionNearestBlock(mob, searchRange, verticalSearchRange, vertic
     let dz = facing.getZ()
     let dx = facing.getX()
     let dy = facing.getY()
-    // 如果Y相关，那么全域搜索
-    if (dy != 0) return FindNearestBlock(mob, searchRange, verticalSearchRange, verticalOffset, isValidTarget)
+    // 如果Y相关，那么全域搜索, 但视野减半，纵向扩展
+    if (dy != 0) return FindNearestBlock(mob, Math.ceil(searchRange / 2), verticalSearchRange + 1, verticalOffset, isValidTarget)
 
     // 遍历范围内的每个方块
     for (let k = 0; k <= verticalSearchRange; k = k > 0 ? -k : 1 - k) {
