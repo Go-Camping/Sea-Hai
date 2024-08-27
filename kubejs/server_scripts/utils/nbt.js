@@ -17,6 +17,19 @@ function ConvertPosList2Nbt(posList) {
 }
 
 /**
+ * BlockPos转换为Tag
+ * @param {BlockPos} pos
+ * @returns {Internal.CompoundTag}
+ */
+function ConvertPos2Nbt(pos) {
+    let nbt = new $CompoundTag()
+    nbt.putInt('x', pos.getX())
+    nbt.putInt('y', pos.getY())
+    nbt.putInt('z', pos.getZ())
+    return nbt
+}
+
+/**
  * ListTag转换为BlockPos
  * @param {Internal.ListTag} nbtList 
  * @returns {BlockPos[]}
@@ -28,4 +41,14 @@ function ConvertNbt2PosList(nbtList) {
         posList.push(pos)
     })
     return posList
+}
+
+/**
+ * Tag转换为BlockPos
+ * @param {Internal.CompoundTag} nbt
+ * @returns {BlockPos}
+ */
+function ConvertNbt2Pos(nbt) {
+    let pos = new BlockPos(nbt.getInt('x'), nbt.getInt('y'), nbt.getInt('z'))
+    return pos
 }
