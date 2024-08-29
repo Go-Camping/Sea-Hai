@@ -9,11 +9,11 @@ const $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
  */
 function EntityRouteMove(mob) {
     // 若没有对应的字段，则进行强制初始化
-    if (!mob.persistentData.contains('routeMove')) {
+    if (!mob.persistentData.contains(ROUTE_MOVE)) {
         let routeMoveConfig = new $CompoundTag()
         routeMoveConfig.putList('pointList', new $ListTag())
         routeMoveConfig.putInt('curPointNum', 0)
-        mob.persistentData.put('routeMove', routeMoveConfig)
+        mob.persistentData.put(ROUTE_MOVE, routeMoveConfig)
     }
 
     /** @type {BlockPos[]} */
@@ -24,7 +24,7 @@ function EntityRouteMove(mob) {
     this.mob = mob
 
     // 由于有强制初始化，理想化均包含这些字段，不进行额外空校验
-    this.routeMoveConfig = mob.persistentData.getCompound('routeMove')
+    this.routeMoveConfig = mob.persistentData.getCompound(ROUTE_MOVE)
 
     let pointNbtList = this.routeMoveConfig.getList('pointList', GET_COMPOUND_TYPE)
     this.posList = ConvertNbt2PosList(pointNbtList)

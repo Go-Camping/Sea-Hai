@@ -51,7 +51,7 @@ function SetLongDistancePatrolGoal(entity) {
             // 将该值写入兴趣信息空间
             let poiMoveNbt = new $CompoundTag()
             poiMoveNbt.put('curPOI', ConvertPos2Nbt(targetPOIPos))
-            mob.persistentData.put('poiMove', poiMoveNbt)
+            mob.persistentData.put(POI_MOVE, poiMoveNbt)
             // 保证连贯性，将目标地点切换为下一地点，并且朝对应方向移动
             routeMoveModel.moveToPos(targetPOIPos)
         },
@@ -59,7 +59,7 @@ function SetLongDistancePatrolGoal(entity) {
             // 停止时执行
         },
         false, // 是否每个tick都需要更新
-        /** @param Internal.PathfinderMob} mob **/ mob => {
+        /** @param {Internal.PathfinderMob} mob **/ mob => {
             // tick
         },
     ))
