@@ -34,17 +34,6 @@ function EntityRouteMove(mob) {
 
 EntityRouteMove.prototype = {
     /**
-     * 设置生物状态
-     * @param {String}
-     * @returns {Boolean}
-     */
-    setStatus(newStatus) {
-        // 跳转到新状态时，保存最后所在地点，以保证能够恢复位置
-        let lastPos = this.mob.blockPosition()
-        this.routeMoveConfig.put('lastPos', ConvertPos2Nbt(lastPos))
-        return SetEntityStatus(this.mob, newStatus)
-    },
-    /**
      * 获取当前目标位置
      * @returns {BlockPos}
      */
@@ -70,7 +59,8 @@ EntityRouteMove.prototype = {
         // 没有位置，则认为已经到达位置
         if (!curMovePos) return true
         // 如果距离小于预期距离，则认为到达了对应位置
-        if (this.mob.getPosition(1.0).distanceTo(curMovePos) <= dist) {
+        // 由于设置地点均为地面，对于生物而言，其中心位置往往在上方一格，因此在判断距离的时候使判断点上移一格
+        if (this.mob.getPosition(1.0).distanceTo(curMovePos.above()) <= dist) {
             return true
         }
         return false
@@ -78,36 +68,60 @@ EntityRouteMove.prototype = {
     /**
      * 实体移动到某位置
      * @param {BlockPos} pos 
+     * @param {Number} speed
      * @returns {Boolean}
      */
-    moveToPos: function (pos) {
+    moveToPos: function (pos, speed) {
         if (!pos) return false
-        this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, 1.0)
+        this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, speed)
         return true
     },
     /**
      * 移动到目前目标位置
      */
     moveToCurPos: function () {
-        this.moveToPos(this.getCurMovePos())
+        this.moveToPos(this.getCurMovePos(), 1.0)
     },
     /**
      * 移动到下一目标位置
      */
     moveToNextPos: function () {
-        this.moveToPos(this.getNextMovePos())
+        this.moveToPos(this.getNextMovePos(), 1.0)
         this.curPointNum = this.curPointNum + 1
         this.routeMoveConfig.putInt('curPointNum', this.curPointNum)
     },
     /**
-     * 在一定范围内寻找可用的POI
-     * @param {number} dist 
-     * @returns {Internal.BlockPos$MutableBlockPos[]}
+     * 设置恢复位置，用于在状态切换时，恢复到上一次的位置
+     * @param {BlockPos} pos 
+     * @returns {Boolean}
      */
-    findAheadPOIs: function (dist) {
-        let blockPosList = FindDirectionNearBlocks(this.mob, dist, 5, -1, (level, blockPos) => {
-            return level.getBlockState(blockPos).tags.anyMatch(tag => tag.equals(POI_ENTRANCE))
-        })
-        return blockPosList
+    setRecoverPos: function (pos) {
+        if (!pos) return false
+        let recoverPosNbt = ConvertPos2Nbt(pos)
+        this.routeMoveConfig.put('recoverPos', recoverPosNbt)
+        return true
     },
+    /**
+     * 获取恢复位置
+     * @returns {BlockPos}
+     */
+    getRecoverPos: function () {
+        if (!this.routeMoveConfig.contains('recoverPos')) return null
+        let recoverPosNbt = this.routeMoveConfig.getCompound('recoverPos')
+        return ConvertNbt2Pos(recoverPosNbt)
+    },
+    /**
+     * 移动到恢复位置，并且在到达时清除恢复信息
+     * @param {Number} dist
+     * @returns {Boolean}
+     */
+    moveToRecoverPos: function (dist) {
+        let recoverPos = this.getRecoverPos()
+        if (!recoverPos) return false
+        if (this.checkArrivedCurMovePos(dist)) {
+            this.routeMoveConfig.remove('recoverPos')
+        }
+        this.moveToPos(recoverPos, 1.0)
+        return true
+    }
 }
