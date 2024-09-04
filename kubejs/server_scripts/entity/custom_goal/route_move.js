@@ -28,7 +28,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // 开启时执行
         let routeMoveModel = new EntityRouteMove(mob)
-        if (routeMoveModel.getRecoverPos()) {
+        if (routeMoveModel.recoverPos != BlockPos.ZERO) {
             routeMoveModel.moveToRecoverPos(STANDARD_ROUTE_MOVE_DISTANCE)
             return
         }
@@ -52,7 +52,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         let routeMoveModel = new EntityRouteMove(mob)
 
         // 尝试进行位置恢复
-        if (routeMoveModel.getRecoverPos()) {
+        if (routeMoveModel.recoverPos != BlockPos.ZERO) {
             routeMoveModel.moveToRecoverPos(STANDARD_ROUTE_MOVE_DISTANCE)
             return
         }

@@ -13,6 +13,7 @@ function EntityRouteMove(mob) {
         let routeMoveConfig = new $CompoundTag()
         routeMoveConfig.putList('pointList', new $ListTag())
         routeMoveConfig.putInt('curPointNum', 0)
+        routeMoveConfig.put('recoverPos', ConvertPos2Nbt(BlockPos.ZERO))
         mob.persistentData.put(ROUTE_MOVE, routeMoveConfig)
     }
 
@@ -23,13 +24,14 @@ function EntityRouteMove(mob) {
     /** @type {Internal.PathfinderMob} */
     this.mob = mob
 
-    // 由于有强制初始化，理想化均包含这些字段，不进行额外空校验
+    // 由于有强制初始化，理想化均包含这些字段，不进行额外空校验，但这仍旧会在部分人工修改内容的场景引发问题
     this.routeMoveConfig = mob.persistentData.getCompound(ROUTE_MOVE)
 
     let pointNbtList = this.routeMoveConfig.getList('pointList', GET_COMPOUND_TYPE)
     this.posList = ConvertNbt2PosList(pointNbtList)
 
     this.curPointNum = this.routeMoveConfig.getInt('curPointNum')
+    this.recoverPos = ConvertNbt2Pos(this.routeMoveConfig.getCompound('recoverPos'))
 }
 
 EntityRouteMove.prototype = {
@@ -96,32 +98,23 @@ EntityRouteMove.prototype = {
      * @returns {Boolean}
      */
     setRecoverPos: function (pos) {
-        if (!pos) return false
+        if (!pos) pos = BlockPos.ZERO
         let recoverPosNbt = ConvertPos2Nbt(pos)
         this.routeMoveConfig.put('recoverPos', recoverPosNbt)
         return true
     },
     /**
-     * 获取恢复位置
-     * @returns {BlockPos}
-     */
-    getRecoverPos: function () {
-        if (!this.routeMoveConfig.contains('recoverPos')) return null
-        let recoverPosNbt = this.routeMoveConfig.getCompound('recoverPos')
-        return ConvertNbt2Pos(recoverPosNbt)
-    },
-    /**
      * 移动到恢复位置，并且在到达时清除恢复信息
      * @param {Number} dist
-     * @returns {Boolean}
      */
     moveToRecoverPos: function (dist) {
-        let recoverPos = this.getRecoverPos()
-        if (!recoverPos) return false
-        if (this.checkArrivedCurMovePos(dist)) {
-            this.routeMoveConfig.remove('recoverPos')
+        if (this.recoverPos == BlockPos.ZERO) return
+    
+        if (this.mob.getPosition(1.0).distanceTo(new Vec3d(this.recoverPos.x, this.recoverPos.y, this.recoverPos.z)) <= dist) {
+            this.routeMoveConfig.put('recoverPos', ConvertPos2Nbt(BlockPos.ZERO))
+            return
         }
         this.moveToPos(recoverPos, 1.0)
-        return true
+        return
     }
 }

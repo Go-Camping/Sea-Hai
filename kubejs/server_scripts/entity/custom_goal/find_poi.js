@@ -37,32 +37,44 @@ const FindPOI = (entity) => new $CustomGoal(
     false, // 是否每个tick都需要更新
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // tick
-
+        let findPOIModel = new EntityFindPOI(mob)
         // 随机短距离游荡
         if (Math.random() < 0.05) {
-            indPOIModel.idleAroundCenter(3, 0.2)
+            findPOIModel.idleAroundCenter(3, 0.2)
             return
         }
 
         // 在较小范围内寻找吸引力方块，这会使得AI的视线集中于该位置
-        if (Math.random() < 0.3) {
+        if (Math.random() < 0.5) {
             let attractiveBlockList = FindAroundAttractiveBlocks(entity, 5)
-            // 此处可以添加一个兴趣值累积逻辑，避免频繁更换
-            if (attractiveBlockList.length > 0) {
+
+            // 没有吸引力方块，因此直接认为没有可用的目标地点，转换状态到寻路
+            if (attractiveBlockList.length <= 0) {
+                findPOIModel.resetInterest()
+                SetEntityStatus(ROUTE_MOVE)
+                return
+            }
+
+            // 只有在兴趣值被清空的时候，才尝试切换视线
+            if (findPOIModel.interest <= 0) {
                 /** @type {Internal.BlockPos$MutableBlockPos} */
                 let attractieveBlock = RandomGet(attractiveBlockList)
                 mob.lookControl["setLookAt(double,double,double)"](attractieveBlock.x, attractieveBlock.y, attractieveBlock.z)
+            } else {
+                // 过多的吸引力方块会引发兴趣涣散，导致兴趣值累积速度反而变慢
+                findPOIModel.addInterest(attractiveBlockList.length > 5 ? 3 : attractiveBlockList.length)
             }
             return
         }
 
         // 在较小范围内寻找吸引力方块，这会使得AI的视线集中于该位置
         // 可以添加一个兴趣值的累积阈值，而不是通过概率控制
-        if (Math.random() < 0.3) {
+        if (findPOIModel.interest >= 10) {
             // 在一个面向矩形范围内寻找POIs，扫描顺序从近到远。其中数字参数1决定了面朝方向的搜索范围，数字参数2决定了左右方向的搜索范围
-            let poiList = FindAheadPOIs(entity, 8, 3)
-            if (poiList.length > 0) {
-
+            let poiList = FindAheadPOIs(entity, 8, 5)
+            if (poiList.length <= 0) {
+                // 如果没有可用POI则清空兴趣值，使得更换吸引力方块
+                findPOIModel.resetInterest()
             }
             // 兴趣匹配，该部分逻辑可以丰富化，暂时仅取第一个，即最近值
             let targetPOIPos = poiList[0]

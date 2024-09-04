@@ -37,6 +37,7 @@ function ConvertPos2Nbt(pos) {
 function ConvertNbt2PosList(nbtList) {
     let posList = []
     nbtList.forEach(/** @param {Internal.CompoundTag} nbt */nbt => {
+        if (!nbt) return BlockPos.ZERO
         let pos = new BlockPos(nbt.getInt('x'), nbt.getInt('y'), nbt.getInt('z'))
         posList.push(pos)
     })
@@ -49,6 +50,7 @@ function ConvertNbt2PosList(nbtList) {
  * @returns {BlockPos}
  */
 function ConvertNbt2Pos(nbt) {
+    if (!nbt) return BlockPos.ZERO
     let pos = new BlockPos(nbt.getInt('x'), nbt.getInt('y'), nbt.getInt('z'))
     return pos
 }
