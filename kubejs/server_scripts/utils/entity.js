@@ -201,34 +201,11 @@ function GetEntityStatus(mob) {
 }
 
 /**
- * 获取旧生物状态，这往往用于一些长效性的判断过程
- * @param {Internal.PathfinderMob} mob 
- * @returns {string[]}
- */
-function GetEntityOldStatus(mob) {
-    let oldStatsuList = []
-    if (mob.persistentData.contains('oldStatus')) {
-        let oldStatusNbtList = mob.persistentData.getList('oldStatus', GET_STRING_TYPE)
-        oldStatusNbtList.forEach(oldStatus => {
-            oldStatsuList.push(oldStatus)
-        })
-        return oldStatsuList
-    }
-    return oldStatsuList
-}
-
-/**
  * 设置生物状态，如果状态没有变更，则不进行设置（这影响到旧状态列表的维护）
  * @param {Internal.PathfinderMob} mob 
  * @param {string} status
  */
 function SetEntityStatus(mob, status) {
-    let oldStatus = GetEntityStatus(mob, status)
-    if (status == oldStatus) return
-    let oldStatusList = mob.persistentData.getList('oldStatus', GET_STRING_TYPE)
-    if (!oldStatusList) oldStatusList = new $ListTag()
-    oldStatusList.add(oldStatus)
-    mob.persistentData.put('oldStatus', oldStatusList)
     mob.persistentData.putString('status', status)
     return
 }

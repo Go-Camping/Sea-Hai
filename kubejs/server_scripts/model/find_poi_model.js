@@ -1,6 +1,4 @@
 // priority: 900
-const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
-const $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
 
 /**
  * 创建点路径寻路对象

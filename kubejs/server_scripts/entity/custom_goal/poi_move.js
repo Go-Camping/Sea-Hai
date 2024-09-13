@@ -1,6 +1,4 @@
-// priority: 950
-const $CustomGoal = Java.loadClass('net.liopyu.entityjs.util.ai.CustomGoal')
-const $Vec3 = Java.loadClass('net.minecraft.world.phys.Vec3')
+// priority: 800
 
 /**
  * poi寻找到之后进行寻路并尝试进行poi的行为，包括购买、探索等

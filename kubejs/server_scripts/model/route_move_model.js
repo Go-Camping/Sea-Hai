@@ -1,6 +1,4 @@
 // priority: 900
-const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
-const $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
 
 /**
  * 创建点路径寻路对象
@@ -11,9 +9,9 @@ function EntityRouteMove(mob) {
     // 若没有对应的字段，则进行强制初始化
     if (!mob.persistentData.contains(ROUTE_MOVE)) {
         let routeMoveConfig = new $CompoundTag()
-        routeMoveConfig.putList('pointList', new $ListTag())
+        routeMoveConfig.put('pointList', new $ListTag())
         routeMoveConfig.putInt('curPointNum', 0)
-        routeMoveConfig.put('recoverPos', ConvertPos2Nbt(BlockPos.ZERO))
+        routeMoveConfig.put('recoverPos', new $CompoundTag())
         mob.persistentData.put(ROUTE_MOVE, routeMoveConfig)
     }
 
@@ -35,6 +33,24 @@ function EntityRouteMove(mob) {
 }
 
 EntityRouteMove.prototype = {
+    /**
+     * 获取当前目标位置
+     * @param {BlockPos[]} posList
+     */
+    setPosList: function (posList) {
+        this.posList = posList
+        this.routeMoveConfig.put('pointList', ConvertPosList2Nbt(posList))
+        return
+    },
+    /**
+     * 获取当前目标位置
+     * @param {Internal.ListTag} posListNbt
+     */
+    setPosListNbt: function (posListNbt) {
+        this.routeMoveConfig.put('pointList', posListNbt)
+        this.posList = ConvertNbt2PosList(posListNbt)
+        return
+    },
     /**
      * 获取当前目标位置
      * @returns {BlockPos}
@@ -98,7 +114,7 @@ EntityRouteMove.prototype = {
      * @returns {Boolean}
      */
     setRecoverPos: function (pos) {
-        if (!pos) pos = BlockPos.ZERO
+        if (!pos) return false
         let recoverPosNbt = ConvertPos2Nbt(pos)
         this.routeMoveConfig.put('recoverPos', recoverPosNbt)
         return true
@@ -108,13 +124,13 @@ EntityRouteMove.prototype = {
      * @param {Number} dist
      */
     moveToRecoverPos: function (dist) {
-        if (this.recoverPos == BlockPos.ZERO) return
+        if (!this.recoverPos) return
     
         if (this.mob.getPosition(1.0).distanceTo(new Vec3d(this.recoverPos.x, this.recoverPos.y, this.recoverPos.z)) <= dist) {
-            this.routeMoveConfig.put('recoverPos', ConvertPos2Nbt(BlockPos.ZERO))
+            this.routeMoveConfig.put('recoverPos', new $CompoundTag())
             return
         }
-        this.moveToPos(recoverPos, 1.0)
+        this.moveToPos(this.recoverPos, 1.0)
         return
     }
 }
