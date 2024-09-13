@@ -11,16 +11,17 @@ function EntityFindPOI(mob) {
     // 若没有对应的字段，则进行强制初始化
     if (!mob.persistentData.contains(FIND_POI)) {
         let findPOIConfig = new $CompoundTag()
-        findPOIConfig.putInt('interest', 0)
+        findPOIConfig.put('markedPOIs', new $ListTag())
         mob.persistentData.put(FIND_POI, findPOIConfig)
     }
 
     /** @type {Internal.PathfinderMob} */
     this.mob = mob
+    
 
     // 由于有强制初始化，理想化均包含这些字段，不进行额外空校验，但这仍旧会在部分人工修改内容的场景引发问题
     this.findPOIConfig = mob.persistentData.getCompound(FIND_POI)
-    this.interest = this.findPOIConfig.getInt('interest')
+    this.markedPOIs = ConvertNbt2PosList(this.findPOIConfig.getList('markedPOIs', GET_COMPOUND_TYPE))
 }
 
 EntityFindPOI.prototype = {
@@ -76,18 +77,12 @@ EntityFindPOI.prototype = {
         this.moveToPos(idleAroundPos.x, idleAroundPos.y, idleAroundPos.z, speed)
     },
     /**
-     * 增长兴趣值
-     * @param {Number} interest
+     * 返回游荡中心
+     * @param {Number} speed
      */
-    addInterest: function (interest) {
-        this.interest = this.interest + interest
-        this.findPOIConfig.putInt('interest', this.interest)
-    },
-    /**
-     * 重置兴趣值
-     */
-    resetInterest: function () {
-        this.interest = 0
-        this.findPOIConfig.putInt('interest', this.interest)
+    backToIdleCenter: function (speed) {
+        let idleCenter = this.getIdleCenter()
+        if (!idleCenter) return
+        this.moveToPos(idleCenter.x, idleCenter.y, idleCenter.z, speed)
     },
 }

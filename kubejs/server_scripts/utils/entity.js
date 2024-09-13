@@ -59,12 +59,9 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
     let resBlockPosList = []
 
     // 粗略朝向方向
-    let facing = mob.getFacing()
+    let facing = mob.getHorizontalFacing()
     let dz = facing.getZ()
     let dx = facing.getX()
-    let dy = facing.getY()
-    // 如果Y相关，那么全域搜索，但视野减半，纵向扩展
-    if (dy != 0) return FindNearBlocks(mob, Math.ceil(searchRange / 2), verticalSearchRange + 1, verticalOffset, isValidTarget)
     // 遍历范围内的每个方块
     for (let k = 0; k <= verticalSearchRange; k = k > 0 ? -k : 1 - k) {
         // X-Z遍历
