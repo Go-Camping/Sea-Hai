@@ -11,6 +11,7 @@ const FindPOI = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // 何时能够使用
         if (GetEntityStatus(mob) == STATUS_FIND_POI) {
+            console.log('status findPOI Begin')
             return true
         }
         return false
@@ -18,6 +19,7 @@ const FindPOI = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // 能否继续使用 
         if (GetEntityStatus(mob) == STATUS_FIND_POI) {
+            console.log('status findPOI Continue')
             return true
         }
         return false
@@ -25,25 +27,46 @@ const FindPOI = (entity) => new $CustomGoal(
     true, // 是否允许中断
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // 开启时执行
+        console.log('status findPOI BeginBehavior')
         let findPOIModel = new EntityFindPOI(mob)
+        findPOIModel.setSpeed(0.25)
         findPOIModel.setIdleCenter(GetEntityPosition(mob))
-        findPOIModel.idleAroundCenter(3, 0.2)
+        findPOIModel.idleAroundCenter(3)
+        findPOIModel.setIdleTimer(Math.floor(Math.random() * 10 + 2))
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // 停止时执行
+        console.log('status findPOI StopBehavior')
+        let findPOIModel = new EntityFindPOI(mob)
+        if (GetEntityStatus(mob) == STATUS_WORK_IN_POI) {
+            findPOIModel.markTargetPOI()
+            findPOIModel.clearTargetPOI()
+        }
+        mob.navigation.stop()
     },
     false, // 是否每个tick都需要更新
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // tick
-        // todo 该部分先简单实现，在后续可以增添更多设计，思路可参考#commit 9aaa9919e0ce2bd252736f094695a211779388a9
-        // 如果在这个阶段加上概率亦或是长时间停留，会让玩家误以为搜索效率低下，干扰判断
-        // 考虑到本内容并非是核心玩法，因此降低整体延迟，最高化处理可能是最优解
-        let poiList = FindAheadPOIs(entity, 8, 5)
-        
-        if (poiList.length <= 0) SetEntityStatus(STATUS_ROUTE_MOVE)
-        // 兴趣匹配，该部分逻辑可以丰富化，暂时仅取第一个，即最近值
-        let targetPOIPos = poiList[0]
-        mob.navigation.moveTo(targetPOIPos.x, targetPOIPos.y, targetPOIPos.z, 1.0)
-        SetEntityStatus(STATUS_POI_MOVE)
+        console.log('status findPOI TickBehavior')
+        let findPOIModel = new EntityFindPOI(mob)
+        if (!findPOIModel.checkIdleTime()) {
+            findPOIModel.decreaseIdleTimer()
+            return
+        }
+        if (findPOIModel.targetPOI) {
+            if (findPOIModel.checkArriveTargetPOI(STANDARD_FIND_POI_DISTANCE)) SetEntityStatus(STATUS_WORK_IN_POI)
+            findPOIModel.setSpeed(0.5)
+            findPOIModel.moveToTargetPOI()
+        } else {
+            // todo 该部分先简单实现，在后续可以增添更多设计，思路可参考#commit 9aaa9919e0ce2bd252736f094695a211779388a9
+            // 如果在这个阶段加上概率亦或是长时间停留，会让玩家误以为搜索效率低下，干扰判断
+            // 考虑到本内容并非是核心玩法，因此降低整体延迟，最高化处理可能是最优解
+            let poiList = FindAheadPOIs(entity, 8, 5)
+            if (poiList.length <= 0) SetEntityStatus(STATUS_ROUTE_MOVE)
+            // 兴趣匹配，该部分逻辑可以丰富化，暂时仅取第一个，即最近值
+            let targetPOIPos = poiList[0]
+            findPOIModel.setTargetPOI(targetPOIPos)
+            // 这总会延后一个tick去行走至对应位置
+        }
     },
 )

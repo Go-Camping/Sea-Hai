@@ -7,12 +7,13 @@
  */
 function EntityRouteMove(mob) {
     // 若没有对应的字段，则进行强制初始化
-    if (!mob.persistentData.contains(ROUTE_MOVE)) {
+    if (!mob.persistentData.contains(NBT_ROUTE_MOVE)) {
         let routeMoveConfig = new $CompoundTag()
         routeMoveConfig.put('pointList', new $ListTag())
         routeMoveConfig.putInt('curPointNum', 0)
         routeMoveConfig.put('recoverPos', new $CompoundTag())
-        mob.persistentData.put(ROUTE_MOVE, routeMoveConfig)
+        routeMoveConfig.putInt('findIntervalTimer', 0)
+        mob.persistentData.put(NBT_ROUTE_MOVE, routeMoveConfig)
     }
 
     /** @type {BlockPos[]} */
@@ -21,18 +22,32 @@ function EntityRouteMove(mob) {
     this.curPointNum = 0
     /** @type {Internal.PathfinderMob} */
     this.mob = mob
+    /** @type {Number} */
+    this.speed = 1
 
     // 由于有强制初始化，理想化均包含这些字段，不进行额外空校验，但这仍旧会在部分人工修改内容的场景引发问题
-    this.routeMoveConfig = mob.persistentData.getCompound(ROUTE_MOVE)
+    /** @type {Internal.CompoundTag} */
+    this.routeMoveConfig = mob.persistentData.getCompound(NBT_ROUTE_MOVE)
 
     let pointNbtList = this.routeMoveConfig.getList('pointList', GET_COMPOUND_TYPE)
     this.posList = ConvertNbt2PosList(pointNbtList)
 
     this.curPointNum = this.routeMoveConfig.getInt('curPointNum')
+    /** @type {BlockPos} */
     this.recoverPos = ConvertNbt2Pos(this.routeMoveConfig.getCompound('recoverPos'))
+    /** @type {Number} */
+    this.findIntervalTimer = this.routeMoveConfig.getInt('findIntervalTimer')
 }
 
 EntityRouteMove.prototype = {
+    /**
+     * 设置速度（非持久化）
+     * @param {Number} speed
+     */
+    setSpeed: function (speed) {
+        this.speed = speed
+        return
+    },
     /**
      * 获取当前目标位置
      * @param {BlockPos[]} posList
@@ -89,7 +104,7 @@ EntityRouteMove.prototype = {
      * @param {Number} speed
      * @returns {Boolean}
      */
-    moveToPos: function (pos, speed) {
+    moveToPos: function (pos) {
         if (!pos) return false
         this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, speed)
         return true
@@ -98,13 +113,13 @@ EntityRouteMove.prototype = {
      * 移动到目前目标位置
      */
     moveToCurPos: function () {
-        this.moveToPos(this.getCurMovePos(), 1.0)
+        this.moveToPos(this.getCurMovePos(), this.speed)
     },
     /**
      * 移动到下一目标位置
      */
     moveToNextPos: function () {
-        this.moveToPos(this.getNextMovePos(), 1.0)
+        this.moveToPos(this.getNextMovePos(), this.speed)
         this.curPointNum = this.curPointNum + 1
         this.routeMoveConfig.putInt('curPointNum', this.curPointNum)
     },
@@ -125,12 +140,35 @@ EntityRouteMove.prototype = {
      */
     moveToRecoverPos: function (dist) {
         if (!this.recoverPos) return
-    
         if (this.mob.getPosition(1.0).distanceTo(new Vec3d(this.recoverPos.x, this.recoverPos.y, this.recoverPos.z)) <= dist) {
             this.routeMoveConfig.put('recoverPos', new $CompoundTag())
             return
         }
         this.moveToPos(this.recoverPos, 1.0)
         return
+    },
+    /**
+     * 设置寻找间隔
+     * @param {Number} time
+     */
+    setFindIntervalTimer: function (time) {
+        this.routeMoveConfig.put('findIntervalTimer', time)
+        this.findIntervalTimer = time
+    },
+    /**
+     * 校验寻找间隔
+     * @returns {Boolean}
+     */
+    checkFindIntervalTimer: function () {
+        if (this.findIntervalTimer <= 0) return true
+        return false
+    },
+    /**
+     * 减少寻找间隔
+     * @param {Number}
+     */
+    decreaseFindIntervalTimer: function () {
+        this.routeMoveConfig.put('findIntervalTimer', this.findIntervalTimer - 1)
+        this.findIntervalTimer -= 1
     }
 }
