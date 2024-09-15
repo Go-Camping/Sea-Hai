@@ -1,0 +1,44 @@
+{
+    "name": "fish shop",
+    "appearance": {
+        "block": "minecraft:furnace",
+        "running": {
+            "block": "minecraft:furnace[lit=true]",
+            "light": 15
+        }
+    },
+    "tooltips": [],
+    "components": [
+        {
+            "type": "custommachinery:item",
+            "id": "output_1",
+            "mode": "output"
+        }
+    ],
+    "gui": [
+        {
+            "type": "custommachinery:status",
+            "x": 10,
+            "y": 10
+        },
+        {
+            "type": "custommachinery:player_inventory",
+            "x": 50,
+            "y": 80
+        },
+        {
+            "type": "custommachinery:progress",
+            "x": 116,
+            "y": 50
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 60,
+            "y": 50,
+            "id": "output_1"
+        }
+    ],
+    "jei": [],
+    "catalysts": []
+}
+
