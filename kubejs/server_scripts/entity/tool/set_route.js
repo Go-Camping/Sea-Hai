@@ -10,6 +10,8 @@ ItemEvents.entityInteracted(DEBUG_TOOL, event => {
     routeMoveModel.setPosListNbt(item.nbt.getList('posList', GET_COMPOUND_TYPE))
     SetEntityStatus(target, STATUS_ROUTE_MOVE)
     SetRouteMoveGoal(target)
+    SetFindPOIGoal(target)
+    SetDismissGoal(target)
 })
 
 

@@ -5,7 +5,7 @@
  * @param {Internal.PathfinderMob} entity 
  * @returns 
  */
-const WorkInPOI = (entity) => new $CustomGoal(
+const WorkInPOIGoal = (entity) => new $CustomGoal(
     'work_in_poi',
     entity,
     /** @param {Internal.PathfinderMob} mob **/ mob => {

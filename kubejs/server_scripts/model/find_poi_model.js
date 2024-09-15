@@ -51,7 +51,7 @@ EntityFindPOI.prototype = {
      */
     moveToPos: function (pos, speed) {
         if (!pos) return false
-        this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, speed)
+        this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speed)
         // 该场景下，并不要求实体必须到达某个位置，因此，允许卡住的情况下直接放弃寻路并执行后续逻辑
         if (this.mob.navigation.isStuck()) {
             this.mob.navigation.stop()
@@ -89,8 +89,8 @@ EntityFindPOI.prototype = {
         let idleAroundPos = idleCenter.offset(Math.random() * dist - dist / 2, 0, Math.random() * dist - dist / 2)
         let y = this.mob.level.getHeight('motion_blocking', idleAroundPos.x, idleAroundPos.z)
         // 存在一种情况，即当前所处位置并非是最高处，因此在Y有大差距的情况下，并不选择获取到的对应地点的Y，防止误寻路
-        idleAroundPos.y = y - idleCenter.y > 4 ? idleCenter.y : y
-        this.moveToPos(idleAroundPos.x, idleAroundPos.y, idleAroundPos.z, this.speed)
+        idleAroundPos.atY((y - idleCenter.y > 4) ? idleCenter.y : y)
+        this.moveToPos(idleAroundPos, this.speed)
     },
     /**
      * 返回游荡中心

@@ -25,12 +25,7 @@ const DismissGoal = (entity) => new $CustomGoal(
         let mobX = pos.x()
         let mobY = pos.y()
         let mobZ = pos.z()
-        for (let i = 0; i < DISMISS_SMOKE_PARTICLE_AMOUNT; i++) {
-            let posX = mobX + Math.random()
-            let posY = mobY + 0.25
-            let posZ = mobZ + Math.random()
-            mob.level.addParticle(ParticleTypes.SMOKE, posX, posY, posZ, DISMISS_SMOKE_PARTICLE_SPEED * 0.2, DISMISS_SMOKE_PARTICLE_SPEED, DISMISS_SMOKE_PARTICLE_SPEED * 0.2);
-        }
+        mob.level.spawnParticles($ParticleTypes.SMOKE, false, mobX, mobY + 0.25, mobZ, 0, 0.2, 0, 30, DISMISS_SMOKE_PARTICLE_SPEED);
         mob.remove($RemovalReason.DISCARDED)
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {

@@ -28,12 +28,11 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         // 开启时执行
         console.log('status routeMove BeginBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
-        routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 10))
+        routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 20))
         if (routeMoveModel.recoverPos) {
             routeMoveModel.moveToRecoverPos(STANDARD_ROUTE_MOVE_DISTANCE)
             return
         }
-        routeMoveModel.setSpeed(0.5)
         routeMoveModel.moveToCurPos()
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
@@ -58,7 +57,6 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
             routeMoveModel.moveToRecoverPos(STANDARD_ROUTE_MOVE_DISTANCE)
             return
         }
-        routeMoveModel.setSpeed(0.5)
         // 如果接近了目标地点
         if (routeMoveModel.checkArrivedCurMovePos(STANDARD_ROUTE_MOVE_DISTANCE)) {
             // 如果没有可以使用的下一个地点，则认为生命周期结束，切换到消亡状态
@@ -72,7 +70,9 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         // 状态概率流转到poi寻找状态
         // todo 可以增添一个属性，标记并不需要流转到finding_poi状态以适配某些场景
         if (routeMoveModel.checkFindIntervalTimer()) {
-            SetEntityStatus(STATUS_FIND_POI)
+            console.log('status routeMove ShouldFind')
+            SetEntityStatus(mob, STATUS_FIND_POI)
+            // routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 10))
         } else {
             routeMoveModel.decreaseFindIntervalTimer()
         }
