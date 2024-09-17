@@ -49,7 +49,7 @@ EntityRouteMove.prototype = {
         return
     },
     /**
-     * 获取当前目标位置
+     * 设置移动列表
      * @param {BlockPos[]} posList
      */
     setPosList: function (posList) {
@@ -58,7 +58,7 @@ EntityRouteMove.prototype = {
         return
     },
     /**
-     * 获取当前目标位置
+     * 设置移动列表（Nbt格式）
      * @param {Internal.ListTag} posListNbt
      */
     setPosListNbt: function (posListNbt) {

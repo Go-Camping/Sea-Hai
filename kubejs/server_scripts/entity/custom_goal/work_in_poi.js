@@ -37,5 +37,10 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // tick
         console.log('status workInPOI TickBehavior')
+        let workInPOIModel = new EntityWorkInPOI(mob)
+        let targetPOIModel = workInPOIModel.getTargetPOIData()
+        if (!targetPOIModel) SetEntityStatus(mob, STATUS_ROUTE_MOVE)
+        // 选择一个商店物品进行购买，并且尝试行走到对应的位置
+        
     },
 )

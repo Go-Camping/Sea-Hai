@@ -55,7 +55,11 @@ const FindPOIGoal = (entity) => new $CustomGoal(
             return
         }
         if (findPOIModel.targetPOI) {
-            if (findPOIModel.checkArriveTargetPOI(STANDARD_FIND_POI_DISTANCE)) SetEntityStatus(mob, STATUS_WORK_IN_POI)
+            if (findPOIModel.checkArriveTargetPOI(STANDARD_FIND_POI_DISTANCE)) {
+                SetEntityStatus(mob, STATUS_WORK_IN_POI)
+                let workInPOIModel = new EntityWorkInPOI(mob)
+                workInPOIModel.setTargetPOIPos(targetPOIPos)
+            } 
             findPOIModel.moveToTargetPOI()
         } else {
             // todo 该部分先简单实现，在后续可以增添更多设计，思路可参考#commit 9aaa9919e0ce2bd252736f094695a211779388a9

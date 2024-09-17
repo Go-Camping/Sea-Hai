@@ -1,7 +1,7 @@
 // priority: 900
 
 /**
- * 创建点路径寻路对象
+ * 通过视野范围寻找POI位置
  * @param {Internal.PathfinderMob} mob 
  * @returns 
  */

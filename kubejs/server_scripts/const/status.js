@@ -11,6 +11,7 @@ const STANDARD_FIND_POI_DISTANCE = 2
 
 const STATUS_WORK_IN_POI = 'work_in_poi'
 const NBT_WORK_IN_POI = 'workInPOI'
+const GO_TO_TARGET_POI_DISTANCE = 2
 
 const STATUS_DISMISS = 'dismiss'
 const DISMISS_SMOKE_PARTICLE_AMOUNT = 15
