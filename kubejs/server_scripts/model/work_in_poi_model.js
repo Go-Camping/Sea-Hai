@@ -10,6 +10,7 @@ function EntityWorkInPOI(mob) {
     if (!mob.persistentData.contains(NBT_WORK_IN_POI)) {
         let workInPOIConfig = new $CompoundTag()
         workInPOIConfig.put('targetPOIPos', new $CompoundTag())
+        workInPOIConfig.putInt('subStatus', SUB_STATUS_MOVE_TO_CONTAINER)
         mob.persistentData.put(NBT_WORK_IN_POI, workInPOIConfig)
     }
 
@@ -24,6 +25,8 @@ function EntityWorkInPOI(mob) {
 
     /** @type {BlockPos} */
     this.targetPOIPos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('targetPOIPos'))
+    /** @type {Number} */
+    this.subStatus = this.workInPOIConfig.getInt('subStatus')
 }
 
 EntityWorkInPOI.prototype = {
@@ -75,12 +78,28 @@ EntityWorkInPOI.prototype = {
     },
     /**
      * 获取目标POI的容器对象
-     * @returns {ShopPOIBlockModel}
+     * @returns {ShopPOIBlock}
      */
      getTargetPOIData: function () {
         let level = this.mob.level
         let poiBlock = level.getBlock(this.targetPOIPos)
         if (poiBlock.entity) return null
         return new ShopPOIBlock(poiBlock)
+    },
+    /**
+     * 进入子状态
+     * @param {Number} subStatus 
+     */
+    setSubStatus: function (subStatus) {
+        this.subStatus = subStatus
+        this.workInPOIConfig.putInt('subStatus', subStatus)
+        return
+    },
+    /**
+     * 获取子状态
+     * @returns {Number}
+     */
+    getSubStatus: function () {
+        return this.subStatus
     },
 }

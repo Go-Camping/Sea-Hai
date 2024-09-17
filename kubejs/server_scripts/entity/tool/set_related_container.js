@@ -21,16 +21,12 @@ ItemEvents.firstRightClicked(SHOP_TOOL, event => {
             let targetPOIPos = ConvertNbt2Pos(item.nbt.get('targetPOIPos'))
             let targetPOIBlock = level.getBlock(targetPOIPos)
             if (!targetPOIBlock.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) return
-            let targetPOITile = targetPOIBlock.getEntity()
-            let targetPOIPersistentData = targetPOITile.getPersistentData()
 
-            let posListNbt = new $ListTag()
-            if (targetPOIPersistentData.contains('posList')) {
-                posListNbt = targetPOIPersistentData.getList('posList', GET_COMPOUND_TYPE)
-            }
+            let shopPOIModel = new ShopPOIBlock(targetPOIBlock)
+            let posListNbt = shopPOIModel.getPosListNbt()
             // 选中容器绑定
             posListNbt.add(ConvertPos2Nbt(block.getPos()))
-            targetPOIPersistentData.put('posList', posListNbt)
+            shopPOIModel.setPosListNbt(posListNbt)
             RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
             player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.add_poi_container.1'))
             return
@@ -41,16 +37,10 @@ ItemEvents.firstRightClicked(SHOP_TOOL, event => {
         let targetPOIPos = ConvertNbt2Pos(item.nbt.get('targetPOIPos'))
         let targetPOIBlock = level.getBlock(targetPOIPos)
         if (!targetPOIBlock.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) return
-        let targetPOITile = targetPOIBlock.getEntity()
-        let targetPOIPersistentData = targetPOITile.getPersistentData()
-
-        let posListNbt = new $ListTag()
-        if (targetPOIPersistentData.contains('posList')) {
-            posListNbt = targetPOIPersistentData.getList('posList', GET_COMPOUND_TYPE)
-        }
+        let shopPOIModel = new ShopPOIBlock(targetPOIBlock)
+        let posListNbt = shopPOIModel.getPosListNbt()
         RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
         player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.show_poi_container.1'))
-
     }
 })
 
@@ -62,12 +52,8 @@ ItemEvents.firstLeftClicked(SHOP_TOOL, event => {
     if (block) {
         if (block.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) {
             if (!item.hasNBT() || !item.nbt.contains('targetPOIPos')) return
-            let targetPOIPos = ConvertNbt2Pos(item.nbt.get('targetPOIPos'))
-            let targetPOIBlock = level.getBlock(targetPOIPos)
-            let targetPOITile = targetPOIBlock.getEntity()
-            let targetPOIPersistentData = targetPOITile.getPersistentData()
-
-            targetPOIPersistentData.put('posList', new $ListTag())
+            let shopPOIModel = new ShopPOIBlock(block)
+            shopPOIModel.setPosListNbt(new $ListTag())
             player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.clear_poi_container.1'))
             return
         } else {
@@ -75,19 +61,15 @@ ItemEvents.firstLeftClicked(SHOP_TOOL, event => {
             let targetPOIPos = ConvertNbt2Pos(item.nbt.get('targetPOIPos'))
             let targetPOIBlock = level.getBlock(targetPOIPos)
             if (!targetPOIBlock.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) return
-            let targetPOITile = targetPOIBlock.getEntity()
-            let targetPOIPersistentData = targetPOITile.getPersistentData()
 
-            let posListNbt = new $ListTag()
-            if (targetPOIPersistentData.contains('posList')) {
-                posListNbt = targetPOIPersistentData.getList('posList', GET_COMPOUND_TYPE)
-            }
+            let shopPOIModel = new ShopPOIBlock(targetPOIBlock)
+            let posListNbt = shopPOIModel.getPosListNbt()
             // 删除容器绑定
             posListNbt.removeIf(posNbt => {
                 let pos = ConvertNbt2Pos(posNbt)
                 return pos.equals(block.getPos())
             })
-            targetPOIPersistentData.put('posList', posListNbt)
+            shopPOIModel.setPosListNbt(posListNbt)
             RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
             player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.remove_poi_container.1'))
             return

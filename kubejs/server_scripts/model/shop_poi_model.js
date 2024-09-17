@@ -22,11 +22,11 @@ function ShopPOIBlock(block) {
     }
     this.sellModel = this.persistentData.getInt('sellMode')
 
-    if (!this.persistentData.contains('relatedContainers')) {
-        this.persistentData.put('relatedContainerPosList', new $ListTag())
+    if (!this.persistentData.contains('posList')) {
+        this.persistentData.put('posList', new $ListTag())
     }
     /**@type {BlockPos[]} */
-    this.relatedContainerPosList = ConvertNbt2PosList(this.persistentData.getList('relatedContainerPosList', GET_COMPOUND_TYPE))
+    this.relatedContainerPosList = ConvertNbt2PosList(this.persistentData.getList('posList', GET_COMPOUND_TYPE))
 }
 
 ShopPOIBlock.prototype = {
@@ -49,9 +49,9 @@ ShopPOIBlock.prototype = {
      * 设置关联容器列表
      * @param {BlockPos[]} posList
      */
-    setRelatedContainersPos: function (posList) {
+    setPosList: function (posList) {
         this.relatedContainerPosList = posList
-        this.persistentData.put('relatedContainerPosList', ConvertPosList2Nbt(posList))
+        this.persistentData.put('posList', ConvertPosList2Nbt(posList))
         return
     },
     /**
@@ -59,8 +59,28 @@ ShopPOIBlock.prototype = {
      * @param {Internal.ListTag} posListNbt
      */
     setPosListNbt: function (posListNbt) {
-        this.persistentData.put('relatedContainerPosList', posListNbt)
+        this.persistentData.put('posList', posListNbt)
         this.relatedContainerPosList = ConvertNbt2PosList(posListNbt)
         return
+    },
+    /**
+     * 获取关联容器列表
+     * @returns {BlockPos[]}
+     */
+    getPosList: function () {
+        return this.relatedContainerPosList
+    },
+    /**
+     * 获取关联容器列表Nbt格式
+     * @returns {Internal.ListTag}
+     */
+    getPosListNbt: function () {
+        return this.persistentData.getList('posList', GET_COMPOUND_TYPE)
+    },
+    /**
+     * 启动购买配方
+     */
+    startShopping: function () {
+        this.setIsShopping(true)
     },
 }

@@ -40,7 +40,52 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
         let workInPOIModel = new EntityWorkInPOI(mob)
         let targetPOIModel = workInPOIModel.getTargetPOIData()
         if (!targetPOIModel) SetEntityStatus(mob, STATUS_ROUTE_MOVE)
-        // 选择一个商店物品进行购买，并且尝试行走到对应的位置
-        
+        switch (workInPOIModel.getSubStatus()) {
+            case SUB_STATUS_MOVE_TO_CONTAINER:
+                let poiBlockId = targetPOIModel.block.id
+                if (!ShopPOIWorkInStrategies[poiBlockId]) SetEntityStatus(mob, STATUS_ROUTE_MOVE)
+                ShopPOIWorkInStrategies[poiBlockId](workInPOIModel, targetPOIModel)
+                break
+            case SUB_STATUS_RETURN_TO_POI:
+                break
+            default:
+                SetEntityStatus(mob, STATUS_ROUTE_MOVE)
+                break
+        }
+
     },
 )
+
+/**
+ * POI商店策略
+ * @constant
+ * @type {Object<string,function(EntityWorkInPOI, ShopPOIBlock):void>}
+ */
+const ShopPOIWorkInStrategies = {
+    'kubejs:fish_shop': function (workInPOIModel, targetPOIModel) {
+        let posList = targetPOIModel.getPosList()
+        let level = workInPOIModel.mob.level
+        let validContainerBlocks = []
+        posList.forEach(pos => {
+            let tempBlock = level.getBlock(pos)
+            if (!ShopContainerStrategies[tempBlock.id]) return
+            let tempWeight = 1
+            validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
+        })
+        
+        let selectedContainer = GetWeightRandomObj(validContainerBlocks)
+        return
+    },
+}
+
+/**
+ * POI容器策略
+ * @constant
+ * @type {Object<string,function(EntityWorkInPOI, ShopPOIBlock, Internal.BlockContainerJS):void>}
+ */
+const ShopContainerStrategies = {
+    'minecraft:chest': function (workInPOIModel, targetPOIModel, block) {
+
+        return
+    },
+}
