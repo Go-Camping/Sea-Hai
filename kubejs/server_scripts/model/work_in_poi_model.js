@@ -9,8 +9,9 @@ function EntityWorkInPOI(mob) {
     // 若没有对应的字段，则进行强制初始化
     if (!mob.persistentData.contains(NBT_WORK_IN_POI)) {
         let workInPOIConfig = new $CompoundTag()
-        workInPOIConfig.put('targetPOIPos', new $CompoundTag())
+        workInPOIConfig.put('poiPos', new $CompoundTag())
         workInPOIConfig.putInt('subStatus', SUB_STATUS_MOVE_TO_CONTAINER)
+        workInPOIConfig.put('targetMovePos', new $CompoundTag())
         mob.persistentData.put(NBT_WORK_IN_POI, workInPOIConfig)
     }
 
@@ -24,9 +25,12 @@ function EntityWorkInPOI(mob) {
     this.workInPOIConfig = mob.persistentData.getCompound(NBT_WORK_IN_POI)
 
     /** @type {BlockPos} */
-    this.targetPOIPos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('targetPOIPos'))
+    this.poiPos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('poiPos'))
     /** @type {Number} */
     this.subStatus = this.workInPOIConfig.getInt('subStatus')
+    /** @type {BlockPos} */
+    // 通用空间，用于存储策略中的通用移动位置
+    this.targetMovePos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('targetMovePos'))
 }
 
 EntityWorkInPOI.prototype = {
@@ -52,16 +56,16 @@ EntityWorkInPOI.prototype = {
     /**
      * 移动到目标POI位置
      */
-    moveToTargetPOI: function () {
-        this.moveToPos(this.targetPOIPos)
+    moveToPOIPos: function () {
+        this.moveToPos(this.poiPos)
     },
     /**
      * 是否到达目标POI
      * @returns {Boolean}
      */
-    checkArrivedTargetPOI: function () {
-        if (!this.targetPOIPos) return true
-        if (this.mob.getPosition(1.0).distanceTo(this.targetPOIPos) <= GO_TO_TARGET_POI_DISTANCE) {
+    checkArrivedPOIPos: function () {
+        if (!this.poiPos) return true
+        if (this.mob.getPosition(1.0).distanceTo(this.poiPos) <= GO_TO_TARGET_POI_DISTANCE) {
             return true
         }
         return false
@@ -70,19 +74,19 @@ EntityWorkInPOI.prototype = {
      * 设置目标POI位置
      * @param {BlockPos} pos 
      */
-     setTargetPOIPos: function (pos) {
+     setPOIPos: function (pos) {
         if (!pos) return
-        this.targetPOIPos = pos
-        this.workInPOIConfig.put('targetPOIPos', ConvertPos2Nbt(pos))
+        this.poiPos = pos
+        this.workInPOIConfig.put('poiPos', ConvertPos2Nbt(pos))
         return
     },
     /**
      * 获取目标POI的容器对象
      * @returns {ShopPOIBlock}
      */
-     getTargetPOIData: function () {
+     getPOIData: function () {
         let level = this.mob.level
-        let poiBlock = level.getBlock(this.targetPOIPos)
+        let poiBlock = level.getBlock(this.poiPos)
         if (poiBlock.entity) return null
         return new ShopPOIBlock(poiBlock)
     },
@@ -101,5 +105,48 @@ EntityWorkInPOI.prototype = {
      */
     getSubStatus: function () {
         return this.subStatus
+    },
+    /**
+     * 设置目标移动位置
+     * @param {BlockPos} pos
+     */
+    setTargetMovePos: function (pos) {
+        if (!pos) return
+        this.targetMovePos = pos
+        this.workInPOIConfig.put('targetMovePos', ConvertPos2Nbt(pos))
+        return
+    },
+    /**
+     * 获取目标移动位置
+     * @returns {BlockPos}
+     */
+    getTargetMovePos: function () {
+        return this.targetMovePos
+    },
+    /**
+     * 清除目标位置
+     */
+    clearMovePos: function () {
+        this.targetMovePos = null
+        this.workInPOIConfig.put('targetMovePos', new $CompoundTag())
+        return
+    },
+    /**
+     * 移动到目标POI位置
+     */
+    moveToTargetPos: function () {
+        this.moveToPos(this.targetMovePos)
+    },
+    /**
+     * 是否到达目标位置
+     * @param {Number} dist
+     * @returns {Boolean}
+     */
+    checkArrivedTargetMovePos: function (dist) {
+        if (!this.targetMovePos) return true
+        if (this.mob.getPosition(1.0).distanceTo(this.targetMovePos) <= dist) {
+            return true
+        }
+        return false
     },
 }

@@ -58,7 +58,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
             if (findPOIModel.checkArriveTargetPOI(STANDARD_FIND_POI_DISTANCE)) {
                 SetEntityStatus(mob, STATUS_WORK_IN_POI)
                 let workInPOIModel = new EntityWorkInPOI(mob)
-                workInPOIModel.setTargetPOIPos(targetPOIPos)
+                workInPOIModel.setPOIPos(targetPOIPos)
             } 
             findPOIModel.moveToTargetPOI()
         } else {
