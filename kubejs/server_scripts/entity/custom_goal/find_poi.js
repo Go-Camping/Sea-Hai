@@ -9,7 +9,6 @@ const FindPOIGoal = (entity) => new $CustomGoal(
     'find_poi',
     entity,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 何时能够使用
         if (GetEntityStatus(mob) == STATUS_FIND_POI) {
             console.log('status findPOI Begin')
             return true
@@ -17,16 +16,14 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         return false
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 能否继续使用 
         if (GetEntityStatus(mob) == STATUS_FIND_POI) {
             console.log('status findPOI Continue')
             return true
         }
         return false
     },
-    true, // 是否允许中断
+    true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 开启时执行
         console.log('status findPOI BeginBehavior')
         let findPOIModel = new EntityFindPOI(mob)
         findPOIModel.setSpeed(0.5)
@@ -35,7 +32,6 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         findPOIModel.setIdleTimer(Math.floor(Math.random() * 10 + 10))
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 停止时执行
         console.log('status findPOI StopBehavior')
         let findPOIModel = new EntityFindPOI(mob)
         if (GetEntityStatus(mob) == STATUS_WORK_IN_POI) {
@@ -44,9 +40,8 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         }
         mob.navigation.stop()
     },
-    false, // 是否每个tick都需要更新
+    false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // tick
         console.log('status findPOI TickBehavior')
         let findPOIModel = new EntityFindPOI(mob)
         if (!findPOIModel.checkIdleTime()) {

@@ -8,7 +8,6 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     'route_move',
     entity,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 何时能够使用
         if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE) {
             console.log('status routeMove Begin')
             return true
@@ -16,16 +15,14 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         return false
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 能否继续使用 
         if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE) {
             console.log('status routeMove Continue')
             return true
         }
         return false
     },
-    true, // 是否允许中断
+    true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 开启时执行
         console.log('status routeMove BeginBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 20))
@@ -36,7 +33,6 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         routeMoveModel.moveToCurPos()
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // 停止时执行
         console.log('status routeMove StopBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         // 记录当前位置到恢复位置处，以在状态恢复时进行恢复
@@ -49,7 +45,6 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     },
     false, // 是否每个tick都需要更新
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // tick
         console.log('status routeMove TickBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         // 尝试进行位置恢复

@@ -49,14 +49,28 @@ EntityFindPOI.prototype = {
      * @param {Number} speed
      * @returns {Boolean}
      */
-    moveToPos: function (pos, speed) {
+    moveToPos: function (pos) {
         if (!pos) return false
-        this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speed)
-        // 该场景下，并不要求实体必须到达某个位置，因此，允许卡住的情况下直接放弃寻路并执行后续逻辑
-        if (this.mob.navigation.isStuck()) {
-            this.mob.navigation.stop()
-            return false
+        let navigation = this.mob.getNavigation()
+        if (!(navigation.isInProgress() && navigation.targetPos.closerThan(pos, 0.5))) {
+            navigation.moveTo(pos.x, pos.y, pos.z, this.speed)
+            return true
         }
+        if (this.mob.age % 20 != 0) return
+        if (!navigation.isStuck() && navigation.getPath().canReach()) return
+        let stuckSeconds = GetEntityStuckTimes(this.mob)
+        switch (true) {
+            case stuckSeconds >= navigation.path.distToTarget:
+                this.mob.teleportTo(navigation.targetPos.x, navigation.targetPos.y, navigation.targetPos.z)
+                break
+            case stuckSeconds >= 10:
+                let nextNodePos = navigation.path.nextNode.asBlockPos()
+                this.mob.teleportTo(nextNodePos.x, nextNodePos.y, nextNodePos.z)
+                break
+        }
+        SetEntityStuckSecondes(this.mob, stuckSeconds + 1)
+        navigation.recomputePath()
+        
         return true
     },
     /**

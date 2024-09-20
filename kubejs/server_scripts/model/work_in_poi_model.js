@@ -12,6 +12,7 @@ function EntityWorkInPOI(mob) {
         workInPOIConfig.put('poiPos', new $CompoundTag())
         workInPOIConfig.putInt('subStatus', SUB_STATUS_MOVE_TO_CONTAINER)
         workInPOIConfig.put('targetMovePos', new $CompoundTag())
+        workInPOIConfig.putInt('consumedMoney', 0)
         mob.persistentData.put(NBT_WORK_IN_POI, workInPOIConfig)
     }
 
@@ -31,6 +32,8 @@ function EntityWorkInPOI(mob) {
     /** @type {BlockPos} */
     // 通用空间，用于存储策略中的通用移动位置
     this.targetMovePos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('targetMovePos'))
+    /** @type {Number} */
+    this.consumedMoney = this.workInPOIConfig.getInt('consumedMoney')
 }
 
 EntityWorkInPOI.prototype = {
@@ -148,5 +151,29 @@ EntityWorkInPOI.prototype = {
             return true
         }
         return false
+    },
+    /**
+     * 设置消耗的金币数量
+     * @param {Number} consumedMoney
+     */
+    addConsumedMoney: function (consumedMoney) {
+        this.consumedMoney = consumedMoney + this.consumedMoney
+        this.workInPOIConfig.putInt('consumedMoney', this.consumedMoney)
+        return
+    },
+    /**
+     * 获取消耗的金币数量
+     * @returns {Number}
+     */
+    getConsumedMoney: function () {
+        return this.consumedMoney
+    },
+    /**
+     * 清除消耗的金币数量
+     */
+    clearConsumedMoney: function () {
+        this.consumedMoney = 0
+        this.workInPOIConfig.putInt('consumedMoney', 0)
+        return
     },
 }

@@ -219,3 +219,24 @@ function GetEntityPosition(mob) {
     let pos = mob.getPosition(1.0)
     return new BlockPos(pos.x(), pos.y(), pos.z())
 }
+
+/**
+ * 移动计数器，是一个通用于各种移动状态的计数器，其主要作用是用于移动降级
+ * @param {Internal.PathfinderMob} mob 
+ * @param {Number} seconds
+ */
+function SetEntityStuckSecondes(mob, seconds) {
+    mob.persistentData.putInt('stuckSeconds', seconds)
+}
+
+/**
+ * 获取移动计数器
+ * @param {Internal.PathfinderMob} mob
+ * @returns {Number}
+ */
+function GetEntityStuckSecondes(mob) {
+    if (mob.persistentData.contains('stuckSeconds')) {
+        return mob.persistentData.getInt('stuckSeconds')
+    }
+    return 0
+}

@@ -106,6 +106,7 @@ EntityRouteMove.prototype = {
      */
     moveToPos: function (pos) {
         if (!pos) return false
+        
         this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speed)
         return true
     },
