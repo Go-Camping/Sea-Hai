@@ -48,10 +48,9 @@ NetworkEvents.dataReceived(NET_RENDER_OUTLINE, event => {
 
 RenderJSEvents.AddWorldRender(event => {
     event.addWorldRender(context => {
-        if (NeedRenderOutlinePosList.length > 0) {
-            NeedRenderOutlinePosList.forEach(blockPos => {
-                RenderJSWorldRender.renderBlockOutLine1(blockPos, Blocks.STONE.defaultBlockState(), RenderJSWorldRender.getTopLayerLineType())
-            })
-        }
+        NeedRenderOutlinePosList.forEach(blockPos => {
+            console.log(blockPos)
+            RenderJSWorldRender.renderBlockOutLine1(blockPos, Blocks.STONE.defaultBlockState(), RenderJSWorldRender.getTopLayerLineType())
+        })
     })
 })

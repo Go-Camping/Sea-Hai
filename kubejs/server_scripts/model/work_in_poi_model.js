@@ -90,7 +90,7 @@ EntityWorkInPOI.prototype = {
      getPOIData: function () {
         let level = this.mob.level
         let poiBlock = level.getBlock(this.poiPos)
-        if (poiBlock.entity) return null
+        if (!poiBlock.entity) return null
         return new ShopPOIBlock(poiBlock)
     },
     /**

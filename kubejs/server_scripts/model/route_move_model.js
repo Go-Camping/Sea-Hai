@@ -114,13 +114,13 @@ EntityRouteMove.prototype = {
      * 移动到目前目标位置
      */
     moveToCurPos: function () {
-        this.moveToPos(this.getCurMovePos(), this.speed)
+        this.moveToPos(this.getCurMovePos())
     },
     /**
      * 移动到下一目标位置
      */
     moveToNextPos: function () {
-        this.moveToPos(this.getNextMovePos(), this.speed)
+        this.moveToPos(this.getNextMovePos())
         this.curPointNum = this.curPointNum + 1
         this.routeMoveConfig.putInt('curPointNum', this.curPointNum)
     },
@@ -145,7 +145,7 @@ EntityRouteMove.prototype = {
             this.routeMoveConfig.put('recoverPos', new $CompoundTag())
             return
         }
-        this.moveToPos(this.recoverPos, 1.0)
+        this.moveToPos(this.recoverPos)
         return
     },
     /**
@@ -153,7 +153,7 @@ EntityRouteMove.prototype = {
      * @param {Number} time
      */
     setFindIntervalTimer: function (time) {
-        this.routeMoveConfig.put('findIntervalTimer', time)
+        this.routeMoveConfig.putInt('findIntervalTimer', time)
         this.findIntervalTimer = time
     },
     /**
@@ -169,7 +169,7 @@ EntityRouteMove.prototype = {
      * @param {Number}
      */
     decreaseFindIntervalTimer: function () {
-        this.routeMoveConfig.put('findIntervalTimer', this.findIntervalTimer - 1)
+        this.routeMoveConfig.putInt('findIntervalTimer', this.findIntervalTimer - 1)
         this.findIntervalTimer -= 1
     }
 }

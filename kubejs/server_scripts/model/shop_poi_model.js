@@ -27,6 +27,12 @@ function ShopPOIBlock(block) {
     }
     /**@type {BlockPos[]} */
     this.relatedContainerPosList = ConvertNbt2PosList(this.persistentData.getList('posList', GET_COMPOUND_TYPE))
+
+    if (!this.persistentData.contains('consumingMoney')) {
+        this.persistentData.putInt('consumingMoney', 0)
+    }
+    this.consumingMoney = this.persistentData.getInt('consumingMoney')
+
 }
 
 ShopPOIBlock.prototype = {
@@ -34,7 +40,7 @@ ShopPOIBlock.prototype = {
      * 设置购物状态
      * @param {boolean} isShopping 
      */
-    setIsShopping: function(isShopping) {
+    setIsShopping: function (isShopping) {
         this.isShopping = isShopping
         this.persistentData.putInt('isShopping', isShopping ? 1 : 0)
     },
@@ -42,8 +48,8 @@ ShopPOIBlock.prototype = {
      * 校验购物状态
      * @returns {boolean}
      */
-    checkIsShopping: function() {
-        return this.isShopping 
+    checkIsShopping: function () {
+        return this.isShopping
     },
     /**
      * 设置关联容器列表
@@ -79,8 +85,25 @@ ShopPOIBlock.prototype = {
     },
     /**
      * 启动购买配方
+     * @param {number} amount
      */
-    startShopping: function () {
+    startShopping: function (amount) {
         this.setIsShopping(true)
+        this.setConsumingMoney(this.getConsumingMoney() + amount)
+    },
+    /**
+     * 设置正在消费的金额
+     * @param {number} consumingMoney 
+     */
+    setConsumingMoney: function (consumingMoney) {
+        this.consumingMoney = consumingMoney
+        this.persistentData.putInt('consumingMoney', consumingMoney)
+    },
+    /**
+     * 获取正在消费的金额
+     * @returns {number}
+     */
+    getConsumingMoney: function () {
+        return this.consumingMoney
     },
 }

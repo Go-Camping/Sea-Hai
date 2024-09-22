@@ -44,7 +44,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         console.log('status findPOI TickBehavior')
         let findPOIModel = new EntityFindPOI(mob)
-        if (!findPOIModel.checkIdleTime()) {
+        if (findPOIModel.checkIsIdleTime()) {
             findPOIModel.decreaseIdleTimer()
             console.log('status findPOI idlingAround')
             return
@@ -53,7 +53,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
             if (findPOIModel.checkArriveTargetPOI(STANDARD_FIND_POI_DISTANCE)) {
                 SetEntityStatus(mob, STATUS_WORK_IN_POI)
                 let workInPOIModel = new EntityWorkInPOI(mob)
-                workInPOIModel.setPOIPos(targetPOIPos)
+                workInPOIModel.setPOIPos(findPOIModel.targetPOI)
             } 
             findPOIModel.moveToTargetPOI()
         } else {

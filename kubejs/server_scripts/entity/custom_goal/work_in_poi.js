@@ -27,6 +27,7 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
         console.log('status workInPOI BeginBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
         let poiModel = workInPOIModel.getPOIData()
+        if (!poiModel) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)
         let poiBlockId = poiModel.block.id
         if (!ShopPOIWorkInInitStrategies[poiBlockId]) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)
         // 初始化策略
@@ -63,7 +64,7 @@ const ShopPOIWorkInInitStrategies = {
         posList.forEach(pos => {
             let tempBlock = level.getBlock(pos)
             // 这个容器必须有一个有效的取用方法
-            if (!ShopContainerStrategies[tempBlock.id]) return false
+            if (!ShopContainerStrategies[tempBlock.id]) return
             // POI容器可以有权重
             let tempWeight = 1
             validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
@@ -88,6 +89,7 @@ const ShopPOIWorkInTickStrategies = {
         let level = workInPOIModel.mob.level
         switch (workInPOIModel.getSubStatus()) {
             case SUB_STATUS_MOVE_TO_CONTAINER:
+                if (!workInPOIModel.getTargetMovePos()) return false
                 // 分类移动中子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
                 if (!workInPOIModel.checkArrivedTargetMovePos(GO_TO_TARGET_POI_DISTANCE)) {
                     workInPOIModel.moveToTargetPos()
@@ -107,12 +109,25 @@ const ShopPOIWorkInTickStrategies = {
                     workInPOIModel.moveToPOIPos()
                     return true
                 }
-                // todo 启动POIBlockd的消费逻辑
                 if (poiModel.checkIsShopping()) {
-                    // 等待tick
+                    // 等待释放
+                    return true
+                } else {
+                    // todo 金额计算逻辑
+                    poiModel.startShopping(8)
+                    workInPOIModel.setSubStatus(mob, SUB_STATUS_START_SHOPPING)
                     return true
                 }
                 break
+            case SUB_STATUS_START_SHOPPING:
+                if (poiModel.isShopping()) {
+                    return true
+                } else {
+                    workInPOIModel.clearMovePos()
+                    workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+                    // 跳出子状态
+                    return false
+                }
             default:
                 // 没有设置子状态会行进到这里，强制设置到初始化状态
                 workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
@@ -139,4 +154,11 @@ const ShopContainerStrategies = {
         workInPOIModel.addConsumedMoney(value)
         return
     },
+}
+
+/**
+ * @param {Internal.PathfinderMob} entity 
+ */
+function SetWorkInPOIGoal(entity) {
+    entity.goalSelector.addGoal(10, WorkInPOIGoal(entity))
 }

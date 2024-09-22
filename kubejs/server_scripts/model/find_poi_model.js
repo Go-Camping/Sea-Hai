@@ -12,7 +12,7 @@ function EntityFindPOI(mob) {
         findPOIConfig.put('markedPOIs', new $ListTag())
         findPOIConfig.put('idleCenter', new $CompoundTag())
         findPOIConfig.put('targetPOI', new $CompoundTag())
-        findPOIConfig.put('idleTimer', 0)
+        findPOIConfig.putInt('idleTimer', 0)
         mob.persistentData.put(NBT_FIND_POI, findPOIConfig)
     }
 
@@ -104,7 +104,7 @@ EntityFindPOI.prototype = {
         let y = this.mob.level.getHeight('motion_blocking', idleAroundPos.x, idleAroundPos.z)
         // 存在一种情况，即当前所处位置并非是最高处，因此在Y有大差距的情况下，并不选择获取到的对应地点的Y，防止误寻路
         idleAroundPos.atY((y - idleCenter.y > 4) ? idleCenter.y : y)
-        this.moveToPos(idleAroundPos, this.speed)
+        this.moveToPos(idleAroundPos)
     },
     /**
      * 返回游荡中心
@@ -113,7 +113,7 @@ EntityFindPOI.prototype = {
     backToIdleCenter: function () {
         let idleCenter = this.getIdleCenter()
         if (!idleCenter) return
-        this.moveToPos(idleCenter.x, idleCenter.y, idleCenter.z, this.speed)
+        this.moveToPos(new BlockPos(idleCenter.x, idleCenter.y, idleCenter.z))
     },
     /**
      * 设置当前目标POI地点
@@ -139,7 +139,7 @@ EntityFindPOI.prototype = {
     moveToTargetPOI: function () {
         let targetPOI = this.getTargetPOI()
         if (!targetPOI) return false
-        this.moveToPos(targetPOI.x, targetPOI.y, targetPOI.z, this.speed)
+        this.moveToPos(new BlockPos(targetPOI.x, targetPOI.y, targetPOI.z))
         return true
     },
     /**
@@ -176,23 +176,23 @@ EntityFindPOI.prototype = {
      * @param {Number} time
      */
     setIdleTimer: function (time) {
-        this.findPOIConfig.put('idleTimer', time)
+        this.findPOIConfig.putInt('idleTimer', time)
         this.idleTimer = time
     },
     /**
      * 校验生物闲置时间
      * @returns {Boolean}
      */
-    checkIdleTime: function () {
-        if (this.idleTimer <= 0) return true
-        return false
+    checkIsIdleTime: function () {
+        if (this.idleTimer <= 0) return false
+        return true
     },
     /**
      * 减少生物闲置时间
      * @param {Number}
      */
     decreaseIdleTimer: function () {
-        this.findPOIConfig.put('idleTimer', this.idleTimer - 1)
+        this.findPOIConfig.putInt('idleTimer', this.idleTimer - 1)
         this.idleTimer -= 1
     }
 }

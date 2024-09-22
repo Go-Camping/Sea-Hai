@@ -11,6 +11,7 @@ ItemEvents.entityInteracted(DEBUG_TOOL, event => {
     SetEntityStatus(target, STATUS_ROUTE_MOVE)
     SetRouteMoveGoal(target)
     SetFindPOIGoal(target)
+    SetWorkInPOIGoal(target)
     SetDismissGoal(target)
 })
 
