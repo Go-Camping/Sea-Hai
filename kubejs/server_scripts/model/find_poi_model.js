@@ -52,13 +52,13 @@ EntityFindPOI.prototype = {
     moveToPos: function (pos) {
         if (!pos) return false
         let navigation = this.mob.getNavigation()
-        if (!(navigation.isInProgress() && navigation.targetPos.closerThan(pos, 0.5))) {
+        if (!(navigation.isInProgress() && navigation.targetPos.equals(pos))) {
             navigation.moveTo(pos.x, pos.y, pos.z, this.speed)
             return true
         }
         if (this.mob.age % 20 != 0) return
         if (!navigation.isStuck() && navigation.getPath().canReach()) return
-        let stuckSeconds = GetEntityStuckTimes(this.mob)
+        let stuckSeconds = GetEntityStuckSecondes(this.mob)
         switch (true) {
             case stuckSeconds >= navigation.path.distToTarget:
                 this.mob.teleportTo(navigation.targetPos.x, navigation.targetPos.y, navigation.targetPos.z)
@@ -172,6 +172,18 @@ EntityFindPOI.prototype = {
         this.findPOIConfig.put('markedPOIs', markedPOIsNbt)
     },
     /**
+     * 检查该POI地点是否已经被标记
+     * @param {BlockPos} pos
+     * @returns {Boolean}
+     */
+    checkIsMarkedPOI: function (pos) {
+        if (!pos) return false
+        for (let i = 0; i < this.markedPOIs.length; i++) {
+            if (this.markedPOIs[i].equals(pos)) return true
+        }
+        return false
+    },
+    /**
      * 设置生物闲置时间，避免切换状态后立刻进行寻找
      * @param {Number} time
      */
@@ -194,5 +206,20 @@ EntityFindPOI.prototype = {
     decreaseIdleTimer: function () {
         this.findPOIConfig.putInt('idleTimer', this.idleTimer - 1)
         this.idleTimer -= 1
+    },
+    /**
+ * 在一定范围内寻找可用的POI
+ * @param {Internal.PathfinderMob} mob 
+ * @param {number} dist 
+ * @returns {Internal.BlockPos$MutableBlockPos[]}
+ */
+    findAheadPOIs(mob, dist, secondaryRange) {
+        let blockPosList = FindDirectionNearBlocks(mob, dist, secondaryRange, 3, -1, (level, blockPos) => {
+            return level.getBlockState(blockPos).tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))
+        })
+        blockPosList.filter(blockPos => {
+            return !this.checkIsMarkedPOI(blockPos)
+        })
+        return blockPosList
     }
 }

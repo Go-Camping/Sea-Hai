@@ -1,4 +1,6 @@
 // priority: 1000
+const STATUS_NONE = 'none'
+
 const STATUS_IDLE = 'idle'
 
 

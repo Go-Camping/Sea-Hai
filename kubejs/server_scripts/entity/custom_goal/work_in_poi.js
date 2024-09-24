@@ -69,6 +69,7 @@ const ShopPOIWorkInInitStrategies = {
             let tempWeight = 1
             validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
         })
+
         if (validContainerBlocks.length <= 0) return false
         /** @type {Internal.BlockContainerJS} */
         let selectedContainer = GetWeightRandomObj(validContainerBlocks)
@@ -90,7 +91,7 @@ const ShopPOIWorkInTickStrategies = {
         switch (workInPOIModel.getSubStatus()) {
             case SUB_STATUS_MOVE_TO_CONTAINER:
                 if (!workInPOIModel.getTargetMovePos()) return false
-                // 分类移动中子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
+                // 子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
                 if (!workInPOIModel.checkArrivedTargetMovePos(GO_TO_TARGET_POI_DISTANCE)) {
                     workInPOIModel.moveToTargetPos()
                     return true
@@ -103,7 +104,7 @@ const ShopPOIWorkInTickStrategies = {
                 }
                 ShopContainerStrategies[containerBlock.id](workInPOIModel, poiModel, containerBlock)
                 workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-                break
+                return true
             case SUB_STATUS_RETURN_TO_POI:
                 if (!workInPOIModel.checkArrivedPOIPos()) {
                     workInPOIModel.moveToPOIPos()
@@ -113,12 +114,15 @@ const ShopPOIWorkInTickStrategies = {
                     // 等待释放
                     return true
                 } else {
-                    // todo 金额计算逻辑
-                    poiModel.startShopping(8)
+                    // 金额计算逻辑
+                    let consumedMoney = workInPOIModel.getConsumedMoney()
+                    workInPOIModel.clearConsumedMoney()
+                    poiModel.startShopping(consumedMoney)   
                     workInPOIModel.setSubStatus(mob, SUB_STATUS_START_SHOPPING)
+                    poiModel.tile.setChanged()
                     return true
                 }
-                break
+                return true
             case SUB_STATUS_START_SHOPPING:
                 if (poiModel.isShopping()) {
                     return true
@@ -128,6 +132,7 @@ const ShopPOIWorkInTickStrategies = {
                     // 跳出子状态
                     return false
                 }
+                return true
             default:
                 // 没有设置子状态会行进到这里，强制设置到初始化状态
                 workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)

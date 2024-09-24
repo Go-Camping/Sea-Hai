@@ -2,7 +2,6 @@
 
 const SHOP_TOOL = 'minecraft:pink_dye'
 
-
 ItemEvents.firstRightClicked(SHOP_TOOL, event => {
     let { item, player, level } = event
     let rayTraceResult = player.rayTrace(player.blockReach)
@@ -15,7 +14,6 @@ ItemEvents.firstRightClicked(SHOP_TOOL, event => {
             nbt.put('poiPos', ConvertPos2Nbt(block.getPos()))
             RenderBlockOutlineInTime(player, [block.getPos()], 20 * 15)
             player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.selected_poi.1'))
-            return
         } else {
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
@@ -31,7 +29,6 @@ ItemEvents.firstRightClicked(SHOP_TOOL, event => {
             shopPOIModel.setPosListNbt(posListNbt)
             RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
             player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.add_poi_container.1'))
-            return
         }
     } else {
         if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
@@ -45,6 +42,7 @@ ItemEvents.firstRightClicked(SHOP_TOOL, event => {
         RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
         player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.show_poi_container.1'))
     }
+    block.entity.setChanged()
 })
 
 ItemEvents.firstLeftClicked(SHOP_TOOL, event => {
@@ -53,12 +51,12 @@ ItemEvents.firstLeftClicked(SHOP_TOOL, event => {
     let block = rayTraceResult.block
     if (block) {
         if (block.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) {
+            // 清空POI中的所有绑定容器
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             ClearBlockOutlineRender(player)
             let shopPOIModel = new ShopPOIBlock(block)
             shopPOIModel.setPosListNbt(new $ListTag())
             player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.clear_poi_container.1'))
-            return
         } else {
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
@@ -74,15 +72,14 @@ ItemEvents.firstLeftClicked(SHOP_TOOL, event => {
             })
             shopPOIModel.setPosListNbt(posListNbt)
             RemoveBlockOutlineRender(player, posListNbt, 20 * 15)
-            ClearBlockOutlineRender(player)
-            RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
             player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.remove_poi_container.1'))
-            return
         }
     } else {
         if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
+        // 解除掉工具对于POI的绑定
         ClearBlockOutlineRender(player)
         item.nbt.remove('poiPos')
         player.setStatusMessage(Text.translatable('msg.kubejs.shop_tool.clear_selected_poi.1'))
     }
+    block.entity.setChanged()
 })

@@ -197,7 +197,7 @@ function GetEntityStatus(mob) {
     if (mob.persistentData.contains('status')) {
         return mob.persistentData.getString('status')
     }
-    return STATUS_IDLE
+    return STATUS_NONE
 }
 
 /**
