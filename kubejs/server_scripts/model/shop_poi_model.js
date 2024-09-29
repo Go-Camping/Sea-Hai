@@ -32,7 +32,7 @@ function ShopPOIBlock(block) {
         this.persistentData.putInt('consumingMoney', 0)
     }
     this.consumingMoney = this.persistentData.getInt('consumingMoney')
-
+    this.tile.setChanged()
 }
 
 ShopPOIBlock.prototype = {
@@ -43,6 +43,7 @@ ShopPOIBlock.prototype = {
     setIsShopping: function (isShopping) {
         this.isShopping = isShopping
         this.persistentData.putInt('isShopping', isShopping ? 1 : 0)
+        this.tile.setChanged()
     },
     /**
      * 校验购物状态
@@ -58,6 +59,7 @@ ShopPOIBlock.prototype = {
     setPosList: function (posList) {
         this.relatedContainerPosList = posList
         this.persistentData.put('posList', ConvertPosList2Nbt(posList))
+        this.tile.setChanged()
         return
     },
     /**
@@ -67,6 +69,7 @@ ShopPOIBlock.prototype = {
     setPosListNbt: function (posListNbt) {
         this.persistentData.put('posList', posListNbt)
         this.relatedContainerPosList = ConvertNbt2PosList(posListNbt)
+        this.tile.setChanged()
         return
     },
     /**
@@ -98,6 +101,7 @@ ShopPOIBlock.prototype = {
     setConsumingMoney: function (consumingMoney) {
         this.consumingMoney = consumingMoney
         this.persistentData.putInt('consumingMoney', consumingMoney)
+        this.tile.setChanged()
     },
     /**
      * 获取正在消费的金额

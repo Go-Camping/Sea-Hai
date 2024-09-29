@@ -29,7 +29,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         findPOIModel.setSpeed(0.5)
         findPOIModel.setIdleCenter(GetEntityPosition(mob))
         findPOIModel.idleAroundCenter(3)
-        findPOIModel.setIdleTimer(Math.floor(Math.random() * 10 + 10))
+        findPOIModel.setIdleTimer(Math.floor(Math.random() * 10 + 3))
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         console.log('status findPOI StopBehavior')

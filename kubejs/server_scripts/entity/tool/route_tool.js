@@ -1,6 +1,6 @@
 // priority: 500
 
-const DEBUG_TOOL = 'minecraft:stick'
+const DEBUG_TOOL = 'kubejs:route_tool'
 
 ItemEvents.entityInteracted(DEBUG_TOOL, event => {
     let {item, target} = event
@@ -17,7 +17,7 @@ ItemEvents.entityInteracted(DEBUG_TOOL, event => {
 
 
 BlockEvents.rightClicked(event => {
-    let {item, block} = event
+    let {item, block, player} = event
     if (item.id != DEBUG_TOOL) return
     if (!item.hasNBT() || !item.nbt.contains('posList')) {
         let nbt = item.getOrCreateTag()
@@ -26,4 +26,5 @@ BlockEvents.rightClicked(event => {
     let posListNbt = item.nbt.getList('posList', GET_COMPOUND_TYPE)
     posListNbt.add(ConvertPos2Nbt(block.getPos()))
     item.nbt.put('posList', posListNbt)
+    player.tell(item.nbt.getList('posList', GET_COMPOUND_TYPE).size())
 })

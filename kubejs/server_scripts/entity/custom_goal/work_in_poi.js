@@ -59,6 +59,7 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
 const ShopPOIWorkInInitStrategies = {
     'kubejs:fish_shop': function (workInPOIModel, poiModel) {
         // 选择一个可用的POI容器
+        let level = poiModel.block.level
         let posList = poiModel.getPosList()
         let validContainerBlocks = []
         posList.forEach(pos => {
@@ -88,6 +89,7 @@ const ShopPOIWorkInInitStrategies = {
 const ShopPOIWorkInTickStrategies = {
     'kubejs:fish_shop': function (workInPOIModel, poiModel) {
         let level = workInPOIModel.mob.level
+        let mob = workInPOIModel.mob
         switch (workInPOIModel.getSubStatus()) {
             case SUB_STATUS_MOVE_TO_CONTAINER:
                 if (!workInPOIModel.getTargetMovePos()) return false
@@ -118,13 +120,12 @@ const ShopPOIWorkInTickStrategies = {
                     let consumedMoney = workInPOIModel.getConsumedMoney()
                     workInPOIModel.clearConsumedMoney()
                     poiModel.startShopping(consumedMoney)   
-                    workInPOIModel.setSubStatus(mob, SUB_STATUS_START_SHOPPING)
-                    poiModel.tile.setChanged()
+                    workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
                     return true
                 }
                 return true
             case SUB_STATUS_START_SHOPPING:
-                if (poiModel.isShopping()) {
+                if (poiModel.checkIsShopping()) {
                     return true
                 } else {
                     workInPOIModel.clearMovePos()
@@ -159,6 +160,17 @@ const ShopContainerStrategies = {
         workInPOIModel.addConsumedMoney(value)
         return
     },
+    'supplementaries:pedestal': function (workInPOIModel, poiModel, block) {
+        let inv = block.getInventory()
+        if (!inv) return
+        let pickItem = ConsumeFirstItemOfInventory(inv, (testItem) => {
+            return testItem.hasNBT() && testItem.nbt.contains('value')
+        })
+        if (!pickItem) return
+        let value = pickItem.nbt.getInt('value')
+        workInPOIModel.addConsumedMoney(value)
+        return
+    }, 
 }
 
 /**

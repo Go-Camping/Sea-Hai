@@ -23,6 +23,6 @@ function GetWeightRandomObj(p) {
       return cur.endWeight = pre + cur.weight
     }, 0)
     let random = Math.ceil(Math.random() * totalWeight)
-    let randomObj = p.find(weightObj => weightObj.startWeight < random && weightObj.endWeight > random)
+    let randomObj = p.find(weightObj => weightObj.startWeight < random && weightObj.endWeight >= random)
     return randomObj.obj
 }

@@ -1,0 +1,16 @@
+{
+    "_comment.item": "物品",
+    "item.kubejs.route_tool": "路径工具",
+    "item.kubejs.poi_container_tool": "容器链接工具",
+    "_comment.tooltips": "物品提示",
+    "tooltips.kubejs.item.route_tool.1": "当前标记的移动路径：",
+    "tooltips.kubejs.item.poi_container_tool.1": "当前选定POI：",
+
+    "_comment.status": "状态消息",
+    "status.kubejs.poi_container_tool.selected_poi.1": "已选定POI方块",
+    "status.kubejs.poi_container_tool.add_poi_container.1": "已将该容器绑定POI",
+    "status.kubejs.poi_container_tool.show_poi_container.1": "已展示当前POI绑定的所有容器位置",
+    "status.kubejs.poi_container_tool.clear_poi_container.1": "已清空该POI绑定的所有容器",
+    "status.kubejs.poi_container_tool.remove_poi_container.1": "已将该容器解绑该POI",
+    "status.kubejs.poi_container_tool.clear_selected_poi.1": "取消了POI方块的绑定"
+}

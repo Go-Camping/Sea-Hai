@@ -23,7 +23,7 @@ NetworkEvents.dataReceived(NET_RENDER_OUTLINE, event => {
             break
         case 2:
             blockPosList.forEach(pos => {
-                let index = NeedRenderOutlinePosList.indexOf(pos)
+                let index = NeedRenderOutlinePosList.findIndex(p => p.equals(pos))
                 if (index >= 0) {
                     NeedRenderOutlinePosList.splice(index, 1)
                 }

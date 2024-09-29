@@ -25,7 +25,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         console.log('status routeMove BeginBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
-        routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 3 + 5))
+        routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 3 + 3))
         if (routeMoveModel.recoverPos) {
             routeMoveModel.moveToRecoverPos(STANDARD_ROUTE_MOVE_DISTANCE)
             return
