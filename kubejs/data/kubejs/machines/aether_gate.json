@@ -1,5 +1,5 @@
 {
-    "name": "Fish Shop",
+    "name": "Aether Gate",
     "appearance": {
         "block": "minecraft:furnace",
         "running": {
@@ -11,8 +11,15 @@
     "components": [
         {
             "type": "custommachinery:item",
-            "id": "output_1",
-            "mode": "output"
+            "id": "fuel_1",
+            "variant": "custommachinery:fuel",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "upgrade_1",
+            "mode": "input",
+            "variant": "custommachinery:upgrade"
         }
     ],
     "gui": [
@@ -40,8 +47,14 @@
         {
             "type": "custommachinery:slot",
             "x": 60,
-            "y": 50,
-            "id": "output_1"
+            "y": 60,
+            "id": "fuel_1"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 10,
+            "y": 40,
+            "id": "upgrade_1"
         }
     ],
     "jei": [],
