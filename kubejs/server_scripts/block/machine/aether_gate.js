@@ -1,11 +1,33 @@
 ServerEvents.recipes(event => {
-    // event.recipes.custommachinery.custom_machine('kubejs:aether_gate', 1000)
-    // .requireStructure([[
-    //   "aaa",
-    //   "a a",
-    //   "aaa",
-    //   " m "
-    // ]], {"a": "minecraft:stone"})
+    event.recipes.custommachinery.custom_machine('kubejs:aether_gate', 1000)
+        .requireFunctionEachTick(ctx => {
+            if (ctx.remainingTime % 40 != 0) return ctx.success()
+
+            let { machine, block } = ctx
+
+            let item = machine.getItemStored('route_marker')
+
+            if (!item || item.isEmpty() || !item.hasNBT() || !item.nbt.contains('posList') || item.nbt.getList('posList', GET_COMPOUND_TYPE).size() <= 0) return ctx.error('No route tool found')
+
+            let entity = CreateCustomNPCEntity(block.level)
+
+            let pos = RandomOffsetPos(block.pos, 5)
+            entity.setPos(pos.x, pos.y, pos.z)
+            entity.display.setSkinTexture('kubejs:textures/entity/skin/player_1.png')
+            let routeMoveModel = new EntityRouteMove(entity)
+            routeMoveModel.setPosListNbt(item.nbt.getList('posList', GET_COMPOUND_TYPE))
+            SetEntityStatus(entity, STATUS_ROUTE_MOVE)
+            block.level.addFreshEntity(entity)
+            return ctx.success()
+        })
+        .requireFunctionToStart(ctx => {
+            let machine = ctx.machine
+            let item = machine.getItemStored('route_marker')
+            if (item && !item.isEmpty()) return ctx.success()
+            return ctx.error('')
+        })
+
+
 })
 
 

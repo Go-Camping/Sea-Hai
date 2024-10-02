@@ -1,0 +1,12 @@
+// priority: 1000
+
+const LINE_INTERACT = 0
+const LINE_ATTACK = 1
+const LINE_LEVEL = 2
+const LINE_KILLED = 3
+const LINE_KILL = 4
+const LINE_NPC_INTERACT = 5
+
+const NAME_VISIBLE = 0
+const NAME_INVISIBLE = 1
+const NAME_ATTACKING_VISIBLE = 2

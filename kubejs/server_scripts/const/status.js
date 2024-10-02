@@ -25,5 +25,6 @@ const SUB_STATUS_NONE = 0
 
 
 const STATUS_DISMISS = 'dismiss'
+const NBT_DISMISS = 'dismiss'
 const DISMISS_SMOKE_PARTICLE_AMOUNT = 15
 const DISMISS_SMOKE_PARTICLE_SPEED = 0.1

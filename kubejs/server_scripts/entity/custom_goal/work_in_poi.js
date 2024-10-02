@@ -22,7 +22,7 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
         }
         return false
     },
-    true,
+    false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         console.log('status workInPOI BeginBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
@@ -66,7 +66,8 @@ const ShopPOIWorkInInitStrategies = {
             let tempBlock = level.getBlock(pos)
             // 这个容器必须有一个有效的取用方法
             if (!ShopContainerStrategies[tempBlock.id]) return
-            // POI容器可以有权重
+            if (tempBlock.inventory.isEmpty()) return
+            // POI容器可以有权重，先均等概率
             let tempWeight = 1
             validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
         })
@@ -112,7 +113,16 @@ const ShopPOIWorkInTickStrategies = {
                     workInPOIModel.moveToPOIPos()
                     return true
                 }
+                if (workInPOIModel.getConsumedMoney() <= 0) {
+                    // 没有消费则直接返回
+                    workInPOIModel.clearMovePos()
+                    workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+                    return false
+                }
                 if (poiModel.checkIsShopping()) {
+                    // todo
+                    if (mob.navigation.isInProgress()) mob.navigation.setSpeedModifier(0.1)
+                    mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
                     // 等待释放
                     return true
                 } else {
@@ -120,6 +130,8 @@ const ShopPOIWorkInTickStrategies = {
                     let consumedMoney = workInPOIModel.getConsumedMoney()
                     workInPOIModel.clearConsumedMoney()
                     poiModel.startShopping(consumedMoney)   
+                    let poiPos = workInPOIModel.poiPos
+                    mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
                     workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
                     return true
                 }
@@ -130,6 +142,7 @@ const ShopPOIWorkInTickStrategies = {
                 } else {
                     workInPOIModel.clearMovePos()
                     workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+                    mob.navigation.setSpeedModifier(1.0)
                     // 跳出子状态
                     return false
                 }
@@ -177,5 +190,5 @@ const ShopContainerStrategies = {
  * @param {Internal.PathfinderMob} entity 
  */
 function SetWorkInPOIGoal(entity) {
-    entity.goalSelector.addGoal(10, WorkInPOIGoal(entity))
+    entity.goalSelector.addGoal(1, WorkInPOIGoal(entity))
 }

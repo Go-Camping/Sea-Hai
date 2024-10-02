@@ -11,53 +11,56 @@
     "components": [
         {
             "type": "custommachinery:item",
-            "id": "fuel_1",
-            "variant": "custommachinery:fuel",
-            "mode": "input"
-        },
-        {
-            "type": "custommachinery:item",
             "id": "upgrade_1",
             "mode": "input",
             "variant": "custommachinery:upgrade"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "route_marker",
+            "mode": "input",
+            "filter": ["kubejs:route_tool"],
+            "whitelist": true
         }
     ],
     "gui": [
         {
-            "type": "custommachinery:texture",
-            "x": 0,
-            "y": 0,
-            "texture": "custommachinery:textures/gui/base_background.png"
-        },
-        {
             "type": "custommachinery:status",
-            "x": 10,
-            "y": 10
+            "x": 3,
+            "y": 3
         },
         {
             "type": "custommachinery:player_inventory",
-            "x": 50,
-            "y": 80
+            "x": 7,
+            "y": 83
+        },
+        {
+            "type": "custommachinery:background",
+            "texture": "kubejs:textures/gui/furance_background.png",
+            "width": 176,
+            "height": 166
         },
         {
             "type": "custommachinery:progress",
             "x": 116,
-            "y": 50
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 60,
-            "y": 60,
-            "id": "fuel_1"
+            "y": 50,
+            "texture_empty": "kubejs:textures/gui/aether_gate_progress_empty.png",
+            "texture_filled": "kubejs:textures/gui/aether_gate_progress.png",
+            "direction": "top"
         },
         {
             "type": "custommachinery:slot",
             "x": 10,
             "y": 40,
             "id": "upgrade_1"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 30,
+            "y": 40,
+            "id": "route_marker"
         }
     ],
     "jei": [],
     "catalysts": []
 }
-

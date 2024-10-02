@@ -21,11 +21,13 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         }
         return false
     },
-    true,
+    false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         console.log('status routeMove BeginBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
-        routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 3 + 3))
+        if (routeMoveModel.findIntervalTimer <= 0) {
+            routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 120 + 60))
+        }
         if (routeMoveModel.recoverPos) {
             routeMoveModel.moveToRecoverPos(STANDARD_ROUTE_MOVE_DISTANCE)
             return
@@ -64,21 +66,21 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         }
         // 状态概率流转到poi寻找状态
         // todo 可以增添一个属性，标记并不需要流转到finding_poi状态以适配某些场景
-        if (mob.age % 20 == 0) {
-            if (routeMoveModel.checkFindIntervalTimer()) {
-                console.log('status routeMove ShouldFind')
-                SetEntityStatus(mob, STATUS_FIND_POI)
-                // routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 10))
-            } else {
-                routeMoveModel.decreaseFindIntervalTimer()
-            }
+
+        if (routeMoveModel.checkFindIntervalTimer()) {
+            console.log('status routeMove ShouldFind')
+            SetEntityStatus(mob, STATUS_FIND_POI)
+            // routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 10))
+            return
+        } else {
+            routeMoveModel.decreaseFindIntervalTimer()
         }
-    },
+    }
 )
 
 /**
  * @param {Internal.PathfinderMob} entity 
  */
 function SetRouteMoveGoal(entity) {
-    entity.goalSelector.addGoal(10, RouteMoveGoal(entity))
+    entity.goalSelector.addGoal(1, RouteMoveGoal(entity))
 }

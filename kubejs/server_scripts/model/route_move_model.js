@@ -9,7 +9,7 @@ function EntityRouteMove(mob) {
     // 若没有对应的字段，则进行强制初始化
     if (!mob.persistentData.contains(NBT_ROUTE_MOVE)) {
         let routeMoveConfig = new $CompoundTag()
-        routeMoveConfig.put('pointList', new $ListTag())
+        routeMoveConfig.put('posList', new $ListTag())
         routeMoveConfig.putInt('curPointNum', 0)
         routeMoveConfig.put('recoverPos', new $CompoundTag())
         routeMoveConfig.putInt('findIntervalTimer', 0)
@@ -29,7 +29,7 @@ function EntityRouteMove(mob) {
     /** @type {Internal.CompoundTag} */
     this.routeMoveConfig = mob.persistentData.getCompound(NBT_ROUTE_MOVE)
 
-    let pointNbtList = this.routeMoveConfig.getList('pointList', GET_COMPOUND_TYPE)
+    let pointNbtList = this.routeMoveConfig.getList('posList', GET_COMPOUND_TYPE)
     this.posList = ConvertNbt2PosList(pointNbtList)
 
     this.curPointNum = this.routeMoveConfig.getInt('curPointNum')
@@ -54,7 +54,7 @@ EntityRouteMove.prototype = {
      */
     setPosList: function (posList) {
         this.posList = posList
-        this.routeMoveConfig.put('pointList', ConvertPosList2Nbt(posList))
+        this.routeMoveConfig.put('posList', ConvertPosList2Nbt(posList))
         return
     },
     /**
@@ -62,7 +62,7 @@ EntityRouteMove.prototype = {
      * @param {Internal.ListTag} posListNbt
      */
     setPosListNbt: function (posListNbt) {
-        this.routeMoveConfig.put('pointList', posListNbt)
+        this.routeMoveConfig.put('posList', posListNbt)
         this.posList = ConvertNbt2PosList(posListNbt)
         return
     },
@@ -106,8 +106,14 @@ EntityRouteMove.prototype = {
      */
     moveToPos: function (pos) {
         if (!pos) return false
+        let navigation = this.mob.getNavigation()
+        if (!(navigation.isInProgress() && navigation.targetPos.equals(pos))) {
+            navigation.moveTo(pos.x, pos.y, pos.z, this.speed)
+            return true
+        }
+        if (!navigation.isStuck() && navigation.getPath().canReach()) return
+        navigation.recomputePath()
         
-        this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speed)
         return true
     },
     /**
@@ -120,7 +126,7 @@ EntityRouteMove.prototype = {
      * 移动到下一目标位置
      */
     moveToNextPos: function () {
-        this.moveToPos(this.getNextMovePos())
+        this.moveToPos(this.getCurMovePos())
         this.curPointNum = this.curPointNum + 1
         this.routeMoveConfig.putInt('curPointNum', this.curPointNum)
     },

@@ -53,7 +53,14 @@ EntityWorkInPOI.prototype = {
      */
     moveToPos: function (pos) {
         if (!pos) return false
-        this.mob.getNavigation().moveTo(pos.x, pos.y, pos.z, this.speed)
+        let navigation = this.mob.getNavigation()
+        if (!(navigation.isInProgress() && navigation.targetPos.equals(pos))) {
+            navigation.moveTo(pos.x, pos.y, pos.z, this.speed)
+            return true
+        }
+        if (!navigation.isStuck() && navigation.getPath().canReach()) return
+        navigation.recomputePath()
+        
         return true
     },
     /**
