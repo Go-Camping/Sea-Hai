@@ -13,7 +13,8 @@ ServerEvents.recipes(event => {
 
             let pos = RandomOffsetPos(block.pos, 5)
             entity.setPos(pos.x, pos.y, pos.z)
-            entity.display.setSkinTexture('kubejs:textures/entity/skin/player_1.png')
+            let num = Math.ceil(Math.random() * 11)
+            entity.display.setSkinTexture(`kubejs:textures/entity/skin/guest_${num}.png`)
             let routeMoveModel = new EntityRouteMove(entity)
             routeMoveModel.setPosListNbt(item.nbt.getList('posList', GET_COMPOUND_TYPE))
             SetEntityStatus(entity, STATUS_ROUTE_MOVE)

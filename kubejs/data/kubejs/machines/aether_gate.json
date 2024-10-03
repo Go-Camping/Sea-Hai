@@ -36,7 +36,7 @@
         },
         {
             "type": "custommachinery:background",
-            "texture": "kubejs:textures/gui/furance_background.png",
+            "texture": "kubejs:textures/gui/common_background.png",
             "width": 176,
             "height": 166
         },

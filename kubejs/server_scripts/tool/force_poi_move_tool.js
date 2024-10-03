@@ -14,8 +14,6 @@ ItemEvents.entityInteracted(FORCE_POI_MOVE_TOOL, event => {
 })
 
 
-
-
 ItemEvents.firstRightClicked(FORCE_POI_MOVE_TOOL, event => {
     let { item, player, level } = event
     let rayTraceResult = player.rayTrace(player.blockReach)

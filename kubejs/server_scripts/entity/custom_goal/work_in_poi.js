@@ -122,6 +122,7 @@ const ShopPOIWorkInTickStrategies = {
                 if (poiModel.checkIsShopping()) {
                     // todo
                     if (mob.navigation.isInProgress()) mob.navigation.setSpeedModifier(0.1)
+                    let poiPos = workInPOIModel.poiPos
                     mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
                     // 等待释放
                     return true
