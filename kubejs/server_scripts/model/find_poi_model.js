@@ -67,7 +67,6 @@ EntityFindPOI.prototype = {
      */
     setIdleCenter: function (pos) {
         if (!pos) return
-        pos = pos.offset(0, 1, 0)
         let idleCenterNbt = ConvertPos2Nbt(pos)
         this.idleCenter = pos
         this.findPOIConfig.put('idleCenter', idleCenterNbt)
@@ -85,13 +84,12 @@ EntityFindPOI.prototype = {
      * @param {Number} speed
      */
     idleAroundCenter: function (dist) {
-        // 如果正在寻路途径中，则让位给对应逻辑
         let idleCenter = this.getIdleCenter()
         if (!idleCenter) return
         let idleAroundPos = RandomOffsetPos(idleCenter, dist)
         let y = this.mob.level.getHeight('motion_blocking', idleAroundPos.x, idleAroundPos.z)
         // 存在一种情况，即当前所处位置并非是最高处，因此在Y有大差距的情况下，并不选择获取到的对应地点的Y，防止误寻路
-        idleAroundPos.atY((y - idleCenter.y > 4) ? idleCenter.y : y)
+        // idleAroundPos.atY((y - idleCenter.y > 4) ? idleCenter.y : y)
         this.moveToPos(idleAroundPos)
     },
     /**

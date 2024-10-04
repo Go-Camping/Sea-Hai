@@ -1,7 +1,8 @@
+// priority: 800
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:aether_gate', 1000)
         .requireFunctionEachTick(ctx => {
-            if (ctx.remainingTime % 40 != 0) return ctx.success()
+            if (ctx.remainingTime % 100 != 0) return ctx.success()
 
             let { machine, block } = ctx
 

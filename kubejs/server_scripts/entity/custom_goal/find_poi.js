@@ -27,7 +27,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         console.log('status findPOI BeginBehavior')
         let findPOIModel = new EntityFindPOI(mob)
         findPOIModel.setSpeed(0.5)
-        findPOIModel.setIdleCenter(GetEntityPosition(mob))
+        findPOIModel.setIdleCenter(GetEntityPosition(mob).offset(0, -1, 0))
         findPOIModel.idleAroundCenter(5)
         findPOIModel.setIdleTimer(Math.floor(Math.random() * 60 + 20))
     },
