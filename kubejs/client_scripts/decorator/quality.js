@@ -4,6 +4,7 @@ const QualityDecorator = RenderJSItemDecoratorHandler.registerForAllItem('qualit
 QualityDecorator.setRender(ctx => {
     let item = ctx.itemStack
     let guiGraphics = ctx.guiGraphics
+    RenderJSRenderSystem.disableDepthTestJS()
     if (item.getOrCreateTag().contains('quality')) {
         let qualityNum = item.nbt.getInt('quality')
         switch (qualityNum) {

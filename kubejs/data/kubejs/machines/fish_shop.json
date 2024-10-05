@@ -4,10 +4,9 @@
   },
   "appearance": {
     "running": {
-      "custommachinery:block": "minecraft:furnace[lit\u003dtrue]",
-      "custommachinery:light": 15
+      "custommachinery:block": "kubejs:machine/fish_shop"
     },
-    "custommachinery:block": "minecraft:furnace"
+    "custommachinery:block": "kubejs:machine/fish_shop_idle"
   },
   "components": [
     {
