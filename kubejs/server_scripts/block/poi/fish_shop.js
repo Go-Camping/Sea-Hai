@@ -14,21 +14,22 @@ ServerEvents.recipes(event => {
             return ctx.success()
         })
         .requireFunctionToStart(ctx => {
+            /**@type {Internal.BlockContainerJS} */
             let block = ctx.block
             let shopPOIModel = new ShopPOIBlock(block)
+            shopPOIModel.setSellType(FISH)
             if (shopPOIModel.checkIsShopping()) return ctx.success()
             return ctx.error('invalid')
         })
 })
 
-
 /**
- * POI商店策略
+ * POI商店tick策略
  * @param {EntityWorkInPOI} workInPOIModel
  * @param {ShopPOIBlock} poiModel
  * @returns {boolean}
  */
-function FishShopWorkInTickStrategies(workInPOIModel, poiModel) {
+function DefaultShopWorkInTickStrategies(workInPOIModel, poiModel) {
     let level = workInPOIModel.mob.level
     let mob = workInPOIModel.mob
     switch (workInPOIModel.getSubStatus()) {
@@ -68,8 +69,10 @@ function FishShopWorkInTickStrategies(workInPOIModel, poiModel) {
                 return true
             } else {
                 // 金额计算逻辑
+                workInPOIModel.calculateConsumedMoney()
                 let consumedMoney = workInPOIModel.getConsumedMoney()
                 workInPOIModel.clearConsumedMoney()
+                workInPOIModel.clearConsumedItem()
                 poiModel.startShopping(consumedMoney)
                 let poiPos = workInPOIModel.poiPos
                 mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
@@ -97,12 +100,12 @@ function FishShopWorkInTickStrategies(workInPOIModel, poiModel) {
 }
 
 /**
- * POI商店策略
+ * POI商店init策略
  * @param {EntityWorkInPOI} workInPOIModel
  * @param {ShopPOIBlock} poiModel
  * @returns {boolean}
  */
-function FishShopWorkInInitStrategies(workInPOIModel, poiModel) {
+function DefaultShopWorkInInitStrategies(workInPOIModel, poiModel) {
     // 选择一个可用的POI容器
     let level = poiModel.block.level
     let posList = poiModel.getPosList()
