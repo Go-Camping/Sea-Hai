@@ -13,9 +13,9 @@ function EntityWorkInPOI(mob) {
         workInPOIConfig.putInt('subStatus', SUB_STATUS_MOVE_TO_CONTAINER)
         workInPOIConfig.put('targetMovePos', new $CompoundTag())
         workInPOIConfig.putInt('consumedMoney', 0)
+        workInPOIConfig.putString('consumedItem',"minecraft:air")
         mob.persistentData.put(NBT_WORK_IN_POI, workInPOIConfig)
     }
-
     /** @type {Internal.PathfinderMob} */
     this.mob = mob
     /** @type {Number} */
@@ -25,15 +25,28 @@ function EntityWorkInPOI(mob) {
     /** @type {Internal.CompoundTag} */
     this.workInPOIConfig = mob.persistentData.getCompound(NBT_WORK_IN_POI)
 
+    //POI位置
     /** @type {BlockPos} */
     this.poiPos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('poiPos'))
+    //子状态
     /** @type {Number} */
     this.subStatus = this.workInPOIConfig.getInt('subStatus')
+    //POI工作过程中移向的位置
     /** @type {BlockPos} */
     // 通用空间，用于存储策略中的通用移动位置
     this.targetMovePos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('targetMovePos'))
+    //消费金额
     /** @type {Number} */
     this.consumedMoney = this.workInPOIConfig.getInt('consumedMoney')
+    //消费的物品
+    /** @type {String} */
+    this.consumedItem = this.workInPOIConfig.getString('consumedItem')
+    /**
+     * 付费逻辑
+     * @type {function(EntityWorkInPOI):Number}
+     */
+    this.consumeStrategy = defaultCalculateMoneyStrategies
+
 }
 
 EntityWorkInPOI.prototype = {
@@ -163,9 +176,25 @@ EntityWorkInPOI.prototype = {
      * 设置消耗的金币数量
      * @param {Number} consumedMoney
      */
+    setConsumedMoney: function (consumedMoney) {
+        this.consumedMoney = consumedMoney
+        this.workInPOIConfig.putInt('consumedMoney', this.consumedMoney)
+        return
+    },
+    /**
+     * 增加消耗的金币数量
+     * @param {Number} consumedMoney
+     */
     addConsumedMoney: function (consumedMoney) {
         this.consumedMoney = consumedMoney + this.consumedMoney
         this.workInPOIConfig.putInt('consumedMoney', this.consumedMoney)
+        return
+    },
+    /**
+     * 根据付费逻辑，修正消费的金币数额
+     */
+    calculateConsumedMoney: function (){
+        this.consumeStrategy(this)
         return
     },
     /**
@@ -183,4 +212,28 @@ EntityWorkInPOI.prototype = {
         this.workInPOIConfig.putInt('consumedMoney', 0)
         return
     },
+    /**
+     * 设置消费的物品id
+     * @param {String} consumedItem
+     */
+    setConsumedItem : function (consumedItem) {
+        this.consumedItem = consumedItem
+        this.workInPOIConfig.putString('consumedItem',consumedItem)
+        return
+    },
+    /**
+     * 获取消费的物品id
+     * @returns {String}
+     */
+    getConsumedItem: function () {
+        return this.consumedItem
+    },
+    /**
+     * 清除消费的物品id
+     */
+    clearConsumedItem: function() {
+        this.workInPOIConfig.putString('consumedItem',"minecraft:air")
+        this.consumedItem = this.workInPOIConfig.getString('consumedItem')
+        return
+    }
 }

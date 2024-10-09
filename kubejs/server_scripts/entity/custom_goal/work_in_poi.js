@@ -10,21 +10,21 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     entity,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         if (GetEntityStatus(mob) == STATUS_WORK_IN_POI) {
-            console.log('status workInPOI Begin')
+            //console.log('status workInPOI Begin')
             return true
         }
         return false
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         if (GetEntityStatus(mob) == STATUS_WORK_IN_POI) {
-            console.log('status workInPOI Continue')
+            //console.log('status workInPOI Continue')
             return true
         }
         return false
     },
     false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        console.log('status workInPOI BeginBehavior')
+        //console.log('status workInPOI BeginBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
         let poiModel = workInPOIModel.getPOIData()
         if (!poiModel) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)
@@ -34,11 +34,11 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
         if (!ShopPOIWorkInInitStrategies[poiBlockId](workInPOIModel, poiModel)) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        console.log('status workInPOI StopBehavior')
+        //console.log('status workInPOI StopBehavior')
     },
     false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        console.log('status workInPOI TickBehavior')
+        //console.log('status workInPOI TickBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
         let poiModel = workInPOIModel.getPOIData()
         if (!poiModel) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)
@@ -57,7 +57,8 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
  * @type {Object<string,function(EntityWorkInPOI, ShopPOIBlock):boolean>}
  */
 const ShopPOIWorkInInitStrategies = {
-    'kubejs:fish_shop': (workInPOIModel, poiModel) => FishShopWorkInInitStrategies(workInPOIModel, poiModel),
+    'kubejs:fish_shop': (workInPOIModel, poiModel) => DefaultShopWorkInInitStrategies(workInPOIModel, poiModel),
+    'kubejs:grocery': (workInPOIModel, poiModel) => DefaultShopWorkInInitStrategies(workInPOIModel, poiModel),
 }
 
 /**
@@ -66,7 +67,8 @@ const ShopPOIWorkInInitStrategies = {
  * @type {Object<string,function(EntityWorkInPOI, ShopPOIBlock):void>}
  */
 const ShopPOIWorkInTickStrategies = {
-    'kubejs:fish_shop': (workInPOIModel, poiModel) => FishShopWorkInTickStrategies(workInPOIModel, poiModel),
+    'kubejs:fish_shop': (workInPOIModel, poiModel) => DefaultShopWorkInTickStrategies(workInPOIModel, poiModel),
+    'kubejs:grocery': (workInPOIModel, poiModel) => DefaultShopWorkInTickStrategies(workInPOIModel, poiModel),
 }
 
 /**
@@ -84,6 +86,7 @@ const CommonShopContainerStrategies = {
         if (!pickItem) return
         let value = pickItem.nbt.getInt('value')
         workInPOIModel.addConsumedMoney(value)
+        workInPOIModel.setConsumedItem(pickItem.id)
         return
     },
     'supplementaries:pedestal': function (workInPOIModel, poiModel, block) {
@@ -95,6 +98,7 @@ const CommonShopContainerStrategies = {
         if (!pickItem) return
         let value = pickItem.nbt.getInt('value')
         workInPOIModel.addConsumedMoney(value)
+        workInPOIModel.setConsumedItem(pickItem.id)
         return
     },
 }

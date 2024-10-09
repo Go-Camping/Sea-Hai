@@ -9,21 +9,21 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     entity,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE) {
-            console.log('status routeMove Begin')
+            //console.log('status routeMove Begin')
             return true
         }
         return false
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         if (GetEntityStatus(mob) == STATUS_ROUTE_MOVE) {
-            console.log('status routeMove Continue')
+            //console.log('status routeMove Continue')
             return true
         }
         return false
     },
     false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        console.log('status routeMove BeginBehavior')
+        //console.log('status routeMove BeginBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         if (routeMoveModel.findIntervalTimer <= 0) {
             routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 120 + 60))
@@ -35,7 +35,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         routeMoveModel.moveToCurPos()
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        console.log('status routeMove StopBehavior')
+        //console.log('status routeMove StopBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         // 记录当前位置到恢复位置处，以在状态恢复时进行恢复
         routeMoveModel.setRecoverPos(GetEntityPosition(mob))
@@ -47,7 +47,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     },
     false, // 是否每个tick都需要更新
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        console.log('status routeMove TickBehavior')
+        //console.log('status routeMove TickBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         // 尝试进行位置恢复
         if (routeMoveModel.recoverPos) {
@@ -68,7 +68,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         // todo 可以增添一个属性，标记并不需要流转到finding_poi状态以适配某些场景
 
         if (routeMoveModel.checkFindIntervalTimer()) {
-            console.log('status routeMove ShouldFind')
+            //console.log('status routeMove ShouldFind')
             SetEntityStatus(mob, STATUS_FIND_POI)
             // routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 10))
             return
