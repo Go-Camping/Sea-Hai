@@ -55,14 +55,18 @@ function genDepthMap(level, blockPos) {
     let depth = 0
     nextNode(blockPos)
 
+    
 
-
-
+    /**
+     * 
+     * @param {blockPos} curNodePos 
+     */
     function nextNode(curNodePos) {
-        let nearNodeList = getRelatedNodeBlockPos(level, curNodePos)
-        nodeMap.set(curNodePos, nearNodeList)
-        nearNodeList.forEach(nodePos => {
-            if (nodeMap.has(nodePos)) return
+        let nearByNodeList = getRelatedNodeBlockPos(level, curNodePos)
+        // 如果直接使用BlockPos会因为指向对象不同而导致无法比较，因此使用toString归一化
+        nodeMap.set(curNodePos.toString(), nearByNodeList)
+        nearByNodeList.forEach(nodePos => {
+            if (nodeMap.has(nodePos.toString())) return
         })
     }
 }

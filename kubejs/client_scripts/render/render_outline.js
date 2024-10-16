@@ -49,7 +49,7 @@ NetworkEvents.dataReceived(NET_RENDER_OUTLINE, event => {
 RenderJSEvents.AddWorldRender(event => {
     event.addWorldRender(context => {
         NeedRenderOutlinePosList.forEach(blockPos => {
-            RenderJSWorldRender.renderBlockOutLine1(blockPos, Blocks.STONE.defaultBlockState(), RenderJSWorldRender.getTopLayerLineType())
+            RenderJSWorldRender.renderBlockOutLine1(blockPos, Blocks.STONE.defaultBlockState(), RenderJSWorldRender.getTopLayerLineType(), '#00FF24')
         })
     })
 })
