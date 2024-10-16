@@ -25,9 +25,9 @@ function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, i
         for (let l = 0; l < searchRange; ++l) {
             for (let i = 0; i <= l; i = i > 0 ? -i : 1 - i) {
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k - 1, j);
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i, k - 1, j))
+                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i, k, j))
                     }
                 }
             }
@@ -71,9 +71,9 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
             for (let i = 0; i <= searchRange; i++) {
                 // 次级范围，在寻找对应方向的方块时，对于非关键方向的视线有限
                 for (let j = 0; j <= secondaryRange; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i * dx, k - 1, j);
+                    mutableBlockPos.setWithOffset(blockPos, i * dx, k, j);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i * dx, k - 1, j))
+                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i * dx, k, j))
                     }
                 }
             }
@@ -81,9 +81,9 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
             // 如果X方向为无关方向，那么Z方向就是一个关键方向
             for (let j = 0; j <= searchRange; j++) {
                 for (let i = 0; i <= secondaryRange; i = i > 0 ? -i : 1 - i) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k - 1, j * dz);
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j * dz);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i, k - 1, j * dz))
+                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i, k, j * dz))
                     }
                 }
             }
@@ -120,7 +120,7 @@ function FindNearestBlock(mob, searchRange, verticalSearchRange, verticalOffset,
         for (let l = 0; l < searchRange; ++l) {
             for (let i = 0; i <= l; i = i > 0 ? -i : 1 - i) {
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k - 1, j);
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
                         return mutableBlockPos
                     }
@@ -152,13 +152,10 @@ function FindDirectionNearestBlock(mob, searchRange, verticalSearchRange, vertic
     let mutableBlockPos = BlockPos.ZERO.mutable()
 
     // 粗略朝向方向
-    let facing = mob.getFacing()
+    let facing = mob.getHorizontalFacing()
     let dz = facing.getZ()
     let dx = facing.getX()
-    let dy = facing.getY()
-    // 如果Y相关，那么全域搜索, 但视野减半，纵向扩展
-    if (dy != 0) return FindNearestBlock(mob, Math.ceil(searchRange / 2), verticalSearchRange + 1, verticalOffset, isValidTarget)
-
+    
     // 遍历范围内的每个方块
     for (let k = 0; k <= verticalSearchRange; k = k > 0 ? -k : 1 - k) {
         // X-Z遍历
@@ -167,7 +164,7 @@ function FindDirectionNearestBlock(mob, searchRange, verticalSearchRange, vertic
             // 关键方向是优先级更高的方向
             for (let i = 0; i <= searchRange; i++) {
                 for (let j = 0; j <= searchRange; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i * dx, k - 1, j);
+                    mutableBlockPos.setWithOffset(blockPos, i * dx, k, j);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
                         return mutableBlockPos
                     }
@@ -177,7 +174,7 @@ function FindDirectionNearestBlock(mob, searchRange, verticalSearchRange, vertic
             // 如果X方向为无关方向，那么Z方向就是一个关键方向
             for (let j = 0; j <= searchRange; j++) {
                 for (let i = 0; i <= searchRange; i = i > 0 ? -i : 1 - i) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k - 1, j * dz);
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j * dz);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
                         return mutableBlockPos
                     }
@@ -218,4 +215,23 @@ function SetEntityStatus(mob, status) {
 function GetEntityPosition(mob) {
     let pos = mob.getPosition(1.0)
     return new BlockPos(pos.x(), pos.y(), pos.z())
+}
+
+
+/**
+ * 
+ * @param {Internal.PathNavigation} navigation 
+ * @param {BlockPos} pos 
+ * @param {Number} speed 
+ * @returns 
+ */
+function NavigateWithDegrade(navigation, pos, speed) {
+    if (!pos) return false
+    if (!(navigation.isInProgress() && navigation.targetPos.equals(pos))) {
+        navigation.moveTo(pos.x, pos.y, pos.z, speed)
+        return true
+    }
+    if (!navigation.isStuck() && navigation.getPath().canReach()) return
+    navigation.recomputePath()
+    return true
 }

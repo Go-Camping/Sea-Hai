@@ -10,14 +10,11 @@ function FishingRodModel(item) {
     this.bait = Item.of('minecraft:air')
     this.fishingLine = Item.of('minecraft:air')
     this.bobber = Item.of('minecraft:air')
-    if (item.hasNBT() && item.nbt.contains('Inventory')) {
-        let itemHandlerOpt = item.getCapability(ForgeCapabilities.ITEM_HANDLER)
-        if (itemHandlerOpt.isPresent() && itemHandlerOpt.resolve().isPresent()) {
-            let rodHandler = itemHandlerOpt.resolve().get()
-            this.hook = rodHandler.getStackInSlot(0)
-            this.bait = rodHandler.getStackInSlot(1)
-            this.fishingLine = rodHandler.getStackInSlot(2)
-            this.bobber = rodHandler.getStackInSlot(3)
-        }
+    let rodHandler = $AquaFishingRodItem.getHandler(item)
+    if (rodHandler && !rodHandler.isEmpty()) {
+        this.hook = rodHandler.getStackInSlot(0)
+        this.bait = rodHandler.getStackInSlot(1)
+        this.fishingLine = rodHandler.getStackInSlot(2)
+        this.bobber = rodHandler.getStackInSlot(3)
     }
 }

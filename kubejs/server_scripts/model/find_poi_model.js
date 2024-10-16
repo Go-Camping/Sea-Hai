@@ -46,20 +46,10 @@ EntityFindPOI.prototype = {
     /**
      * 实体移动到某位置
      * @param {BlockPos} pos 
-     * @param {Number} speed
      * @returns {Boolean}
      */
     moveToPos: function (pos) {
-        if (!pos) return false
-        let navigation = this.mob.getNavigation()
-        if (!(navigation.isInProgress() && navigation.targetPos.equals(pos))) {
-            navigation.moveTo(pos.x, pos.y, pos.z, this.speed)
-            return true
-        }
-        if (!navigation.isStuck() && navigation.getPath().canReach()) return
-        navigation.recomputePath()
-        
-        return true
+        return NavigateWithDegrade(this.mob.getNavigation(), pos, this.speed)
     },
     /**
      * 设置游荡中心点
@@ -201,7 +191,9 @@ EntityFindPOI.prototype = {
  */
     findAheadPOIs(mob, dist, secondaryRange) {
         let blockPosList = FindDirectionNearBlocks(mob, dist, secondaryRange, 3, -1, (level, blockPos) => {
-            return level.getBlockState(blockPos).tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))
+            let targetBlock = level.getBlockState(blockPos)
+            if (targetBlock.isAir()) return false
+            return targetBlock.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))
         })
         blockPosList.filter(blockPos => {
             return !this.checkIsMarkedPOI(blockPos)

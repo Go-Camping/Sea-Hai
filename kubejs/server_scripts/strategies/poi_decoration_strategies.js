@@ -3,7 +3,7 @@
  * @constant
  * @type {Object<string,function(ShopPOIBlock):void>}
  */
-const CommonShopDecorationStrategies = {
+const DefaultShopDecorationStrategies = {
     'kubejs:fish_shop': function (poiModel) {
         //测试用
         poiModel.setDecoration(0)

@@ -1,7 +1,7 @@
 // priority: 800
 
 ServerEvents.recipes(event => {
-    event.recipes.custommachinery.custom_machine('kubejs:grocery', 20)
+    event.recipes.custommachinery.custom_machine('kubejs:grocery', 100)
         .requireFunctionOnEnd(ctx => {
             /**@type {Internal.BlockContainerJS} */
             let block = ctx.block
@@ -17,7 +17,6 @@ ServerEvents.recipes(event => {
             /**@type {Internal.BlockContainerJS} */
             let block = ctx.block
             let shopPOIModel = new ShopPOIBlock(block)
-            shopPOIModel.setSellType(GROCERY)
             if (shopPOIModel.checkIsShopping()) return ctx.success()
             return ctx.error('invalid')
         })

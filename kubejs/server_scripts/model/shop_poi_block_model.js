@@ -25,12 +25,6 @@ function ShopPOIBlock(block) {
     }
     this.sellModel = this.persistentData.getInt('sellMode')
 
-    //售货类型,用于区分各个店铺
-    if (!this.persistentData.contains('sellType')) {
-        this.persistentData.putInt('sellType', 0)
-    }
-    this.sellType = this.persistentData.getInt('sellType')
-
     //仓库列表
     if (!this.persistentData.contains('posList')) {
         this.persistentData.put('posList', new $ListTag())
@@ -67,22 +61,6 @@ ShopPOIBlock.prototype = {
      */
     checkIsShopping: function () {
         return this.isShopping
-    },
-    /**
-     * 设置售货类型
-     * @param {number} sellType 
-     */
-    setSellType: function (sellType) {
-        this.sellType = sellType
-        this.persistentData.putInt('sellType', sellType)
-        this.tile.setChanged()
-    },
-    /**
-     * 获取售货类型
-     * @returns {number}
-     */
-    getSellType: function () {
-        return this.sellType
     },
     /**
      * 设置关联容器列表
@@ -150,13 +128,6 @@ ShopPOIBlock.prototype = {
         this.decoration = decoration
         this.persistentData.putInt('decoration', decoration)
         this.tile.setChanged()
-    },
-    /**
-     * 引入装饰度计算策略
-     */
-    calculateDecoration: function(){
-        if (!CommonShopDecorationStrategies[this.block.id]) this.setDecoration(0)
-        CommonShopDecorationStrategies[this.block.id](this)
     },
     /**
      * 获取装饰度

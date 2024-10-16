@@ -8,8 +8,6 @@ ServerEvents.recipes(event => {
 
             let item = machine.getItemStored('route_marker')
 
-            if (!item || item.isEmpty() || !item.hasNBT() || !item.nbt.contains('posList') || item.nbt.getList('posList', GET_COMPOUND_TYPE).size() <= 0) return ctx.error('No route tool found')
-
             let entity = CreateCustomNPCEntity(block.level)
 
             let pos = RandomOffsetPos(block.pos, 5)
@@ -30,6 +28,46 @@ ServerEvents.recipes(event => {
         })
 
 })
+
+/**
+ * @param {Internal.Level} level
+ * @param {BlockPos} blockPos 
+ * @returns {BlockPos[]}
+ */
+function getRelatedNodeBlockPos(level, blockPos) {
+    let block = level.getBlock(blockPos)
+    let nbt = block.entityData
+    if (!nbt.contains('relatedNodePos')) return []
+    let posNbtList = nbt.getList('relatedNodePos', GET_COMPOUND_TYPE)
+    return ConvertNbt2PosList(posNbtList)
+}
+
+/**
+ * 生成深度图
+ * 深度图由[深度][节点信息]组成，npc总会尝试从0深度，随机选择节点前进，到达自己能够前往的最深深度后再随机回溯到深度0
+ * @param {Internal.Level} level
+ * @param {BlockPos} blockPos 
+ */
+function genDepthMap(level, blockPos) {
+    let depthMap = []
+    let nodeMap = new Map()
+    let initNodeList = [blockPos]
+    let depth = 0
+    nextNode(blockPos)
+
+
+
+
+    function nextNode(curNodePos) {
+        let nearNodeList = getRelatedNodeBlockPos(level, curNodePos)
+        nodeMap.set(curNodePos, nearNodeList)
+        nearNodeList.forEach(nodePos => {
+            if (nodeMap.has(nodePos)) return
+        })
+    }
+}
+
+
 
 
 CustomMachineryEvents.upgrades(event => {

@@ -1,3 +1,4 @@
+// priority: 950
 /** @type {Internal.RenderJSItemDecorator} */
 const QualityDecorator = RenderJSItemDecoratorHandler.registerForAllItem('quality', ctx => { })
 

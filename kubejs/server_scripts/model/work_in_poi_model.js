@@ -13,7 +13,6 @@ function EntityWorkInPOI(mob) {
         workInPOIConfig.putInt('subStatus', SUB_STATUS_MOVE_TO_CONTAINER)
         workInPOIConfig.put('targetMovePos', new $CompoundTag())
         workInPOIConfig.putInt('consumedMoney', 0)
-        workInPOIConfig.putString('consumedItem',"minecraft:air")
         mob.persistentData.put(NBT_WORK_IN_POI, workInPOIConfig)
     }
     /** @type {Internal.PathfinderMob} */
@@ -38,14 +37,6 @@ function EntityWorkInPOI(mob) {
     //消费金额
     /** @type {Number} */
     this.consumedMoney = this.workInPOIConfig.getInt('consumedMoney')
-    //消费的物品
-    /** @type {String} */
-    this.consumedItem = this.workInPOIConfig.getString('consumedItem')
-    /**
-     * 付费逻辑
-     * @type {function(EntityWorkInPOI):Number}
-     */
-    this.consumeStrategy = defaultCalculateMoneyStrategies
 
 }
 
@@ -61,20 +52,10 @@ EntityWorkInPOI.prototype = {
     /**
      * 实体移动到某位置
      * @param {BlockPos} pos 
-     * @param {Number} speed
      * @returns {Boolean}
      */
     moveToPos: function (pos) {
-        if (!pos) return false
-        let navigation = this.mob.getNavigation()
-        if (!(navigation.isInProgress() && navigation.targetPos.equals(pos))) {
-            navigation.moveTo(pos.x, pos.y, pos.z, this.speed)
-            return true
-        }
-        if (!navigation.isStuck() && navigation.getPath().canReach()) return
-        navigation.recomputePath()
-        
-        return true
+        return NavigateWithDegrade(this.mob.getNavigation(), pos, this.speed)
     },
     /**
      * 移动到目标POI位置
@@ -86,9 +67,9 @@ EntityWorkInPOI.prototype = {
      * 是否到达目标POI
      * @returns {Boolean}
      */
-    checkArrivedPOIPos: function () {
+    checkArrivedPOIPos: function (dist) {
         if (!this.poiPos) return true
-        if (this.mob.getPosition(1.0).distanceTo(this.poiPos) <= GO_TO_TARGET_POI_DISTANCE) {
+        if (this.mob.getPosition(1.0).distanceTo(this.poiPos) <= dist) {
             return true
         }
         return false
@@ -194,7 +175,7 @@ EntityWorkInPOI.prototype = {
      * 根据付费逻辑，修正消费的金币数额
      */
     calculateConsumedMoney: function (){
-        this.consumeStrategy(this)
+        // TODO
         return
     },
     /**
@@ -212,28 +193,4 @@ EntityWorkInPOI.prototype = {
         this.workInPOIConfig.putInt('consumedMoney', 0)
         return
     },
-    /**
-     * 设置消费的物品id
-     * @param {String} consumedItem
-     */
-    setConsumedItem : function (consumedItem) {
-        this.consumedItem = consumedItem
-        this.workInPOIConfig.putString('consumedItem',consumedItem)
-        return
-    },
-    /**
-     * 获取消费的物品id
-     * @returns {String}
-     */
-    getConsumedItem: function () {
-        return this.consumedItem
-    },
-    /**
-     * 清除消费的物品id
-     */
-    clearConsumedItem: function() {
-        this.workInPOIConfig.putString('consumedItem',"minecraft:air")
-        this.consumedItem = this.workInPOIConfig.getString('consumedItem')
-        return
-    }
 }

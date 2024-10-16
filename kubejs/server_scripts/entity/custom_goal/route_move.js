@@ -66,7 +66,6 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         }
         // 状态概率流转到poi寻找状态
         // todo 可以增添一个属性，标记并不需要流转到finding_poi状态以适配某些场景
-
         if (routeMoveModel.checkFindIntervalTimer()) {
             //console.log('status routeMove ShouldFind')
             SetEntityStatus(mob, STATUS_FIND_POI)

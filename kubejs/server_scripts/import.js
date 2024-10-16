@@ -12,7 +12,8 @@ const $RemovalReason = Java.loadClass('net.minecraft.world.entity.Entity$Removal
 const $ParticleTypes = Java.loadClass('net.minecraft.core.particles.ParticleTypes')
 
 const $EntityCustomNpc = Java.loadClass('noppes.npcs.entity.EntityCustomNpc')
-
+const $EntityNPCInterface = Java.loadClass('noppes.npcs.entity.EntityNPCInterface')
+const $Line = Java.loadClass('noppes.npcs.controllers.data.Line')
 
 const $BankAPI = Java.loadClass('io.github.lightman314.lightmanscurrency.api.money.bank.BankAPI')
 const $BankSaveData = Java.loadClass('io.github.lightman314.lightmanscurrency.common.bank.BankSaveData')
@@ -20,3 +21,7 @@ const $CoinValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.m
 const $MoneyValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.money.value.MoneyValue");
 
 const $TargetDummyEntity = Java.loadClass('net.mehvahdjukaar.dummmmmmy.common.TargetDummyEntity')
+
+const $ToolActions = Java.loadClass('net.minecraftforge.common.ToolActions')
+const $InteractionHand = Java.loadClass('net.minecraft.world.InteractionHand')
+const $AquaFishingRodItem = Java.loadClass('com.teammetallurgy.aquaculture.item.AquaFishingRodItem')

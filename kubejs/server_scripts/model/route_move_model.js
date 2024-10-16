@@ -101,20 +101,10 @@ EntityRouteMove.prototype = {
     /**
      * 实体移动到某位置
      * @param {BlockPos} pos 
-     * @param {Number} speed
      * @returns {Boolean}
      */
     moveToPos: function (pos) {
-        if (!pos) return false
-        let navigation = this.mob.getNavigation()
-        if (!(navigation.isInProgress() && navigation.targetPos.equals(pos))) {
-            navigation.moveTo(pos.x, pos.y, pos.z, this.speed)
-            return true
-        }
-        if (!navigation.isStuck() && navigation.getPath().canReach()) return
-        navigation.recomputePath()
-        
-        return true
+        return NavigateWithDegrade(this.mob.getNavigation(), pos, this.speed)
     },
     /**
      * 移动到目前目标位置
