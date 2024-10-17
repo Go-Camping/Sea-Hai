@@ -12,7 +12,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
             ClearBlockOutlineRender(player)
             let nbt = item.getOrCreateTag()
             nbt.put('poiPos', ConvertPos2Nbt(block.getPos()))
-            RenderBlockOutlineInTime(player, [block.getPos()], 20 * 15)
+            RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#000000')], 20 * 15)
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.selected_poi.1'))
         } else {
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
@@ -27,7 +27,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
             if (posList.some(pos => { if (pos.equals(block.getPos())) return true })) return
             posListNbt.add(ConvertPos2Nbt(block.getPos()))
             shopPOIModel.setPosListNbt(posListNbt)
-            RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
+            RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt, '#000000'), 20 * 15)
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.add_poi_container.1'))
         }
     } else {
@@ -39,7 +39,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
         if (!poiBlock.tags.contains(TAG_POI_ENTRANCE)) return
         let shopPOIModel = new ShopPOIBlock(poiBlock)
         let posListNbt = shopPOIModel.getPosListNbt()
-        RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
+        RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt, '#000000'), 20 * 15)
         player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.show_poi_container.1'))
     }
     
@@ -71,7 +71,7 @@ ItemEvents.firstLeftClicked(POI_CONTAINER_TOOL, event => {
                 return pos.equals(block.getPos())
             })
             shopPOIModel.setPosListNbt(posListNbt)
-            RemoveBlockOutlineRender(player, [block.getPos()])
+            RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#000000')])
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.remove_poi_container.1'))
         }        
     } else {

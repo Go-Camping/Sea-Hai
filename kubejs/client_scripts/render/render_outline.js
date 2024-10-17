@@ -1,17 +1,17 @@
 // priority: 500
 
 /**
- * @type {BlockPos[]}
+ * @type {OutlineRenderModel[]}
  */
 let NeedRenderOutlinePosList = []
 
 NetworkEvents.dataReceived(NET_RENDER_OUTLINE, event => {
     let data = event.data
     let mode = data.getInt('mode')
-    /** @type {BlockPos[]} */
-    let blockPosList = []
-    if (data.contains('posList')) {
-        blockPosList = ConvertNbt2PosList(data.getList('posList', GET_COMPOUND_TYPE))
+    /** @type {OutlineRenderModel[]} */
+    let outlineRenderList = []
+    if (data.contains('outlineList')) {
+        outlineRenderList = ConvertNbt2OutlineRenderList(data.getList('outlineList', GET_COMPOUND_TYPE))
     }
     let time = 0
     if (data.contains('time')) {
@@ -22,18 +22,18 @@ NetworkEvents.dataReceived(NET_RENDER_OUTLINE, event => {
             NeedRenderOutlinePosList.length = 0
             break
         case 2:
-            blockPosList.forEach(pos => {
-                let index = NeedRenderOutlinePosList.findIndex(p => p.equals(pos))
+            outlineRenderList.forEach(outline => {
+                let index = NeedRenderOutlinePosList.findIndex(p => p.equals(outline))
                 if (index >= 0) {
                     NeedRenderOutlinePosList.splice(index, 1)
                 }
             })
             break
         case 3:
-            NeedRenderOutlinePosList = NeedRenderOutlinePosList.concat(blockPosList)
+            NeedRenderOutlinePosList = NeedRenderOutlinePosList.concat(outlineRenderList)
             Client.scheduleInTicks(time, () => {
-                blockPosList.forEach(pos => {
-                    let index = NeedRenderOutlinePosList.indexOf(pos)
+                outlineRenderList.forEach(outline => {
+                    let index = NeedRenderOutlinePosList.indexOf(outline)
                     if (index >= 0) {
                         NeedRenderOutlinePosList.splice(index, 1)
                     }
@@ -41,15 +41,15 @@ NetworkEvents.dataReceived(NET_RENDER_OUTLINE, event => {
             })
             break
         default:
-            NeedRenderOutlinePosList = NeedRenderOutlinePosList.concat(blockPosList)
+            NeedRenderOutlinePosList = NeedRenderOutlinePosList.concat(outlineRenderList)
             break
     }
 })
 
 RenderJSEvents.AddWorldRender(event => {
     event.addWorldRender(context => {
-        NeedRenderOutlinePosList.forEach(blockPos => {
-            RenderJSWorldRender.renderBlockOutLine1(blockPos, Blocks.STONE.defaultBlockState(), RenderJSWorldRender.getTopLayerLineType(), '#00FF24')
+        NeedRenderOutlinePosList.forEach(outline => {
+            RenderJSWorldRender.renderBlockOutLine1(outline.blockPos, Blocks.STONE.defaultBlockState(), RenderJSWorldRender.getTopLayerLineType(), outline.color)
         })
     })
 })

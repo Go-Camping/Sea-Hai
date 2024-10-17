@@ -7,9 +7,7 @@ ServerEvents.recipes(event => {
             let { machine, block } = ctx
 
             let item = machine.getItemStored('route_marker')
-
             let entity = CreateCustomNPCEntity(block.level)
-
             let pos = RandomOffsetPos(block.pos, 5)
             entity.setPos(pos.x, pos.y, pos.z)
             let num = Math.ceil(Math.random() * 11)

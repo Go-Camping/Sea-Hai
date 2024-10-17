@@ -2,11 +2,11 @@
 /**
  * 展示方块的边框线
  * @param {Internal.ServerPlayer} player 
- * @param {BlockPos[]} posList 
+ * @param {OutlineRenderModel[]} outlineList 
  */
-function RenderBlockOutline(player, posList) {
+function RenderBlockOutline(player, outlineList) {
     let netNbt = new $CompoundTag()
-    netNbt.put('posList', ConvertPosList2Nbt(posList))
+    netNbt.put('outlineList', ConvertOutlineRenderList2Nbt(outlineList))
     netNbt.putInt('mode', 0)
     player.sendData(NET_RENDER_OUTLINE, netNbt)
 }
@@ -24,24 +24,24 @@ function ClearBlockOutlineRender(player) {
 /**
  * 删除某个位置的边框线展示
  * @param {Internal.ServerPlayer} player 
- * @param {BlockPos[]} posList
+ * @param {OutlineRenderModel[]} outlineList
  */
-function RemoveBlockOutlineRender(player, posList) {
+function RemoveBlockOutlineRender(player, outlineList) {
     let netNbt = new $CompoundTag()
     netNbt.putInt('mode', 2)
-    netNbt.put('posList', ConvertPosList2Nbt(posList))
+    netNbt.put('outlineList', ConvertOutlineRenderList2Nbt(outlineList))
     player.sendData(NET_RENDER_OUTLINE, netNbt)
 }
 
 /**
  * 展示方块的边框线一段时间
  * @param {Internal.ServerPlayer} player 
- * @param {BlockPos[]} posList 
+ * @param {OutlineRenderModel[]} outlineList 
  * @param {number} time
  */
-function RenderBlockOutlineInTime(player, posList, time) {
+function RenderBlockOutlineInTime(player, outlineList, time) {
     let netNbt = new $CompoundTag()
-    netNbt.put('posList', ConvertPosList2Nbt(posList))
+    netNbt.put('outlineList', ConvertOutlineRenderList2Nbt(outlineList))
     netNbt.putInt('mode', 3)
     netNbt.putInt('time', time)
     player.sendData(NET_RENDER_OUTLINE, netNbt)
@@ -50,12 +50,12 @@ function RenderBlockOutlineInTime(player, posList, time) {
 /**
  * 展示方块的边框线一段时间
  * @param {Internal.ServerPlayer} player 
- * @param {Internal.CompoundTag} posListNbt
+ * @param {Internal.CompoundTag} outlineListNbt
  * @param {number} time
  */
-function RenderBlockOutlineInTimeNbt(player, posListNbt, time) {
+function RenderBlockOutlineInTimeNbt(player, outlineListNbt, time) {
     let netNbt = new $CompoundTag()
-    netNbt.put('posList', posListNbt)
+    netNbt.put('outlineList', outlineListNbt)
     netNbt.putInt('mode', 3)
     netNbt.putInt('time', time)
     player.sendData(NET_RENDER_OUTLINE, netNbt)
