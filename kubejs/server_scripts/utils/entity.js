@@ -1,11 +1,5 @@
 // priority: 1000
 /**
- * @callback isValidTarget
- * @param {Internal.LevelReader}
- * @param {BlockPos}
- * @returns {Boolean}
- */
-/**
  * 在某个范围内寻找符合条件的方块
  * @param {Internal.PathfinderMob} mob 
  * @param {number} searchRange 
@@ -37,12 +31,6 @@ function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, i
 }
 
 
-/**
- * @callback isValidTarget
- * @param {Internal.LevelReader}
- * @param {BlockPos}
- * @returns {Boolean}
- */
 /**
  * 在前进范围内寻找符合条件的方块
  * @param {Internal.PathfinderMob} mob 
@@ -96,12 +84,6 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
 
 
 /**
- * @callback isValidTarget
- * @param {Internal.LevelReader}
- * @param {BlockPos}
- * @returns {Boolean}
- */
-/**
  * 在某个范围内寻找最近符合条件的方块
  * @param {Internal.PathfinderMob} mob 
  * @param {number} searchRange 
@@ -132,12 +114,6 @@ function FindNearestBlock(mob, searchRange, verticalSearchRange, verticalOffset,
 }
 
 
-/**
- * @callback isValidTarget
- * @param {Internal.LevelReader}
- * @param {BlockPos}
- * @returns {Boolean}
- */
 /**
  * 在前进范围内寻找最近符合条件的方块
  * @param {Internal.PathfinderMob} mob 

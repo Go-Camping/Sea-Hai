@@ -1,7 +1,7 @@
 // priority: 1000
 /**
  * @callback isValidTarget
- * @param {Internal.LevelReader}
+ * @param {Internal.Level}
  * @param {BlockPos}
  * @returns {Boolean}
  */

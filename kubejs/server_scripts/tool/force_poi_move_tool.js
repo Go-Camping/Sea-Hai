@@ -19,7 +19,7 @@ ItemEvents.firstRightClicked(FORCE_POI_MOVE_TOOL, event => {
     let rayTraceResult = player.rayTrace(player.blockReach)
     let block = rayTraceResult.block
     if (block) {
-        if (block.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) {
+        if (block.tags.contains(TAG_POI_ENTRANCE)) {
             // 选中POI模式
             let nbt = item.getOrCreateTag()
             nbt.put('poiPos', ConvertPos2Nbt(block.getPos()))

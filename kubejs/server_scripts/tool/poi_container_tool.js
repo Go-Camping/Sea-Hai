@@ -7,7 +7,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
     let rayTraceResult = player.rayTrace(player.blockReach)
     let block = rayTraceResult.block
     if (block) {
-        if (block.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) {
+        if (block.tags.contains(TAG_POI_ENTRANCE)) {
             // 选中POI模式
             ClearBlockOutlineRender(player)
             let nbt = item.getOrCreateTag()
@@ -18,7 +18,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
             let poiBlock = level.getBlock(poiPos)
-            if (!poiBlock.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) return
+            if (!poiBlock.tags.contains(TAG_POI_ENTRANCE)) return
 
             let shopPOIModel = new ShopPOIBlock(poiBlock)
             let posListNbt = shopPOIModel.getPosListNbt()
@@ -36,7 +36,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
         // 展示所有POI绑定容器
         let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
         let poiBlock = level.getBlock(poiPos)
-        if (!poiBlock.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) return
+        if (!poiBlock.tags.contains(TAG_POI_ENTRANCE)) return
         let shopPOIModel = new ShopPOIBlock(poiBlock)
         let posListNbt = shopPOIModel.getPosListNbt()
         RenderBlockOutlineInTimeNbt(player, posListNbt, 20 * 15)
@@ -50,7 +50,7 @@ ItemEvents.firstLeftClicked(POI_CONTAINER_TOOL, event => {
     let rayTraceResult = player.rayTrace(player.blockReach)
     let block = rayTraceResult.block
     if (block) {
-        if (block.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) {
+        if (block.tags.contains(TAG_POI_ENTRANCE)) {
             // 清空POI中的所有绑定容器
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             ClearBlockOutlineRender(player)
@@ -61,7 +61,7 @@ ItemEvents.firstLeftClicked(POI_CONTAINER_TOOL, event => {
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
             let poiBlock = level.getBlock(poiPos)
-            if (!poiBlock.blockState.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))) return
+            if (!poiBlock.tags.contains(TAG_POI_ENTRANCE)) return
 
             let shopPOIModel = new ShopPOIBlock(poiBlock)
             let posListNbt = shopPOIModel.getPosListNbt()

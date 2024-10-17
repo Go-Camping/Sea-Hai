@@ -30,12 +30,10 @@ ServerEvents.recipes(event => {
 })
 
 /**
- * @param {Internal.Level} level
- * @param {BlockPos} blockPos 
+ * @param {Internal.BlockContainerJS} block
  * @returns {BlockPos[]}
  */
-function getRelatedNodeBlockPos(level, blockPos) {
-    let block = level.getBlock(blockPos)
+function getRelatedNodeBlockPos(block) {
     let nbt = block.entityData
     if (!nbt.contains('relatedNodePos')) return []
     let posNbtList = nbt.getList('relatedNodePos', GET_COMPOUND_TYPE)
@@ -43,31 +41,93 @@ function getRelatedNodeBlockPos(level, blockPos) {
 }
 
 /**
- * 生成深度图
- * 深度图由[深度][节点信息]组成，npc总会尝试从0深度，随机选择节点前进，到达自己能够前往的最深深度后再随机回溯到深度0
+ * 获取可行的路径
  * @param {Internal.Level} level
- * @param {BlockPos} blockPos 
+ * @param {BlockPos} spawnPos 
  */
-function genDepthMap(level, blockPos) {
-    let depthMap = []
+function genDepthMap(level, spawnPos) {
+    // 回溯节点Map，key为目标节点，value为回溯路径
+    /** @type {Map<string, BlockPos[]>} */
     let nodeMap = new Map()
-    let initNodeList = [blockPos]
+    /** @type {Map<string, number>} */
+    let nodeDepthMap = new Map()
+    let exitNodeList = []
+    let targetNodeList = []
     let depth = 0
-    nextNode(blockPos)
+    nextNode(spawnPos)
 
-    
+    // 从目标回溯进入路径
+    /** @type {BlockPos} */
+    let targetNodePos = RandomGet(targetNodeList)
+
+    let resNodeList = getWayNodeList(targetNodePos)
+    /** @type {BlockPos} */
+    let possibleExit = RandomGet(exitNodeList)
+    if (possibleExit.equals(spawnPos)) {
+        resNodeList.push(resNodeList.slice(0, resNodeList.length - 1).reverse())
+    } else {
+        let exitWayNodeList = getWayNodeList(possibleExit)
+        for (i = 0; i < Math.min(resNodeList.length, exitWayNodeList.length); i++) {
+            if (resNodeList[i].equals(exitWayNodeList[i])) {
+                continue
+            } else {
+                // 回溯节点
+                resNodeList.push(resNodeList.slice(i - 1, resNodeList.length - 1).reverse())
+                // 退出节点
+                resNodeList.push(exitNodeList.slice(i, exitNodeList.length))
+                break
+            }
+        }
+    }
+    return resNodeList
+
 
     /**
-     * 
      * @param {blockPos} curNodePos 
      */
     function nextNode(curNodePos) {
-        let nearByNodeList = getRelatedNodeBlockPos(level, curNodePos)
+        nodeDepthMap.set(key, depth++)
+        let block = level.getBlock(curNodePos)
+        let nearByNodeList = getRelatedNodeBlockPos(block)
+        nodeList.push(curNodePos)
+        if (block.tags.contains(TAG_NODE_ENTRANCE)) exitNodeList.push(curNodePos)
+        else if (block.tags.contains(TAG_NODE_BLOCK)) targetNodeList.push(curNodePos)
         // 如果直接使用BlockPos会因为指向对象不同而导致无法比较，因此使用toString归一化
-        nodeMap.set(curNodePos.toString(), nearByNodeList)
         nearByNodeList.forEach(nodePos => {
-            if (nodeMap.has(nodePos.toString())) return
+            let key = nodePos.toString()
+            if (nodeMap.has(key)) {
+                // 因为nextNode遍历的pos不会重复，所以nodeMap各节点也不会出现重复的pos
+                nodeMap.set(key, nodeMap.get(key).push(curNodePos))
+            } else {
+                nodeMap.set(key, [curNodePos])
+            }
+            if (!nodeDepthMap.has(key)) {
+                nextNode(nodePos)
+            }
         })
+    }
+
+
+    /**
+     * @param {BlockPos} targetNodePos 
+     * @returns {BlockPos[]}
+     */
+    function getWayNodeList(targetNodePos) {
+        let wayNodeList = []
+        findNextNode(targetNodePos)
+        function findNextNode(targetNodePos) {
+            let key = targetNodePos.toString()
+            if (nodeDepthMap.has(key) && nodeDepthMap.get(key) <= 0) return
+            // 因为是逆向搜索，需要将地点插入到最前面
+            wayNodeList.unshift(targetNodePos)
+            if (nodeMap.has(key)) {
+                let validBackNodes = nodeMap.get(key)
+                findNextNode(RandomGet(validBackNodes))
+            } else {
+                console.warn('nodeMap does not exist nodeBlockPos:' + key)
+            }
+        }
+        return wayNodeList
     }
 }
 

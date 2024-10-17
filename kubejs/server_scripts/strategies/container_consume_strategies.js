@@ -41,7 +41,7 @@ function DefaultContainerConsume(workInPOIModel, poiBlockModel, block, validDeco
 
     if (!simulate) {
         let decorationBlocks = FindBlockAroundBlocks(block.pos, 3, 3, (level, blockPos) => {
-            let targetBlock = level.getBlockState(blockPos)
+            let targetBlock = level.getBlock(blockPos)
             if (targetBlock.isAir()) return false
             return targetBlock.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))
         })
