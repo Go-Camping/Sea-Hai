@@ -55,7 +55,7 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
 /**
  * POI策略
  * @constant
- * @type {Object<string,function(EntityWorkInPOI, ShopPOIBlock):POIModel>}
+ * @type {Object<string,function(EntityWorkInPOI, ShopPOIBlock):DefaultPOIModel>}
  */
 const POIModelStrategies = {
     'kubejs:fish_shop': (workInPOIModel, poiBlockModel) => new DefaultPOIModel(workInPOIModel, poiBlockModel),

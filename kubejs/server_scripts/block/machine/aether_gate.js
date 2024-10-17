@@ -88,6 +88,7 @@ function genDepthMap(level, spawnPos) {
         let block = level.getBlock(curNodePos)
         let nearByNodeList = getRelatedNodeBlockPos(block)
         nodeList.push(curNodePos)
+        // 区分目标类型
         if (block.tags.contains(TAG_NODE_ENTRANCE)) exitNodeList.push(curNodePos)
         else if (block.tags.contains(TAG_NODE_BLOCK)) targetNodeList.push(curNodePos)
         // 如果直接使用BlockPos会因为指向对象不同而导致无法比较，因此使用toString归一化

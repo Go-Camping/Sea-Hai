@@ -18,5 +18,4 @@ POIModel.prototype = {
     workInPOIInit: function () {
         return null
     },
-    
 }
