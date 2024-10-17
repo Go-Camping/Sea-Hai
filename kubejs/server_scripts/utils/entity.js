@@ -1,5 +1,11 @@
 // priority: 1000
 /**
+ * @callback isValidTarget
+ * @param {Internal.Level}
+ * @param {BlockPos}
+ * @returns {Boolean}
+ */
+/**
  * 在某个范围内寻找符合条件的方块
  * @param {Internal.PathfinderMob} mob 
  * @param {number} searchRange 

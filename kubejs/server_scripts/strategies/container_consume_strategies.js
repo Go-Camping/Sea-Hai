@@ -18,13 +18,13 @@ const DefaultShopContainerStrategies = {
  * 
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {ShopPOIBlock} poiBlockModel 
- * @param {Internal.BlockContainerJS} block 
+ * @param {Internal.BlockContainerJS} container 
  * @param {Number} validDecorationAmount
  * @param {boolean} simulate
  * @returns {boolean}
  */
-function DefaultContainerConsume(workInPOIModel, poiBlockModel, block, validDecorationAmount, simulate) {
-    let inv = block.getInventory()
+function DefaultContainerConsume(workInPOIModel, poiBlockModel, container, validDecorationAmount, simulate) {
+    let inv = container.getInventory()
     if (!inv || inv.isEmpty()) return false
     let poiBlock = poiBlockModel.block
     let poiBlockId = poiBlock.id
@@ -39,16 +39,18 @@ function DefaultContainerConsume(workInPOIModel, poiBlockModel, block, validDeco
         return res
     }, simulate)
 
-    if (!simulate) {
-        let decorationBlocks = FindBlockAroundBlocks(block.pos, 3, 3, (level, blockPos) => {
-            let targetBlock = level.getBlock(blockPos)
-            if (targetBlock.isAir()) return false
-            return targetBlock.tags.anyMatch(tag => tag.equals(TAG_POI_ENTRANCE))
+    if (!simulate && validDecorationAmount > 0) {
+        let decorationBlocks = FindBlockAroundBlocks(container.pos, 3, 3, (curBlock) => {
+            if (curBlock.blockState.isAir()) return false
+            return curBlock.tags.contains(TAG_DECORATION_BLOCK)
+        })
+        decorationBlocks.slice(0, validDecorationAmount).forEach(block => {
+            ContainerBlockDecorationStrategies[block.id](workInPOIModel, poiBlockModel, container)
         })
     }
 
     if (!pickItem || pickItem.isEmpty()) return false
-    let value = pickItem.nbt.getInt('value')
+    let value = workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
     workInPOIModel.addConsumedMoney(value)
     return true
 }

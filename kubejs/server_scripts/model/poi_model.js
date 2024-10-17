@@ -13,10 +13,10 @@ function POIModel(workInPOIModel, poiBlockModel) {
 
 POIModel.prototype = {
     workInPOITick: function () {
-        return DefaultWorkInPOITick(this.workInPOIModel, this.poiBlockModel)
+        return null
     },
     workInPOIInit: function () {
-        return DefaultWorkInPOIInit(this.workInPOIModel, this.poiBlockModel)
+        return null
     },
     
 }

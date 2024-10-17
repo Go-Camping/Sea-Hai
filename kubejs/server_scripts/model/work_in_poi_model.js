@@ -37,7 +37,11 @@ function EntityWorkInPOI(mob) {
     //消费金额
     /** @type {Number} */
     this.consumedMoney = this.workInPOIConfig.getInt('consumedMoney')
-
+    // 是否继续购买，这是一个非持久化的变量，因为只有在购物策略完成后才会涉及到该判断
+    /** @type {Boolean} */
+    this.needBuyMore = false
+    // 价格系数，这是一个非持久化的变量，因为只有在购物策略完成后才会涉及到该判断
+    this.priceMutiply = 1
 }
 
 EntityWorkInPOI.prototype = {
@@ -172,13 +176,6 @@ EntityWorkInPOI.prototype = {
         return
     },
     /**
-     * 根据付费逻辑，修正消费的金币数额
-     */
-    calculateConsumedMoney: function (){
-        // TODO
-        return
-    },
-    /**
      * 获取消耗的金币数量
      * @returns {Number}
      */
@@ -191,6 +188,35 @@ EntityWorkInPOI.prototype = {
     clearConsumedMoney: function () {
         this.consumedMoney = 0
         this.workInPOIConfig.putInt('consumedMoney', 0)
+        return
+    },
+    /**
+     * 是否需要继续购买
+     * @returns {Boolean}
+     */
+    isNeedBuyMore() {
+        return this.needBuyMore
+    },
+    /**
+     * 是否需要继续购买
+     * @param {Boolean} needBuyMore
+     */
+    setNeedBuyMore(needBuyMore) {
+        this.needBuyMore = needBuyMore
+        return
+    },
+    /**
+     * 根据付费逻辑，修正消费的金币数额
+     */
+    calculateConsumedMoney: function (value){
+        return value * this.priceMutiply
+    },
+    /**
+     * 设置价格系数
+     * @param {Number} priceMutiply
+     */
+    setPriceMutiply: function (priceMutiply) {
+        this.priceMutiply = priceMutiply
         return
     },
 }

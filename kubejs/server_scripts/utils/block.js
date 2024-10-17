@@ -1,8 +1,7 @@
 // priority: 1000
 /**
- * @callback isValidTarget
- * @param {Internal.Level}
- * @param {BlockPos}
+ * @callback isValidBlockTarget
+ * @param {Internal.BlockContainerJS}
  * @returns {Boolean}
  */
 /**
@@ -10,14 +9,14 @@
  * @param {Internal.BlockContainerJS} block 
  * @param {number} searchRange 
  * @param {number} verticalSearchRange 
- * @param {isValidTarget} isValidTarget
- * @returns {Internal.BlockPos$MutableBlockPos[]}
+ * @param {isValidBlockTarget} isValidTarget
+ * @returns {Internal.BlockContainerJS[]}
  */
 function FindBlockAroundBlocks(block, searchRange, verticalSearchRange, isValidTarget) {
     let mutableBlockPos = BlockPos.ZERO.mutable()
     let blockPos = block.pos
-    let resBlockPosList = []
-
+    let resBlockList = []
+    let level = block.level
     // Y遍历
     for (let k = 0; k <= verticalSearchRange; k = k > 0 ? -k : 1 - k) {
         // X-Z遍历
@@ -25,12 +24,13 @@ function FindBlockAroundBlocks(block, searchRange, verticalSearchRange, isValidT
             for (let i = 0; i <= l; i = i > 0 ? -i : 1 - i) {
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
                     mutableBlockPos.setWithOffset(blockPos, i, k, j);
-                    if (isValidTarget(block.level, mutableBlockPos)) {
-                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i, k, j))
+                    let curBlock = level.getBlock(mutableBlockPos)
+                    if (isValidTarget(curBlock)) {
+                        resBlockList.push(curBlock)
                     }
                 }
             }
         }
     }
-    return resBlockPosList
+    return resBlockList
 }
