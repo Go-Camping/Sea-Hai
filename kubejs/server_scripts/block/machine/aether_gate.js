@@ -113,15 +113,15 @@ function genDepthMap(level, spawnPos) {
      */
     function getWayNodeList(targetNodePos) {
         let wayNodeList = []
-        findNextNode(targetNodePos)
-        function findNextNode(targetNodePos) {
+        findNextWayNode(targetNodePos)
+        function findNextWayNode(targetNodePos) {
             let key = targetNodePos.toString()
             if (nodeDepthMap.has(key) && nodeDepthMap.get(key) <= 0) return
             // 因为是逆向搜索，需要将地点插入到最前面
             wayNodeList.unshift(targetNodePos)
             if (nodeMap.has(key)) {
                 let validBackNodes = nodeMap.get(key)
-                findNextNode(RandomGet(validBackNodes))
+                findNextWayNode(RandomGet(validBackNodes))
             } else {
                 console.warn('nodeMap does not exist nodeBlockPos:' + key)
             }

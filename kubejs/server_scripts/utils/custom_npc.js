@@ -5,7 +5,6 @@ ItemEvents.rightClicked('minecraft:stick', event => {
     let pos = player.getPosition(1.0)
     /**@type {Internal.EntityCustomNpc} */
     let entity = CreateCustomNPCEntity(event.level)
-    
     entity.setPos(pos.x(), pos.y(), pos.z())
     entity.display.setSkinTexture('kubejs:textures/entity/skin/player_1.png')
     entity.spawn()
