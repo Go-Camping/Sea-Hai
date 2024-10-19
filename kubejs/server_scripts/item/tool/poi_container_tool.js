@@ -27,7 +27,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
             if (posList.some(pos => { if (pos.equals(block.getPos())) return true })) return
             posListNbt.add(ConvertPos2Nbt(block.getPos()))
             shopPOIModel.setPosListNbt(posListNbt)
-            RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt, '#000000'), 20 * 15)
+            RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#000000'), 20 * 15)
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.add_poi_container.1'))
         }
     } else {
@@ -39,7 +39,7 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
         if (!poiBlock.tags.contains(TAG_POI_ENTRANCE)) return
         let shopPOIModel = new ShopPOIBlock(poiBlock)
         let posListNbt = shopPOIModel.getPosListNbt()
-        RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt, '#000000'), 20 * 15)
+        RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#000000'), 20 * 15)
         player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.show_poi_container.1'))
     }
     

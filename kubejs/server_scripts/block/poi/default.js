@@ -50,6 +50,7 @@ DefaultPOIModel.prototype = {
                     workInPOIModel.moveToTargetPos()
                     return true
                 }
+                
                 // 容器取出与结算逻辑
                 let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
                 if (!DefaultShopContainerStrategies[containerBlock.id]) {

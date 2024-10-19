@@ -7,13 +7,15 @@ ServerEvents.recipes(event => {
             let { machine, block } = ctx
 
             let item = machine.getItemStored('route_marker')
+            if (!item || !item.hasNBT()) return ctx.error('no target')
             let entity = CreateCustomNPCEntity(block.level)
             let pos = RandomOffsetPos(block.pos, 5)
             entity.setPos(pos.x, pos.y, pos.z)
             let num = Math.ceil(Math.random() * 11)
             entity.display.setSkinTexture(`kubejs:textures/entity/skin/guest_${num}.png`)
             let routeMoveModel = new EntityRouteMove(entity)
-            routeMoveModel.setPosListNbt(item.nbt.getList('posList', GET_COMPOUND_TYPE))
+            let nodePosList = genDepthMap(block.level, block.pos)
+            routeMoveModel.setPosList(nodePosList)
             SetEntityStatus(entity, STATUS_ROUTE_MOVE)
             block.level.addFreshEntity(entity)
             return ctx.success()
@@ -32,7 +34,7 @@ ServerEvents.recipes(event => {
  * @returns {BlockPos[]}
  */
 function getRelatedNodeBlockPos(block) {
-    let nbt = block.entityData
+    let nbt = block.entity.persistentData
     if (!nbt.contains('relatedNodePos')) return []
     let posNbtList = nbt.getList('relatedNodePos', GET_COMPOUND_TYPE)
     return ConvertNbt2PosList(posNbtList)
@@ -42,12 +44,13 @@ function getRelatedNodeBlockPos(block) {
  * 获取可行的路径
  * @param {Internal.Level} level
  * @param {BlockPos} spawnPos 
+ * @returns {BlockPos[]}
  */
 function genDepthMap(level, spawnPos) {
     // 回溯节点Map，key为目标节点，value为回溯路径
-    /** @type {Map<string, BlockPos[]>} */
+    /** @type {Map<BlockPos, BlockPos[]>} */
     let nodeMap = new Map()
-    /** @type {Map<string, number>} */
+    /** @type {Map<BlockPos, number>} */
     let nodeDepthMap = new Map()
     let exitNodeList = []
     let targetNodeList = []
@@ -56,23 +59,25 @@ function genDepthMap(level, spawnPos) {
 
     // 从目标回溯进入路径
     /** @type {BlockPos} */
+    if (targetNodeList.length <= 0) return resNodeList
     let targetNodePos = RandomGet(targetNodeList)
 
     let resNodeList = getWayNodeList(targetNodePos)
     /** @type {BlockPos} */
     let possibleExit = RandomGet(exitNodeList)
     if (possibleExit.equals(spawnPos)) {
-        resNodeList.push(resNodeList.slice(0, resNodeList.length - 1).reverse())
+        resNodeList = resNodeList.concat(resNodeList.slice(0, resNodeList.length - 1).reverse())
+        resNodeList.push(possibleExit)
     } else {
         let exitWayNodeList = getWayNodeList(possibleExit)
-        for (i = 0; i < Math.min(resNodeList.length, exitWayNodeList.length); i++) {
+        for (let i = 0; i < Math.min(resNodeList.length, exitWayNodeList.length); i++) {
             if (resNodeList[i].equals(exitWayNodeList[i])) {
                 continue
             } else {
                 // 回溯节点
-                resNodeList.push(resNodeList.slice(i - 1, resNodeList.length - 1).reverse())
-                // 退出节点
-                resNodeList.push(exitNodeList.slice(i, exitNodeList.length))
+                resNodeList = resNodeList
+                    .concat(resNodeList.slice(i - 1, resNodeList.length - 1).reverse())
+                    .concat(exitNodeList.slice(i, exitNodeList.length - 1))
                 break
             }
         }
@@ -81,22 +86,20 @@ function genDepthMap(level, spawnPos) {
 
 
     /**
-     * @param {blockPos} curNodePos 
+     * @param {BlockPos} curNodePos 
      */
     function nextNode(curNodePos) {
-        nodeDepthMap.set(key, depth++)
+        nodeDepthMap.set(curNodePos.hashCode(), depth++)
         let block = level.getBlock(curNodePos)
         let nearByNodeList = getRelatedNodeBlockPos(block)
-        nodeList.push(curNodePos)
         // 区分目标类型
         if (block.tags.contains(TAG_NODE_ENTRANCE)) exitNodeList.push(curNodePos)
-        else if (block.tags.contains(TAG_NODE_BLOCK)) targetNodeList.push(curNodePos)
-        // 如果直接使用BlockPos会因为指向对象不同而导致无法比较，因此使用toString归一化
+        if (block.tags.contains(TAG_NODE_BLOCK) && nearByNodeList.length <= 0) targetNodeList.push(curNodePos)
         nearByNodeList.forEach(nodePos => {
-            let key = nodePos.toString()
+            let key = nodePos.hashCode()
             if (nodeMap.has(key)) {
                 // 因为nextNode遍历的pos不会重复，所以nodeMap各节点也不会出现重复的pos
-                nodeMap.set(key, nodeMap.get(key).push(curNodePos))
+                nodeMap.set(key, nodeMap.get(key).concat(curNodePos))
             } else {
                 nodeMap.set(key, [curNodePos])
             }
@@ -108,25 +111,30 @@ function genDepthMap(level, spawnPos) {
 
 
     /**
-     * @param {BlockPos} targetNodePos 
+     * @param {BlockPos} targetWayNodePos 
      * @returns {BlockPos[]}
      */
-    function getWayNodeList(targetNodePos) {
+    function getWayNodeList(targetWayNodePos) {
         let wayNodeList = []
-        findNextWayNode(targetNodePos)
-        function findNextWayNode(targetNodePos) {
-            let key = targetNodePos.toString()
-            if (nodeDepthMap.has(key) && nodeDepthMap.get(key) <= 0) return
-            // 因为是逆向搜索，需要将地点插入到最前面
-            wayNodeList.unshift(targetNodePos)
-            if (nodeMap.has(key)) {
-                let validBackNodes = nodeMap.get(key)
-                findNextWayNode(RandomGet(validBackNodes))
-            } else {
-                console.warn('nodeMap does not exist nodeBlockPos:' + key)
-            }
-        }
+        findNextWayNode(targetWayNodePos)
         return wayNodeList
+        /**
+         * 
+         * @param {BlockPos} curWayNodePos 
+         * @returns 
+         */
+        function findNextWayNode(curWayNodePos) {
+            if (nodeDepthMap.has(curWayNodePos.hashCode()) && nodeDepthMap.get(curWayNodePos.hashCode()) <= 0) return
+            // 因为是逆向搜索，需要将地点插入到最前面
+            wayNodeList.unshift(curWayNodePos)
+            if (nodeMap.has(curWayNodePos.hashCode())) {
+                /** @type {BlockPos} */
+                console.log(nodeMap.get(curWayNodePos.hashCode()))
+                let validBackNode = RandomGet(nodeMap.get(curWayNodePos.hashCode()))
+                findNextWayNode(validBackNode)
+            }
+            return
+        }
     }
 }
 

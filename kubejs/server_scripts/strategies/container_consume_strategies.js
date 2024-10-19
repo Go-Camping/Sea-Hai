@@ -35,7 +35,7 @@ function DefaultContainerConsume(workInPOIModel, poiBlockModel, container, valid
 
     let pickItem = ConsumeFirstItemOfInventory(inv, (testItem) => {
         let res = testItem.hasNBT() && testItem.nbt.contains('value')
-        if (validItemTags) res = res && testItem.tags.some(tag => validItemTags.indexOf(tag.toString()) >= 0)
+        if (validItemTags) res = res && testItem.tags.toArray().some(tag => validItemTags.indexOf(tag.toString()) >= 0)
         return res
     }, simulate)
 

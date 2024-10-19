@@ -3,4 +3,14 @@ StartupEvents.registry('block', event => {
         .machine('kubejs:fish_shop')
     event.create('kubejs:grocery', 'custommachinery')
         .machine('kubejs:grocery')
+
+        
+    event.create('kubejs:way_node')
+        .material('stone')
+        .box(0, 0, 0, 16, 1, 16)
+        .textureAll('kubejs:block/node')
+        .blockEntity(info => {
+            info.initialData({})
+        })
+        .defaultTranslucent()
 })
