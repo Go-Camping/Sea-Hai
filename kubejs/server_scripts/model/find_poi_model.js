@@ -49,7 +49,7 @@ EntityFindPOI.prototype = {
      * @returns {Boolean}
      */
     moveToPos: function (pos) {
-        return NavigateWithDegrade(this.mob.getNavigation(), pos, this.speed)
+        return NavigateWithDegrade(this.mob, pos, this.speed)
     },
     /**
      * 设置游荡中心点

@@ -24,7 +24,6 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     },
     false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status workInPOI BeginBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
         let poiBlockModel = workInPOIModel.getPOIData()
         if (!poiBlockModel) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)

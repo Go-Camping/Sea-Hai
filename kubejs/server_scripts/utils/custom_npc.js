@@ -21,7 +21,15 @@ function CreateCustomNPCEntity(level) {
     entity.advanced.interactLines.lines.clear()
     entity.display.setTitle('')
     entity.ais.setReturnsHome(false)
+    entity.stats.setRespawnType(3)
+    entity.ais.setDoorInteract(1)
+    entity.ais.setCanSwim(true)
     entity.display.setShowName(NAME_INVISIBLE)
-    entity.updateAI = false
+
+    let navigation = entity.navigation
+    navigation.nodeEvaluator.setCanOpenDoors(true)
+    navigation.nodeEvaluator.setCanWalkOverFences(true)
+    navigation.nodeEvaluator.setCanFloat(true)
+    navigation.nodeEvaluator.setCanPassDoors(true)
     return entity
 }

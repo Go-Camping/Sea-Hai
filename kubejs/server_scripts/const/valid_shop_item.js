@@ -6,5 +6,5 @@
 const ValidShopItemTag =
 {
     'kubejs:fish_shop': ['kubejs:fish_shop_goods'],
-    'kubejs:grocery': ['kubejs:fish_shop_goods'],
+    'kubejs:grocery': ['kubejs:grocery_shop_goods'],
 }

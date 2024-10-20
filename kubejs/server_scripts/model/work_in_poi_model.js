@@ -59,7 +59,7 @@ EntityWorkInPOI.prototype = {
      * @returns {Boolean}
      */
     moveToPos: function (pos) {
-        return NavigateWithDegrade(this.mob.getNavigation(), pos, this.speed)
+        return NavigateWithDegrade(this.mob, pos, this.speed)
     },
     /**
      * 移动到目标POI位置

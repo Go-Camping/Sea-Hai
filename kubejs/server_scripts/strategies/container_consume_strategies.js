@@ -29,9 +29,9 @@ function DefaultContainerConsume(workInPOIModel, poiBlockModel, container, valid
     let poiBlock = poiBlockModel.block
     let poiBlockId = poiBlock.id
     let validItemTags = null
-    if (ValidShopItemTag[poiBlockId]) {
-        validItemTags = ValidShopItemTag[poiBlockId]
-    }
+    // if (ValidShopItemTag[poiBlockId]) {
+    //     validItemTags = ValidShopItemTag[poiBlockId]
+    // }
 
     let pickItem = ConsumeFirstItemOfInventory(inv, (testItem) => {
         let res = testItem.hasNBT() && testItem.nbt.contains('value')
@@ -40,7 +40,7 @@ function DefaultContainerConsume(workInPOIModel, poiBlockModel, container, valid
     }, simulate)
 
     if (!simulate && validDecorationAmount > 0) {
-        let decorationBlocks = FindBlockAroundBlocks(container.pos, 3, 3, (curBlock) => {
+        let decorationBlocks = FindBlockAroundBlocks(container, 3, 3, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
             return curBlock.tags.contains(TAG_DECORATION_BLOCK)
         })

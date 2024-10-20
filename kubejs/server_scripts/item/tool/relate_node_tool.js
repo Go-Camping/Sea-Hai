@@ -15,11 +15,9 @@ ItemEvents.firstRightClicked(RELATE_NODE_TOOL, event => {
             RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#000000')], 20 * 15)
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.selected_poi.1'))
         } else {
-            
             let nodePos = ConvertNbt2Pos(item.nbt.get('nodePos'))
             let nodeBlock = level.getBlock(nodePos)
-            if (!nodeBlock.entity) return
-            player.tell(1)
+            if (!nodeBlock.entity || nodeBlock.getPos().equals(block.getPos())) return
             let nodeEntity = nodeBlock.entity
             let relatedNodePosListNbt = nodeEntity.persistentData.getList('relatedNodePos', GET_COMPOUND_TYPE)
             let relatedNodePosList = ConvertNbt2PosList(relatedNodePosListNbt)
@@ -27,6 +25,7 @@ ItemEvents.firstRightClicked(RELATE_NODE_TOOL, event => {
             if (relatedNodePosList.some(pos => { if (pos.equals(block.getPos())) return true })) return
             relatedNodePosListNbt.add(ConvertPos2Nbt(block.getPos()))
             nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
+            nodeEntity.setChanged()
             RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#000000'), 20 * 15)
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.add_poi_container.1'))
         }
@@ -60,6 +59,7 @@ ItemEvents.firstLeftClicked(RELATE_NODE_TOOL, event => {
             // 清空node中的所有绑定node
             ClearBlockOutlineRender(player)
             nodeEntity.persistentData.remove('relatedNodePos')
+            nodeEntity.setChanged()
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.clear_poi_container.1'))
         } else {
             let relatedNodePosListNbt = nodeEntity.persistentData.getList('relatedNodePos', GET_COMPOUND_TYPE)
@@ -69,6 +69,7 @@ ItemEvents.firstLeftClicked(RELATE_NODE_TOOL, event => {
                 return pos.equals(block.getPos())
             })
             nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
+            nodeEntity.setChanged()
             RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#000000')])
             player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.remove_poi_container.1'))
         }        
