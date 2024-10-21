@@ -10,5 +10,5 @@ EntityEvents.spawned('customnpcs:customnpc', event => {
     SetFindPOIGoal(entity)
     SetWorkInPOIGoal(entity)
     SetDismissGoal(entity)
-    entity.updateAI = false
+    // entity.updateAI = false
 })

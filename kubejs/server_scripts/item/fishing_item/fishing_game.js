@@ -3,15 +3,17 @@ StardewFishing.miniGameStart(event => {
     let {player, fishBehavior} = event
     let fishingItem = getFishingRodInHand(player)
     if (!fishingItem) return
-
+    player.tell(fishBehavior.getFishTexture())
+    fishBehavior.setIdleTime(1)
+    fishBehavior.setTopSpeed(20)
 })
 
 StardewFishing.miniGameEnd(event => {
     let {player, accuracy, fishSuccess} = event
     let fishingItem = getFishingRodInHand(player)
     if (!fishingItem) return
-    event.getStoredRewards().get()
     // todo
+    player.tell(2)
 })
 
 /**

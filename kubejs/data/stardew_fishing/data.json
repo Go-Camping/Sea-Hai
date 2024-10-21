@@ -1,4 +1,5 @@
 {
+  "replace": true,
   "behaviors": {
     "aquaculture:tuna": {
       "idle_time": 30,
@@ -7,7 +8,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 50,
       "move_variation": 5,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:atlantic_halibut": {
@@ -17,7 +18,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 50,
       "move_variation": 5,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:pacific_halibut": {
@@ -27,7 +28,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 50,
       "move_variation": 5,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:arapaima": {
@@ -37,7 +38,7 @@
       "down_acceleration": 0.6,
       "avg_distance": 50,
       "move_variation": 5,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:capitaine": {
@@ -47,7 +48,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:red_grouper": {
@@ -57,7 +58,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 50,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:minnow": {
@@ -67,7 +68,7 @@
       "down_acceleration": 0.9,
       "avg_distance": 25,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:boulti": {
@@ -77,7 +78,7 @@
       "down_acceleration": 0.9,
       "avg_distance": 25,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:pollock": {
@@ -87,7 +88,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:brown_trout": {
@@ -97,7 +98,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:bluegill": {
@@ -107,7 +108,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:blackfish": {
@@ -117,7 +118,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:atlantic_herring": {
@@ -127,7 +128,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:pink_salmon": {
@@ -137,7 +138,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "salmon": {
@@ -147,7 +148,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "pufferfish": {
@@ -157,7 +158,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 65,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:perch": {
@@ -167,7 +168,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:carp": {
@@ -177,7 +178,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:smallmouth_bass": {
@@ -187,7 +188,7 @@
       "down_acceleration": 0.7,
       "avg_distance": 55,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:gar": {
@@ -197,7 +198,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:tambaqui": {
@@ -207,7 +208,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:synodontis": {
@@ -217,7 +218,7 @@
       "down_acceleration": 0.6,
       "avg_distance": 70,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "cod": {
@@ -227,7 +228,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "tropical_fish": {
@@ -237,7 +238,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:rainbow_trout": {
@@ -247,7 +248,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:piranha": {
@@ -257,7 +258,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 30,
       "move_variation": 15,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:jellyfish": {
@@ -267,7 +268,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:box_turtle": {
@@ -277,7 +278,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:starshell_turtle": {
@@ -287,7 +288,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:arrau_turtle": {
@@ -297,7 +298,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:red_shrooma": {
@@ -307,7 +308,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:brown_shrooma": {
@@ -317,7 +318,7 @@
       "down_acceleration": 0.4,
       "avg_distance": 60,
       "move_variation": 10,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:catfish": {
@@ -327,7 +328,7 @@
       "down_acceleration": 0.8,
       "avg_distance": 50,
       "move_variation": 35,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:bayad": {
@@ -337,7 +338,7 @@
       "down_acceleration": 0.8,
       "avg_distance": 50,
       "move_variation": 35,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:atlantic_cod": {
@@ -347,7 +348,7 @@
       "down_acceleration": 0.8,
       "avg_distance": 50,
       "move_variation": 35,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "aquaculture:muskellunge": {
@@ -357,7 +358,7 @@
       "down_acceleration": 0.8,
       "avg_distance": 50,
       "move_variation": 35,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     },
     "crittersandcompanions:koi_fish": {
@@ -367,7 +368,7 @@
       "down_acceleration": 0.8,
       "avg_distance": 50,
       "move_variation": 35,
-      "fish_texture": "stardew_fishing:textures/fish.png",
+      "fish_texture": "kubejs:textures/gui/fishing/fish.png",
       "move_type": 0
     }
   },
@@ -377,6 +378,8 @@
     "up_acceleration": 0.4,
     "down_acceleration": 0.8,
     "avg_distance": 50,
-    "move_variation": 35
+    "move_variation": 35,
+    "fish_texture": "kubejs:textures/gui/fishing/fish.png",
+    "move_type": 0
   }
 }

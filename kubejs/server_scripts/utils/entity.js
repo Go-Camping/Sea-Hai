@@ -210,7 +210,7 @@ function GetEntityPosition(mob) {
 function NavigateWithDegrade(mob, pos, speed) {
     if (!pos) return false
     let navigation = mob.getNavigation()
-    if (!navigation.targetPos || !navigation.targetPos.equals(pos)) {
+    if (!navigation.isInProgress() || !navigation.targetPos.equals(pos)) {
         console.log('NavigateWithDegrade: move')
         navigation.moveTo(pos.x, pos.y, pos.z, speed)
         return true
