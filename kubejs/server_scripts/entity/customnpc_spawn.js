@@ -5,6 +5,7 @@ EntityEvents.spawned('customnpcs:customnpc', event => {
     /**@type {Internal.EntityCustomNpc} */
     let entity = event.entity
     if (!entity.persistentData.contains('status')) return
+    entity.tick()
     SetRouteMoveGoal(entity)
     SetFindPOIGoal(entity)
     SetWorkInPOIGoal(entity)

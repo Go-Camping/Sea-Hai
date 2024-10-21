@@ -210,7 +210,7 @@ function GetEntityPosition(mob) {
 function NavigateWithDegrade(mob, pos, speed) {
     if (!pos) return false
     let navigation = mob.getNavigation()
-    if (!navigation.isInProgress() || !navigation.targetPos.equals(pos)) {
+    if (!navigation.targetPos || !navigation.targetPos.equals(pos)) {
         console.log('NavigateWithDegrade: move')
         navigation.moveTo(pos.x, pos.y, pos.z, speed)
         return true
@@ -228,17 +228,3 @@ function NavigateWithDegrade(mob, pos, speed) {
     // }
     return true
 }
-
-// ItemEvents.entityInteracted('minecraft:blaze_powder', event => {
-//     let target = event.target
-//     let player = event.player
-//     let pos = GetEntityPosition(target)
-//     if (target instanceof $EntityCustomNpc) {
-//         let list = target.ais.getMovingPath()
-//         list.add([pos.getX(), pos.getY(), pos.getZ()])
-//         target.ais.setMovingPath(list)
-//         target.ais.setMovingPos(0)
-// target.ais.setAnimation(11)
-//         player.tell(target.ais.getMovingPath().toString())
-//     }
-// })

@@ -97,6 +97,8 @@ function genDepthMap(level, spawnPos) {
         nodeDepthMap.set(curNodePos.hashCode(), depth++)
         let block = level.getBlock(curNodePos)
         let nearByNodeList = getRelatedNodeBlockPos(block)
+        // 打乱节点顺序，这会使得每次生成的路径都不相同
+        Shuffle(nearByNodeList)
         // 区分目标类型
         if (block.tags.contains(TAG_NODE_ENTRANCE)) exitNodeList.push(curNodePos)
         let canBeTarget = true
@@ -114,6 +116,7 @@ function genDepthMap(level, spawnPos) {
             }
         })
 
+        // 如果一个节点后继没有新的节点，则说明这个节点是终点
         if ((block.tags.contains(TAG_NODE_BLOCK) || block.tags.contains(TAG_NODE_ENTRANCE)) && canBeTarget) targetNodeList.push(curNodePos)
     }
 
