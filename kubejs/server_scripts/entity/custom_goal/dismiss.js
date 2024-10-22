@@ -19,7 +19,7 @@ const DismissGoal = (entity) => new $CustomGoal(
         }
         return false
     },
-    false,
+    true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         let pos = mob.getPosition(1.0)
         let mobX = pos.x()
@@ -41,5 +41,5 @@ const DismissGoal = (entity) => new $CustomGoal(
  * @param {Internal.PathfinderMob} entity 
  */
 function SetDismissGoal(entity) {
-    entity.goalSelector.addGoal(1, DismissGoal(entity))
+    entity.goalSelector.addGoal(10, DismissGoal(entity))
 }

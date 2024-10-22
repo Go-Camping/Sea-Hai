@@ -36,7 +36,7 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         //console.log('status workInPOI StopBehavior')
     },
-    false,
+    true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         //console.log('status workInPOI TickBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
@@ -65,5 +65,5 @@ const POIModelStrategies = {
  * @param {Internal.PathfinderMob} entity 
  */
 function SetWorkInPOIGoal(entity) {
-    entity.goalSelector.addGoal(1, WorkInPOIGoal(entity))
+    entity.goalSelector.addGoal(10, WorkInPOIGoal(entity))
 }

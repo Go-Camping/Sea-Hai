@@ -21,7 +21,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         }
         return false
     },
-    false,
+    true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         //console.log('status routeMove BeginBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
@@ -81,5 +81,5 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
  * @param {Internal.PathfinderMob} entity 
  */
 function SetRouteMoveGoal(entity) {
-    entity.goalSelector.addGoal(1, RouteMoveGoal(entity))
+    entity.goalSelector.addGoal(10, RouteMoveGoal(entity))
 }

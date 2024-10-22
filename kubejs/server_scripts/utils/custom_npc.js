@@ -14,10 +14,11 @@ ItemEvents.rightClicked('minecraft:stick', event => {
 /**
  * 快捷创建自定义NPC的实体
  * @param {Internal.Level} level 
- * @returns 
+ * @returns {Internal.EntityCustomNpc}
  */
 function CreateCustomNPCEntity(level) {
     let entity = new $EntityCustomNpc('customnpcs:customnpc', level)
+    entity.reset()
     entity.advanced.interactLines.lines.clear()
     entity.display.setTitle('')
     entity.ais.setReturnsHome(false)
@@ -25,11 +26,5 @@ function CreateCustomNPCEntity(level) {
     entity.ais.setDoorInteract(1)
     entity.ais.setCanSwim(true)
     entity.display.setShowName(NAME_INVISIBLE)
-
-    let navigation = entity.navigation
-    navigation.nodeEvaluator.setCanOpenDoors(true)
-    navigation.nodeEvaluator.setCanWalkOverFences(true)
-    navigation.nodeEvaluator.setCanFloat(true)
-    navigation.nodeEvaluator.setCanPassDoors(true)
     return entity
 }

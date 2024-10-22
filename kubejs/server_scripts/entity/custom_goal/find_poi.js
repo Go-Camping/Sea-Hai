@@ -40,7 +40,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         }
         mob.navigation.stop()
     },
-    false,
+    true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         let findPOIModel = new EntityFindPOI(mob)
         //console.log(`status findPOI TickBehavior ${findPOIModel.targetPOI}`)
@@ -76,5 +76,5 @@ const FindPOIGoal = (entity) => new $CustomGoal(
  * @param {Internal.PathfinderMob} entity 
  */
 function SetFindPOIGoal(entity) {
-    entity.goalSelector.addGoal(1, FindPOIGoal(entity))
+    entity.goalSelector.addGoal(10, FindPOIGoal(entity))
 }
