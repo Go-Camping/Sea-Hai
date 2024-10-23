@@ -3,11 +3,14 @@
 const FORCE_POI_MOVE_TOOL = 'kubejs:force_poi_move_tool'
 
 ItemEvents.entityInteracted(FORCE_POI_MOVE_TOOL, event => {
-    let { item, player, target } = event
+    let { item, player } = event
+    /** @type {Internal.PathfinderMob} */
+    let target = event.target
     if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
     let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
     if (GetEntityStatus(target) != STATUS_IDLE && GetEntityStatus(target) != STATUS_ROUTE_MOVE) return
 
+    if (target.navigation.isStableDestination)
     SetEntityStatus(target, STATUS_FIND_POI)
     let findPOIModel = new EntityFindPOI(target)
     findPOIModel.setTargetPOI(poiPos)

@@ -25,3 +25,5 @@ const $TargetDummyEntity = Java.loadClass('net.mehvahdjukaar.dummmmmmy.common.Ta
 const $ToolActions = Java.loadClass('net.minecraftforge.common.ToolActions')
 const $InteractionHand = Java.loadClass('net.minecraft.world.InteractionHand')
 const $AquaFishingRodItem = Java.loadClass('com.teammetallurgy.aquaculture.item.AquaFishingRodItem')
+
+const $Integer = Java.loadClass("java.lang.Integer")

@@ -18,7 +18,7 @@ function EntityWorkInPOI(mob) {
     /** @type {Internal.PathfinderMob} */
     this.mob = mob
     /** @type {Number} */
-    this.speed = 1
+    this.speed = 0.8
 
     // 由于有强制初始化，理想化均包含这些字段，不进行额外空校验，但这仍旧会在部分人工修改内容的场景引发问题
     /** @type {Internal.CompoundTag} */

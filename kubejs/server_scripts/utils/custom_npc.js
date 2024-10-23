@@ -1,5 +1,5 @@
 // priority: 950
-
+// todo 调试方法，需要删除
 ItemEvents.rightClicked('minecraft:stick', event => {
     let { player } = event
     let pos = player.getPosition(1.0)
@@ -18,6 +18,7 @@ ItemEvents.rightClicked('minecraft:stick', event => {
  */
 function CreateCustomNPCEntity(level) {
     let entity = new $EntityCustomNpc('customnpcs:customnpc', level)
+    // 如果不进行reset，则会导致一些cnpc的逻辑失效
     entity.reset()
     entity.advanced.interactLines.lines.clear()
     entity.display.setTitle('')
@@ -27,4 +28,16 @@ function CreateCustomNPCEntity(level) {
     entity.ais.setCanSwim(true)
     entity.display.setShowName(NAME_INVISIBLE)
     return entity
+}
+
+/**
+ * 
+ * @param {Internal.Level} level 
+ * @param {Internal.EntityCustomNpc} mob 
+ * @param {BlockPos} chairPos 
+ */
+function SitOnChair(mob, chairPos) {
+   if (!mob instanceof $EntityCustomNpc) return
+   mob.ais.setAnimation(ANIMATION_SIT)
+   mob.teleportTo(chairPos.x, chairPos.y + 1, chairPos.z)
 }

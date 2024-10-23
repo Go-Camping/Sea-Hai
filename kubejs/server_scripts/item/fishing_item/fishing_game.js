@@ -12,7 +12,7 @@ StardewFishing.miniGameEnd(event => {
     let {player, accuracy, fishSuccess} = event
     let fishingItem = getFishingRodInHand(player)
     if (!fishingItem) return
-    // todo
+    // todo 调试方法
     player.tell(2)
 })
 

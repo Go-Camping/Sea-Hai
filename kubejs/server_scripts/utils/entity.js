@@ -221,10 +221,10 @@ function NavigateWithDegrade(mob, pos, speed) {
         navigation.recomputePath()
         return true
     }
-    // if (!navigation.getPath().canReach()) {
-    //     console.log('NavigateWithDegrade: recompute')
-    //     navigation.recomputePath()
-    //     return true
-    // }
+    if (navigation.shouldRecomputePath(pos)) {
+        console.log('NavigateWithDegrade: recompute')
+        navigation.recomputePath()
+        return true
+    }
     return true
 }

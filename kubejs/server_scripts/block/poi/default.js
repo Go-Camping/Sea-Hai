@@ -105,7 +105,7 @@ DefaultPOIModel.prototype = {
                     return true
                 } else {
                     if (mob instanceof $EntityCustomNpc) {
-                        // todo
+                        // todo 调试方法
                         mob.saySurrounding(new $Line('感觉很实惠！'))
                     }
                     workInPOIModel.clearMovePos()
