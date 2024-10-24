@@ -15,10 +15,9 @@ LootJS.modifiers((event) => {
             ctx.loot.forEach(item => {
                 if (item.hasTag(FISH_TAG)) {
                     let nbt = item.getOrCreateTag()
-                    // todo 价值分布
                     nbt.putInt('value', 100)
                 }
             })
         }
-    })      
+    })
 })

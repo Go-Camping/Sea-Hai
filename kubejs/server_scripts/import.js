@@ -25,5 +25,8 @@ const $TargetDummyEntity = Java.loadClass('net.mehvahdjukaar.dummmmmmy.common.Ta
 const $ToolActions = Java.loadClass('net.minecraftforge.common.ToolActions')
 const $InteractionHand = Java.loadClass('net.minecraft.world.InteractionHand')
 const $AquaFishingRodItem = Java.loadClass('com.teammetallurgy.aquaculture.item.AquaFishingRodItem')
+const $AquacultureAPI = Java.loadClass('com.teammetallurgy.aquaculture.api.AquacultureAPI')
+
 
 const $Integer = Java.loadClass("java.lang.Integer")
+const $Biomes = Java.type('net.minecraft.world.level.biome.Biomes')

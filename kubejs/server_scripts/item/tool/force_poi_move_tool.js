@@ -9,8 +9,8 @@ ItemEvents.entityInteracted(FORCE_POI_MOVE_TOOL, event => {
     if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
     let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
     if (GetEntityStatus(target) != STATUS_IDLE && GetEntityStatus(target) != STATUS_ROUTE_MOVE) return
-
-    if (target.navigation.isStableDestination)
+    let targetPos = GetEntityPosition(target)
+    if (poiPos.distSqr(targetPos.x, targetPos.y, targetPos.z) > 16) return
     SetEntityStatus(target, STATUS_FIND_POI)
     let findPOIModel = new EntityFindPOI(target)
     findPOIModel.setTargetPOI(poiPos)
