@@ -29,4 +29,3 @@ const $AquacultureAPI = Java.loadClass('com.teammetallurgy.aquaculture.api.Aquac
 
 
 const $Integer = Java.loadClass("java.lang.Integer")
-const $Biomes = Java.type('net.minecraft.world.level.biome.Biomes')

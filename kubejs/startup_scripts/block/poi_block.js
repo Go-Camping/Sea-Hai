@@ -6,7 +6,7 @@ StartupEvents.registry('block', event => {
 
         
     event.create('kubejs:way_node')
-        .material('stone')
+        .soundType(SoundType.STONE)
         .box(0, 0, 0, 16, 1, 16)
         .textureAll('kubejs:block/node')
         .blockEntity(info => {

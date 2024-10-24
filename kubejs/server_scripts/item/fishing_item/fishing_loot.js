@@ -7,7 +7,7 @@ LootJS.modifiers((event) => {
     .apply(ctx => {
         if (!ctx.player) return
         let player = ctx.player
-        let fishingItem = player.mainHandItem.hasTag(FISHING_ROD_TAG) ? player.mainHandItem : player.offHandItem
+        let fishingItem = GetFishingRodInHand(player)
 
         if (!fishingItem || fishingItem.isEmpty()) return
         let fishingRodModel = new FishingRodModel(fishingItem)
