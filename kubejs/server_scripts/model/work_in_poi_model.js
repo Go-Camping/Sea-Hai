@@ -89,14 +89,14 @@ EntityWorkInPOI.prototype = {
         return
     },
     /**
-     * 获取目标POI的容器对象
-     * @returns {ShopPOIBlock}
+     * 获取POI方块
+     * @returns {Internal.BlockContainerJS}
      */
-     getPOIData: function () {
+     getPOIBlock: function () {
         let level = this.mob.level
         let poiBlock = level.getBlock(this.poiPos)
         if (!poiBlock.entity) return null
-        return new ShopPOIBlock(poiBlock)
+        return poiBlock
     },
     /**
      * 进入子状态

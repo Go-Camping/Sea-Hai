@@ -15,7 +15,7 @@ ServerEvents.recipes(event => {
             entity.display.setSkinTexture(`kubejs:textures/entity/skin/guest_${num}.png`)
             let routeMoveModel = new EntityRouteMove(entity)
             let nodePosList = genDepthMap(block.level, block.pos)
-            routeMoveModel.setPosList(nodePosList)
+            routeMoveModel.setRelatedPosList(nodePosList)
             SetEntityStatus(entity, STATUS_ROUTE_MOVE)
             block.level.addFreshEntity(entity)
             return ctx.success()

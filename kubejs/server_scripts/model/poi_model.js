@@ -3,12 +3,12 @@
 /**
  * POI本身包含属性和操作方法
  * @param {EntityWorkInPOI} workInPOIModel
- * @param {ShopPOIBlock} poiBlockModel
+ * @param {Internal.BlockContainerJS} poiBlock
  * @returns 
  */
-function POIModel(workInPOIModel, poiBlockModel) {
+function POIModel(workInPOIModel, poiBlock) {
     this.workInPOIModel = workInPOIModel
-    this.poiBlockModel = poiBlockModel
+    this.poiBlock = poiBlock
 }
 
 POIModel.prototype = {

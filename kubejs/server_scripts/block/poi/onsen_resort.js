@@ -1,36 +1,52 @@
 // priority: 800
 /**
+ * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
+ */
+ServerEvents.recipes(event => {
+    event.recipes.custommachinery.custom_machine('kubejs:onsen_resort', 100)
+        .requireFunctionOnEnd(ctx => {
+            /**@type {Internal.BlockContainerJS} */
+            let block = ctx.block
+            let shopPOIModel = new ShopPOIBlock(block)
+
+            let playerBankAccount = $BankSaveData.GetBankAccount(false, ctx.machine.ownerId)
+            playerBankAccount.depositMoney(ConvertMainMoneyValue(shopPOIModel.getConsumingMoney()))
+            shopPOIModel.setIsShopping(false)
+            shopPOIModel.setConsumingMoney(0)
+            return ctx.success()
+        })
+        .requireFunctionToStart(ctx => {
+            /**@type {Internal.BlockContainerJS} */
+            let block = ctx.block
+            let shopPOIModel = new ShopPOIBlock(block)
+            if (shopPOIModel.checkIsShopping()) return ctx.success()
+            return ctx.error('invalid')
+        })
+})
+
+
+
+// priority: 800
+/**
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {Internal.BlockContainerJS} poiBlock 
  */
-function DefaultPOIModel(workInPOIModel, poiBlock) {
+function OnsenPOIModel(workInPOIModel, poiBlock) {
     this.workInPOIModel = workInPOIModel
     this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
-Object.assign(DefaultPOIModel.prototype, POIModel.prototype)
+Object.assign(OnsenPOIModel.prototype, POIModel.prototype)
 
-DefaultPOIModel.prototype = {
+OnsenPOIModel.prototype = {
     workInPOIInit: function () {
-        let poiBlock = this.poiBlock
-        let workInPOIModel = this.workInPOIModel
-        // 选择一个可用的POI容器
-        let level = poiBlock.level
         let poiBlockModel = this.poiBlockModel
+        let workInPOIModel = this.workInPOIModel
+        // 选择一个可用的关联地点
+        let level = poiBlockModel.block.level
         let posList = poiBlockModel.getRelatedPosList()
-        let validContainerBlocks = []
-        posList.forEach(pos => {
-            let tempBlock = level.getBlock(pos)
-            // 这个容器必须有一个有效的取用方法
-            if (!DefaultShopContainerStrategies[tempBlock.id]) return
-            // 且simulate通过
-            if (!DefaultShopContainerStrategies[tempBlock.id](workInPOIModel, poiBlock, tempBlock, true)) return
-            // POI容器可以有权重，先均等概率
-            let tempWeight = 1
-            validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
-        })
-    
+        
         if (validContainerBlocks.length <= 0) return false
         /** @type {Internal.BlockContainerJS} */
         let selectedContainer = GetWeightRandomObj(validContainerBlocks)
@@ -40,10 +56,9 @@ DefaultPOIModel.prototype = {
         return true
     },
     workInPOITick: function () {
-        let poiBlock = this.poiBlock
         let poiBlockModel = this.poiBlockModel
         let workInPOIModel = this.workInPOIModel
-        let level = poiBlock.level
+        let level = workInPOIModel.mob.level
         let mob = workInPOIModel.mob
         switch (workInPOIModel.getSubStatus()) {
             case SUB_STATUS_MOVE_TO_CONTAINER:
@@ -60,7 +75,7 @@ DefaultPOIModel.prototype = {
                     workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
                     return true
                 }
-                DefaultShopContainerStrategies[containerBlock.id](workInPOIModel, poiBlock, containerBlock, false)
+                DefaultShopContainerStrategies[containerBlock.id](workInPOIModel, poiBlockModel, containerBlock, false)
                 if (workInPOIModel.isNeedBuyMore()) {
                     // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
                     this.workInPOIInit()

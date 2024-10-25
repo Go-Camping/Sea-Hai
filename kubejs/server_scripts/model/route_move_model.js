@@ -52,7 +52,7 @@ EntityRouteMove.prototype = {
      * 设置移动列表
      * @param {BlockPos[]} posList
      */
-    setPosList: function (posList) {
+    setRelatedPosList: function (posList) {
         this.posList = posList
         this.routeMoveConfig.put('posList', ConvertPosList2Nbt(posList))
         return
@@ -61,7 +61,7 @@ EntityRouteMove.prototype = {
      * 设置移动列表（Nbt格式）
      * @param {Internal.ListTag} posListNbt
      */
-    setPosListNbt: function (posListNbt) {
+    setRelatedPosListNbt: function (posListNbt) {
         this.routeMoveConfig.put('posList', posListNbt)
         this.posList = ConvertNbt2PosList(posListNbt)
         return

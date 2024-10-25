@@ -19,18 +19,12 @@ function ShopPOIBlock(block) {
     }
     this.isShopping = this.persistentData.getInt('isShopping') == 1
 
-    //售货模式
-    if (!this.persistentData.contains('sellMode')) {
-        this.persistentData.putInt('sellMode', 0)
-    }
-    this.sellModel = this.persistentData.getInt('sellMode')
-
     //仓库列表
-    if (!this.persistentData.contains('posList')) {
-        this.persistentData.put('posList', new $ListTag())
+    if (!this.persistentData.contains('relatedPosList')) {
+        this.persistentData.put('relatedPosList', new $ListTag())
     }
     /**@type {BlockPos[]} */
-    this.relatedContainerPosList = ConvertNbt2PosList(this.persistentData.getList('posList', GET_COMPOUND_TYPE))
+    this.relatedPosList = ConvertNbt2PosList(this.persistentData.getList('relatedPosList', GET_COMPOUND_TYPE))
 
     //交易金额
     if (!this.persistentData.contains('consumingMoney')) {
@@ -38,11 +32,6 @@ function ShopPOIBlock(block) {
     }
     this.consumingMoney = this.persistentData.getInt('consumingMoney')
 
-    //装饰度，可以用于影响价格，吸引力等等
-    if (!this.persistentData.contains('decoration')) {
-        this.persistentData.putInt('decoration', 0)
-    }
-    this.decoration = this.persistentData.getInt('decoration')
 }
 
 ShopPOIBlock.prototype = {
@@ -66,9 +55,9 @@ ShopPOIBlock.prototype = {
      * 设置关联容器列表
      * @param {BlockPos[]} posList
      */
-    setPosList: function (posList) {
-        this.relatedContainerPosList = posList
-        this.persistentData.put('posList', ConvertPosList2Nbt(posList))
+    setRelatedPosList: function (posList) {
+        this.relatedPosList = posList
+        this.persistentData.put('relatedPosList', ConvertPosList2Nbt(posList))
         this.tile.setChanged()
         return
     },
@@ -76,9 +65,9 @@ ShopPOIBlock.prototype = {
      * 设置关联容器列表（Nbt格式）
      * @param {Internal.ListTag} posListNbt
      */
-    setPosListNbt: function (posListNbt) {
-        this.persistentData.put('posList', posListNbt)
-        this.relatedContainerPosList = ConvertNbt2PosList(posListNbt)
+    setRelatedPosListNbt: function (posListNbt) {
+        this.persistentData.put('relatedPosList', posListNbt)
+        this.relatedPosList = ConvertNbt2PosList(posListNbt)
         this.tile.setChanged()
         return
     },
@@ -86,15 +75,15 @@ ShopPOIBlock.prototype = {
      * 获取关联容器列表
      * @returns {BlockPos[]}
      */
-    getPosList: function () {
-        return this.relatedContainerPosList
+    getRelatedPosList: function () {
+        return this.relatedPosList
     },
     /**
      * 获取关联容器列表Nbt格式
      * @returns {Internal.ListTag}
      */
-    getPosListNbt: function () {
-        return this.persistentData.getList('posList', GET_COMPOUND_TYPE)
+    getRelatedPosListNbt: function () {
+        return this.persistentData.getList('relatedPosList', GET_COMPOUND_TYPE)
     },
     /**
      * 启动购买配方
@@ -120,20 +109,4 @@ ShopPOIBlock.prototype = {
     getConsumingMoney: function () {
         return this.consumingMoney
     },
-    /**
-     * 设置装饰度
-     * @param {Number} decoration 
-     */
-    setDecoration: function(decoration){
-        this.decoration = decoration
-        this.persistentData.putInt('decoration', decoration)
-        this.tile.setChanged()
-    },
-    /**
-     * 获取装饰度
-     * @returns {Number}
-     */
-    getDecoration: function(){
-        return this.decoration
-    }
 }

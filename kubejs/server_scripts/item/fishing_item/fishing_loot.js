@@ -21,3 +21,7 @@ LootJS.modifiers((event) => {
         }
     })
 })
+
+const FISHING_LOOT_MAP = {
+    
+}

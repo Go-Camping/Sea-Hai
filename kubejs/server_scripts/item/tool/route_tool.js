@@ -7,7 +7,7 @@ ItemEvents.entityInteracted(DEBUG_TOOL, event => {
     if (!item.hasNBT()) return
     if (!item.nbt.contains('posList')) return
     let routeMoveModel = new EntityRouteMove(target)
-    routeMoveModel.setPosListNbt(item.nbt.getList('posList', GET_COMPOUND_TYPE))
+    routeMoveModel.setRelatedPosListNbt(item.nbt.getList('posList', GET_COMPOUND_TYPE))
     SetEntityStatus(target, STATUS_ROUTE_MOVE)
     SetRouteMoveGoal(target)
     SetFindPOIGoal(target)
