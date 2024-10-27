@@ -49,7 +49,9 @@ function DefaultContainerConsume(workInPOIModel, poiBlock, container, validDecor
     }
 
     if (!pickItem || pickItem.isEmpty()) return false
-    let value = workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
-    workInPOIModel.addConsumedMoney(value)
+    if (simulate) {
+        let value = workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
+        workInPOIModel.addConsumedMoney(value)
+    }
     return true
 }

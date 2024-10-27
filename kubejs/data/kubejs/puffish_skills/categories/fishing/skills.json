@@ -1,0 +1,32 @@
+{
+	"oglp8sj41n602fak": {
+		"definition": "root_fishing",
+		"x": 0,
+		"y": -295.6033378250884,
+		"root": true
+	},
+	"u6ha8lmyutfg2qxs": {
+		"definition": "no_trash_multi_05",
+		"x": -32,
+		"y": -240.17771198288432,
+		"root": false
+	},
+	"k69fn67p8rypq5ka": {
+		"definition": "no_trash_multi_05",
+		"x": 32,
+		"y": -240.17771198288426,
+		"root": false
+	},
+	"5g7r84k3g2fpgt1f": {
+		"definition": "no_trash_multi_05",
+		"x": -32,
+		"y": -166.27687752661222,
+		"root": false
+	},
+	"1199v101u731yoap": {
+		"definition": "no_trash_multi_05",
+		"x": 32,
+		"y": -166.27687752661222,
+		"root": false
+	}
+}

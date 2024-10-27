@@ -28,4 +28,7 @@ const $AquaFishingRodItem = Java.loadClass('com.teammetallurgy.aquaculture.item.
 const $AquacultureAPI = Java.loadClass('com.teammetallurgy.aquaculture.api.AquacultureAPI')
 
 
+const $SkillsAPI = Java.loadClass('net.puffish.skillsmod.api.SkillsAPI')
+const $SkillsMode = Java.loadClass('net.puffish.skillsmod.SkillsMod')
+
 const $Integer = Java.loadClass("java.lang.Integer")

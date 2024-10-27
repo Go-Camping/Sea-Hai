@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "kubejs:item/fishing_line_overlay",
-        "layer1": "kubejs:item/fishing_line"
+        "layer0": "kubejs:item/fishing/fishing_line_overlay",
+        "layer1": "kubejs:item/fishing/fishing_line"
     }
 }

@@ -1,0 +1,46 @@
+{
+	"root_fishing": {
+		"title": {
+			"translate": "kubejs.puffskill.def.root_fishing.title"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.def.root_fishing.desc"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/sawtooth_unlock.png",
+				"available": "kubejs:textures/skill/frame/sawtooth_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		},
+		"rewards": []
+	},
+	"no_trash_multi_05": {
+		"title": {
+			"translate": "kubejs.puffskill.def.no_trash_multi_05.title"
+		},
+		"extra_description": {
+			"translate": "kubejs.puffskill.exdesc.no_trash_multi"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		},
+		"rewards": []
+	}
+}

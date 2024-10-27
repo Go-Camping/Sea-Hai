@@ -51,15 +51,7 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     },
 )
 
-/**
- * POI策略
- * @constant
- * @type {Object<string,function(EntityWorkInPOI, Internal.BlockContainerJS):DefaultPOIModel>}
- */
-const POIModelStrategies = {
-    'kubejs:fish_shop': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
-    'kubejs:grocery': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
-}
+
 
 /**
  * @param {Internal.PathfinderMob} entity 

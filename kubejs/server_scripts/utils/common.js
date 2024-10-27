@@ -17,10 +17,17 @@ function RandomGet(list) {
  * @param {any[]} a 
  * @returns {any[]}
  */
-function Shuffle(a) {
-    for (let i = a.length; i; i--) {
-        let j = Math.floor(Math.random() * i)
-        [a[i - 1], a[j]] = [a[j], a[i - 1]]
+function Shuffle(arr){
+    var length = arr.length,
+        temp,
+        random;
+    while(0 != length){
+        random = Math.floor(Math.random() * length)
+        length--;
+        // swap
+        temp = arr[length];
+        arr[length] = arr[random];
+        arr[random] = temp;
     }
-    return a
+    return arr;
 }

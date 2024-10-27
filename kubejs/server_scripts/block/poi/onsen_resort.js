@@ -32,12 +32,12 @@ ServerEvents.recipes(event => {
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function OnsenPOIModel(workInPOIModel, poiBlock) {
-    this.workInPOIModel = workInPOIModel
-    this.poiBlock = poiBlock
+    POIModel.call(this, workInPOIModel, poiBlock)
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
-Object.assign(OnsenPOIModel.prototype, POIModel.prototype)
+OnsenPOIModel.prototype = Object.create(POIModel.prototype)
+OnsenPOIModel.prototype.constructor = OnsenPOIModel;
 
 OnsenPOIModel.prototype = {
     workInPOIInit: function () {

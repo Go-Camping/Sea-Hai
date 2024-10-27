@@ -1,0 +1,42 @@
+{
+	"normal": {
+		"unidirectional": [
+			[
+				"oglp8sj41n602fak",
+				"u6ha8lmyutfg2qxs"
+			],
+			[
+				"oglp8sj41n602fak",
+				"k69fn67p8rypq5ka"
+			],
+			[
+				"k69fn67p8rypq5ka",
+				"5g7r84k3g2fpgt1f"
+			],
+			[
+				"k69fn67p8rypq5ka",
+				"1199v101u731yoap"
+			],
+			[
+				"u6ha8lmyutfg2qxs",
+				"1199v101u731yoap"
+			],
+			[
+				"u6ha8lmyutfg2qxs",
+				"5g7r84k3g2fpgt1f"
+			]
+		]
+	},
+	"exclusive": {
+		"bidirectional": [
+			[
+				"u6ha8lmyutfg2qxs",
+				"k69fn67p8rypq5ka"
+			],
+			[
+				"5g7r84k3g2fpgt1f",
+				"1199v101u731yoap"
+			]
+		]
+	}
+}

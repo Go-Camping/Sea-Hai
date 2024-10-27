@@ -5,12 +5,19 @@
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:fish_shop', 100)
         .requireFunctionOnEnd(ctx => {
-            /**@type {Internal.BlockContainerJS} */
-            let block = ctx.block
+            let { machine, block } = ctx
+            let owner = machine.getOwner()
             let shopPOIModel = new ShopPOIBlock(block)
-
+            let consumeMoney = shopPOIModel.getConsumingMoney()
+            if (owner && owner.isPlayer()) {
+                let player = owner
+                let playerSkill = new PufferskillModel(player)
+                let fishingCate = playerSkill.getSkillCategory('kubejs:fishing')
+                playerSkill.addExpToCategory(fishingCate, consumeMoney)
+            }
             let playerBankAccount = $BankSaveData.GetBankAccount(false, ctx.machine.ownerId)
-            playerBankAccount.depositMoney(ConvertMainMoneyValue(shopPOIModel.getConsumingMoney()))
+            playerBankAccount.depositMoney(ConvertMainMoneyValue(consumeMoney))
+            
             shopPOIModel.setIsShopping(false)
             shopPOIModel.setConsumingMoney(0)
             return ctx.success()

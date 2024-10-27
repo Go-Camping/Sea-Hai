@@ -1,15 +1,27 @@
-// priority: 800
+// priority: 801
+
+/**
+ * POI策略
+ * @constant
+ * @type {Object<string,function(EntityWorkInPOI, Internal.BlockContainerJS):DefaultPOIModel>}
+ */
+const POIModelStrategies = {
+    'kubejs:fish_shop': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
+    'kubejs:grocery': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
+}
+
+
 /**
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function DefaultPOIModel(workInPOIModel, poiBlock) {
-    this.workInPOIModel = workInPOIModel
-    this.poiBlock = poiBlock
+    POIModel.call(this, workInPOIModel, poiBlock)
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
-Object.assign(DefaultPOIModel.prototype, POIModel.prototype)
+DefaultPOIModel.prototype = Object.create(POIModel.prototype)
+DefaultPOIModel.prototype.constructor = DefaultPOIModel;
 
 DefaultPOIModel.prototype = {
     workInPOIInit: function () {
