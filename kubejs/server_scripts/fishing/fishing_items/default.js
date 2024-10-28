@@ -29,5 +29,7 @@ FishingItemModel.prototype = {
  * @type {Object<string,function(Internal.ItemStack):FishingItemModel>}
  */
 const FishingItemStrategy = {
-    'kubejs:duck_bobber': (item) => new DuckBobberModel(item)
+    'kubejs:duck_bobber': (item) => new DuckBobberModel(item),
+    'kubejs:octopus_bobber': (item) => new OctopusBobberModel(item),
+    'kubejs:hard_fishing_line': (item) => new HardFishingLineModel(item),
 }

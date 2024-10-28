@@ -9,7 +9,7 @@ function DuckBobberModel(item) {
 
 
 DuckBobberModel.prototype = Object.create(FishingItemModel.prototype)
-DuckBobberModel.prototype.constructor = DuckBobberModel;
+DuckBobberModel.prototype.constructor = DuckBobberModel
 
 /**
  * 

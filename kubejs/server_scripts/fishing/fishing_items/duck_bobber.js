@@ -3,19 +3,19 @@
  * 
  * @param {Internal.ItemStack} item 
  */
-function DuckBobberModel(item) {
+function OctopusBobberModel(item) {
     FishingItemModel.call(this, item)
 }
 
 
-DuckBobberModel.prototype = Object.create(FishingItemModel.prototype)
-DuckBobberModel.prototype.constructor = DuckBobberModel;
+OctopusBobberModel.prototype = Object.create(FishingItemModel.prototype)
+OctopusBobberModel.prototype.constructor = OctopusBobberModel
 
 /**
  * 
  * @param {Internal.MiniGameStartJS} event 
  */
-DuckBobberModel.prototype.miniGameStart = function (event) {
+OctopusBobberModel.prototype.miniGameStart = function (event) {
     let behavior = event.getFishBehavior()
     behavior.setGravity(behavior.getGravity() + 0.4)
 }

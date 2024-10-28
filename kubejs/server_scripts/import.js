@@ -1,6 +1,11 @@
 // priority: 2000
 const $CompoundTag = Java.loadClass('net.minecraft.nbt.CompoundTag')
 const $ListTag = Java.loadClass('net.minecraft.nbt.ListTag')
+const $StructurePlaceSettings = Java.loadClass('net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings')
+const $Mirror = Java.loadClass('net.minecraft.world.level.block.Mirror')
+const $Rotation = Java.loadClass('net.minecraft.world.level.block.Rotation')
+const $ChunkStatus = Java.loadClass('net.minecraft.world.level.chunk.ChunkStatus')
+const $PalettedContainer = Java.loadClass('net.minecraft.world.level.chunk.PalettedContainer')
 
 const $TagKey = Java.loadClass('net.minecraft.tags.TagKey')
 const $Registries = Java.loadClass("net.minecraft.core.registries.BuiltInRegistries")
@@ -31,4 +36,4 @@ const $AquacultureAPI = Java.loadClass('com.teammetallurgy.aquaculture.api.Aquac
 const $SkillsAPI = Java.loadClass('net.puffish.skillsmod.api.SkillsAPI')
 const $SkillsMode = Java.loadClass('net.puffish.skillsmod.SkillsMod')
 
-const $Integer = Java.loadClass("java.lang.Integer")
+const $Integer = Java.loadClass('java.lang.Integer')

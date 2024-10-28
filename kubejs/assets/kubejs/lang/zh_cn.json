@@ -5,6 +5,8 @@
     "_comment.tooltips": "物品提示",
     "tooltips.kubejs.item.route_tool.1": "当前标记的移动路径：",
     "tooltips.kubejs.item.poi_container_tool.1": "当前选定POI：",
+    "tooltips.kubejs.item.duck_bobber.1": "鱼钩将更少的受到重力的影响",
+    "tooltips.kubejs.item.octopus_bobber.1": "鱼会变得懒惰",
 
     "_comment.status": "状态消息",
     "status.kubejs.poi_container_tool.selected_poi.1": "已选定POI方块",

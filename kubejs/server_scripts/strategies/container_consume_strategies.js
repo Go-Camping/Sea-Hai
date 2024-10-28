@@ -38,7 +38,10 @@ function DefaultContainerConsume(workInPOIModel, poiBlock, container, validDecor
         return res
     }, simulate)
 
-    if (!simulate && validDecorationAmount > 0) {
+    if (!pickItem || pickItem.isEmpty()) return false
+    if (simulate) return true
+
+    if (validDecorationAmount > 0) {
         let decorationBlocks = FindBlockAroundBlocks(container, 3, 3, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
             return curBlock.tags.contains(TAG_DECORATION_BLOCK)
@@ -47,11 +50,8 @@ function DefaultContainerConsume(workInPOIModel, poiBlock, container, validDecor
             ContainerBlockDecorationStrategies[block.id](workInPOIModel, poiBlock, container)
         })
     }
-
-    if (!pickItem || pickItem.isEmpty()) return false
-    if (simulate) {
-        let value = workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
-        workInPOIModel.addConsumedMoney(value)
-    }
+    
+    let value = workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
+    workInPOIModel.addConsumedMoney(value)
     return true
 }
