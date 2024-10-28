@@ -19,8 +19,3 @@ HardFishingLineModel.prototype.miniGameStart = function (event) {
     let behavior = event.getFishBehavior()
     behavior.setBobberUpAcceleration(behavior.getBobberUpAcceleration() * 1.1)
 }
-
-
-HardFishingLineModel.prototype.miniGameEnd = function (event) {
-
-}

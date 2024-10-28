@@ -7,7 +7,8 @@
     "tooltips.kubejs.item.poi_container_tool.1": "当前选定POI：",
     "tooltips.kubejs.item.duck_bobber.1": "鱼钩将更少的受到重力的影响",
     "tooltips.kubejs.item.octopus_bobber.1": "鱼会变得懒惰",
-
+    "tooltips.kubejs.item.hard_fishing_line.1": "结实的鱼线使得你的鱼钩略容易被提升",
+    
     "_comment.status": "状态消息",
     "status.kubejs.poi_container_tool.selected_poi.1": "已选定POI方块",
     "status.kubejs.poi_container_tool.add_poi_container.1": "已将该容器绑定POI",
