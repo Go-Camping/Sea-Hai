@@ -164,7 +164,7 @@ EntityFindPOI.prototype = {
      * @param {Number} time
      */
     setIdleTimer: function (time) {
-        this.idleTimer = time + this.mob.age
+        this.idleTimer = time + this.mob.totalTicksAlive
         this.findPOIConfig.putInt('idleTimer', this.idleTimer)
     },
     /**
@@ -172,7 +172,7 @@ EntityFindPOI.prototype = {
      * @returns {Boolean}
      */
     checkIsIdleTime: function () {
-        if (this.idleTimer <= this.mob.age) return false
+        if (this.idleTimer <= this.mob.totalTicksAlive) return false
         return true
     },
     /**
@@ -187,9 +187,8 @@ EntityFindPOI.prototype = {
             if (targetBlock.blockState.isAir()) return false
             return targetBlock.tags.contains(TAG_POI_ENTRANCE)
         })
-        blockPosList.filter(blockPos => {
+        return blockPosList.filter(blockPos => {
             return !this.checkIsMarkedPOI(blockPos)
         })
-        return blockPosList
     }
 }

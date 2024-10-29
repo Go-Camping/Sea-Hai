@@ -23,11 +23,9 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     },
     true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status routeMove BeginBehavior')
+        // console.log('status routeMove BeginBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
-        if (routeMoveModel.findIntervalTimer <= 0) {
-            routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 120 + 60))
-        }
+        routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 120 + 60))
         if (routeMoveModel.recoverPos) {
             routeMoveModel.moveToRecoverPos(STANDARD_ROUTE_MOVE_DISTANCE)
             return
@@ -35,7 +33,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         routeMoveModel.moveToCurPos()
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status routeMove StopBehavior')
+        // console.log('status routeMove StopBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         // 记录当前位置到恢复位置处，以在状态恢复时进行恢复
         routeMoveModel.setRecoverPos(GetEntityPosition(mob))
@@ -47,7 +45,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
     },
     false, // 是否每个tick都需要更新
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status routeMove TickBehavior')
+        // console.log('status routeMove TickBehavior')
         let routeMoveModel = new EntityRouteMove(mob)
         // 尝试进行位置恢复
         if (routeMoveModel.recoverPos) {
@@ -64,7 +62,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
             // 否则会移动到当前目标地点
             routeMoveModel.moveToCurPos()
         }
-        // 状态概率流转到poi寻找状态
+
         if (routeMoveModel.checkFindIntervalTimer()) {
             //console.log('status routeMove ShouldFind')
             SetEntityStatus(mob, STATUS_FIND_POI)

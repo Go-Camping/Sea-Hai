@@ -31,7 +31,7 @@ const DefaultContainerProperties = {
 const DefaultContainerDecorationStrategies = {
     'minecraft:stone': function (workInPOIModel, container) {
         // 概率连续购买
-        if (Math.random() > 0.8) workInPOIModel.setNeedBuyMore(true)
+        if (Math.random() > 0.1) workInPOIModel.setNeedBuyMore(true)
     },
     'minecraft:iron_block': function (workInPOIModel, container) {
         // 价格翻倍
@@ -182,7 +182,7 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
     if (!pickItem || pickItem.isEmpty()) return false
     if (simulate) return true
 
-    let validDecorationAmount = DefaultContainerProperties[container.id]?.validDecorationAmount || 0
+    let validDecorationAmount = DefaultContainerProperties[container.id]?.validDecorationAmount ?? 0
     if (validDecorationAmount > 0) {
         let decorationBlocks = FindBlockAroundBlocks(container, 3, 3, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
@@ -192,7 +192,7 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
             DefaultContainerDecorationStrategies[block.id](this.workInPOIModel, container)
         })
     }
-
+    
     let value = this.workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
     this.workInPOIModel.addConsumedMoney(value)
     return true

@@ -105,7 +105,7 @@ function genDepthMap(level, spawnPos) {
         nearByNodeList.forEach(nodePos => {
             let key = nodePos.hashCode()
             if (!nodeMap.has(key)) {
-                nodeMap.set(key, [curNodePos])
+                nodeMap.set(key, curNodePos)
             }
             if (!nodeDepthMap.has(key)) {
                 nextNode(nodePos)

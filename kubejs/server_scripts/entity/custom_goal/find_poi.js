@@ -24,7 +24,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
     },
     false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status findPOI BeginBehavior')
+        // console.log('status findPOI BeginBehavior')
         let findPOIModel = new EntityFindPOI(mob)
         findPOIModel.setSpeed(0.5)
         findPOIModel.setIdleCenter(GetEntityPosition(mob).offset(0, -1, 0))
@@ -32,7 +32,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         findPOIModel.setIdleTimer(Math.floor(Math.random() * 60 + 20))
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status findPOI StopBehavior')
+        // console.log('status findPOI StopBehavior')
         let findPOIModel = new EntityFindPOI(mob)
         if (GetEntityStatus(mob) == STATUS_WORK_IN_POI) {
             findPOIModel.markTargetPOI()
@@ -62,7 +62,10 @@ const FindPOIGoal = (entity) => new $CustomGoal(
             // 考虑到本内容并非是核心玩法，因此降低整体延迟，最高化处理可能是最优解
             //console.log('status findPOI else')
             let poiList = findPOIModel.findAheadPOIs(entity, 8, 5)
-            if (poiList.length <= 0) SetEntityStatus(mob, STATUS_ROUTE_MOVE)
+            if (poiList.length <= 0) {
+                SetEntityStatus(mob, STATUS_ROUTE_MOVE)
+                return
+            }
             // 兴趣匹配，该部分逻辑可以丰富化，暂时仅取第一个，即最近值
             let targetPOIPos = poiList[0]
             findPOIModel.setTargetPOI(targetPOIPos)

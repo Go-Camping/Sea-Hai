@@ -51,6 +51,7 @@ OnsenPOIModel.prototype.workInPOIInit = function () {
 OnsenPOIModel.prototype.workInPOITick = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
     switch (workInPOIModel.getSubStatus()) {
         case SUB_STATUS_MOVE_TO_RELATED_POS:
@@ -107,10 +108,8 @@ OnsenPOIModel.prototype.workInPOITick = function () {
 
                 workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
             } else {
-                if (mob.age % 20 == 0 && Math.random() < 0.1) {
-                    if (mob instanceof $EntityCustomNpc) {
-                        mob.saySurrounding(new $Line('舒服！'))
-                    }
+                if (mob.totalTicksAlive % 20 == 0 && Math.random() < 0.1) {
+                    mob.saySurrounding(new $Line('舒服！'))
                 }
             }
 
@@ -147,24 +146,19 @@ OnsenPOIModel.prototype.workInPOITick = function () {
                 workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
                 return true
             }
-            return true
         case SUB_STATUS_START_SHOPPING:
             let poiPos = workInPOIModel.poiPos
             mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
             if (poiBlockModel.checkIsShopping()) {
                 return true
             } else {
-                if (mob instanceof $EntityCustomNpc) {
-                    // todo 调试方法
-                    mob.saySurrounding(new $Line('感觉很实惠！'))
-                }
+                mob.saySurrounding(new $Line('感觉很实惠！'))
                 workInPOIModel.clearMovePos()
                 workInPOIModel.setSubStatus(SUB_STATUS_NONE)
                 mob.navigation.setSpeedModifier(1.0)
                 // 跳出子状态
                 return false
             }
-            return true
         default:
             // 没有设置子状态会行进到这里，强制设置到初始化状态
             workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)

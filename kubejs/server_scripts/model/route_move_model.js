@@ -149,7 +149,7 @@ EntityRouteMove.prototype = {
      * @param {Number} time
      */
     setFindIntervalTimer: function (time) {
-        this.findIntervalTimer = time + this.mob.age
+        this.findIntervalTimer = time + this.mob.totalTicksAlive
         this.routeMoveConfig.putInt('findIntervalTimer', this.findIntervalTimer)
     },
     /**
@@ -157,7 +157,7 @@ EntityRouteMove.prototype = {
      * @returns {Boolean}
      */
     checkFindIntervalTimer: function () {
-        if (this.findIntervalTimer <= this.mob.age) return true
+        if (this.findIntervalTimer <= this.mob.totalTicksAlive) return true
         return false
     },
 }

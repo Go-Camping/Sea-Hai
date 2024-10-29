@@ -15,7 +15,7 @@ const TAG_DECORATION_BLOCK = new ResourceLocation('kubejs:decoration_block')
 ServerEvents.tags('block', event => {
     event.add('kubejs:poi_entrance', ['kubejs:fish_shop','kubejs:grocery', 'kubejs:onsen_resort'])
 
-    event.add('kubejs:attractive_block', ['minecraft:black_wool'])
+    event.add('kubejs:decoration_block', ['minecraft:iron_block', 'minecraft:stone'])
 
     event.add('kubejs:node_block', ['kubejs:way_node'])
 

@@ -159,20 +159,19 @@ EntityWorkInPOI.prototype = {
     },
     /**
      * 设置消耗的金币数量
-     * @param {Number} consumedMoney
+     * @param {Number} consumingMoney
      */
-    setConsumedMoney: function (consumedMoney) {
-        this.consumedMoney = consumedMoney
+    setConsumedMoney: function (consumingMoney) {
+        this.consumedMoney = consumingMoney
         this.workInPOIConfig.putInt('consumedMoney', this.consumedMoney)
         return
     },
     /**
      * 增加消耗的金币数量
-     * @param {Number} consumedMoney
+     * @param {Number} consumingMoney
      */
-    addConsumedMoney: function (consumedMoney) {
-        this.consumedMoney = consumedMoney + this.consumedMoney
-        this.workInPOIConfig.putInt('consumedMoney', this.consumedMoney)
+    addConsumedMoney: function (consumingMoney) {
+        this.setConsumedMoney(consumingMoney + this.consumedMoney)
         return
     },
     /**
@@ -225,7 +224,7 @@ EntityWorkInPOI.prototype = {
      * @returns 
      */
     setWaitTimer: function (time) {
-        this.waitTimer = time + this.mob.age
+        this.waitTimer = time + this.mob.totalTicksAlive
         this.workInPOIConfig.putInt('waitTimer', this.waitTimer)
         return
     },
@@ -234,7 +233,7 @@ EntityWorkInPOI.prototype = {
      * @returns {Boolean}
      */
     checkWaitTimer: function () {
-        if (this.waitTimer <= this.mob.age) return true
+        if (this.waitTimer <= this.mob.totalTicksAlive) return true
         return false
     },
 }
