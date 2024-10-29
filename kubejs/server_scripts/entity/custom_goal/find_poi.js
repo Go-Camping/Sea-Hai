@@ -46,7 +46,6 @@ const FindPOIGoal = (entity) => new $CustomGoal(
         //console.log(`status findPOI TickBehavior ${findPOIModel.targetPOI}`)
         
         if (findPOIModel.checkIsIdleTime()) {
-            findPOIModel.decreaseIdleTimer()
             //console.log('status findPOI idlingAround')
             return
         }

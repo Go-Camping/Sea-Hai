@@ -13,6 +13,7 @@ function EntityWorkInPOI(mob) {
         workInPOIConfig.putInt('subStatus', SUB_STATUS_MOVE_TO_CONTAINER)
         workInPOIConfig.put('targetMovePos', new $CompoundTag())
         workInPOIConfig.putInt('consumedMoney', 0)
+        workInPOIConfig.putInt('waitTimer', 0)
         mob.persistentData.put(NBT_WORK_IN_POI, workInPOIConfig)
     }
     /** @type {Internal.PathfinderMob} */
@@ -24,19 +25,18 @@ function EntityWorkInPOI(mob) {
     /** @type {Internal.CompoundTag} */
     this.workInPOIConfig = mob.persistentData.getCompound(NBT_WORK_IN_POI)
 
-    //POI位置
     /** @type {BlockPos} */
     this.poiPos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('poiPos'))
-    //子状态
     /** @type {Number} */
     this.subStatus = this.workInPOIConfig.getInt('subStatus')
     //POI工作过程中移向的位置
     /** @type {BlockPos} */
     // 通用空间，用于存储策略中的通用移动位置
     this.targetMovePos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('targetMovePos'))
-    //消费金额
     /** @type {Number} */
     this.consumedMoney = this.workInPOIConfig.getInt('consumedMoney')
+    // 通用空间，用于存储策略中需要等待的时间点
+    this.waitTimer = this.workInPOIConfig.getInt('waitTimer')
     // 是否继续购买，这是一个非持久化的变量，因为只有在购物策略完成后才会涉及到该判断
     /** @type {Boolean} */
     this.needBuyMore = false
@@ -218,5 +218,23 @@ EntityWorkInPOI.prototype = {
     setPriceMutiply: function (priceMutiply) {
         this.priceMutiply = priceMutiply
         return
+    },
+    /**
+     * 设置等待时间
+     * @param {number} time 
+     * @returns 
+     */
+    setWaitTimer: function (time) {
+        this.waitTimer = time + this.mob.age
+        this.workInPOIConfig.putInt('waitTimer', this.waitTimer)
+        return
+    },
+    /**
+     * 是否到达等待时间
+     * @returns {Boolean}
+     */
+    checkWaitTimer: function () {
+        if (this.waitTimer <= this.mob.age) return true
+        return false
     },
 }

@@ -164,24 +164,16 @@ EntityFindPOI.prototype = {
      * @param {Number} time
      */
     setIdleTimer: function (time) {
-        this.findPOIConfig.putInt('idleTimer', time)
-        this.idleTimer = time
+        this.idleTimer = time + this.mob.age
+        this.findPOIConfig.putInt('idleTimer', this.idleTimer)
     },
     /**
      * 校验生物闲置时间
      * @returns {Boolean}
      */
     checkIsIdleTime: function () {
-        if (this.idleTimer <= 0) return false
+        if (this.idleTimer <= this.mob.age) return false
         return true
-    },
-    /**
-     * 减少生物闲置时间
-     * @param {Number}
-     */
-    decreaseIdleTimer: function () {
-        this.findPOIConfig.putInt('idleTimer', this.idleTimer - 1)
-        this.idleTimer -= 1
     },
     /**
  * 在一定范围内寻找可用的POI

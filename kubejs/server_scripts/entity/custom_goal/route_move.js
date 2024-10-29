@@ -69,10 +69,7 @@ const RouteMoveGoal = (entity) => new $CustomGoal(
         if (routeMoveModel.checkFindIntervalTimer()) {
             //console.log('status routeMove ShouldFind')
             SetEntityStatus(mob, STATUS_FIND_POI)
-            // routeMoveModel.setFindIntervalTimer(Math.floor(Math.random() * 30 + 10))
             return
-        } else {
-            routeMoveModel.decreaseFindIntervalTimer()
         }
     }
 )

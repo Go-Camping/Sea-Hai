@@ -48,7 +48,7 @@ function getRelatedNodeBlockPos(block) {
  */
 function genDepthMap(level, spawnPos) {
     // 回溯节点Map，key为目标节点，value为回溯路径
-    /** @type {Map<BlockPos, BlockPos[]>} */
+    /** @type {Map<BlockPos, BlockPos>} */
     let nodeMap = new Map()
     /** @type {Map<BlockPos, number>} */
     let nodeDepthMap = new Map()
@@ -104,10 +104,7 @@ function genDepthMap(level, spawnPos) {
         let canBeTarget = true
         nearByNodeList.forEach(nodePos => {
             let key = nodePos.hashCode()
-            if (nodeMap.has(key)) {
-                // 因为nextNode遍历的pos不会重复，所以nodeMap各节点也不会出现重复的pos
-                // nodeMap.set(key, nodeMap.get(key).concat(curNodePos))
-            } else {
+            if (!nodeMap.has(key)) {
                 nodeMap.set(key, [curNodePos])
             }
             if (!nodeDepthMap.has(key)) {
@@ -141,7 +138,7 @@ function genDepthMap(level, spawnPos) {
             wayNodeList.unshift(curWayNodePos)
             if (nodeMap.has(key)) {
                 /** @type {BlockPos} */
-                let validBackNode = RandomGet(nodeMap.get(key))
+                let validBackNode = nodeMap.get(key)
                 findNextWayNode(validBackNode)
             }
             return

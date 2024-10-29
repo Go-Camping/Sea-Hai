@@ -12,26 +12,25 @@ function ShopPOIBlock(block) {
     this.block = block
     this.tile = block.entity
 
-    //判断是否在售货
+    // 状态锁
     this.persistentData = this.tile.persistentData
     if (!this.persistentData.contains('isShopping')) {
         this.persistentData.putInt('isShopping', 0)
     }
     this.isShopping = this.persistentData.getInt('isShopping') == 1
 
-    //仓库列表
+    // 关联地点
     if (!this.persistentData.contains('relatedPosList')) {
         this.persistentData.put('relatedPosList', new $ListTag())
     }
     /**@type {BlockPos[]} */
     this.relatedPosList = ConvertNbt2PosList(this.persistentData.getList('relatedPosList', GET_COMPOUND_TYPE))
 
-    //交易金额
+    // 消费金额
     if (!this.persistentData.contains('consumingMoney')) {
         this.persistentData.putInt('consumingMoney', 0)
     }
     this.consumingMoney = this.persistentData.getInt('consumingMoney')
-
 }
 
 ShopPOIBlock.prototype = {
@@ -72,14 +71,14 @@ ShopPOIBlock.prototype = {
         return
     },
     /**
-     * 获取关联容器列表
+     * 获取关联地点列表
      * @returns {BlockPos[]}
      */
     getRelatedPosList: function () {
         return this.relatedPosList
     },
     /**
-     * 获取关联容器列表Nbt格式
+     * 获取关联地点列表Nbt格式
      * @returns {Internal.ListTag}
      */
     getRelatedPosListNbt: function () {

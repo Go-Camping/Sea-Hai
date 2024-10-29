@@ -43,52 +43,70 @@ OnsenPOIModel.prototype = {
     workInPOIInit: function () {
         let poiBlockModel = this.poiBlockModel
         let workInPOIModel = this.workInPOIModel
-        // 选择一个可用的关联地点
-        let level = poiBlockModel.block.level
         let posList = poiBlockModel.getRelatedPosList()
-        
-        if (validContainerBlocks.length <= 0) return false
-        /** @type {Internal.BlockContainerJS} */
-        let selectedContainer = GetWeightRandomObj(validContainerBlocks)
-        let selectedPos = selectedContainer.getPos()
-        workInPOIModel.setTargetMovePos(selectedPos)
-        workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
+        // 选择一个随机的关联地点，但不检查是否可用
+        workInPOIModel.setTargetMovePos(RandomGet(posList))
+        workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_RELATED_POS)
         return true
     },
     workInPOITick: function () {
         let poiBlockModel = this.poiBlockModel
         let workInPOIModel = this.workInPOIModel
-        let level = workInPOIModel.mob.level
         let mob = workInPOIModel.mob
         switch (workInPOIModel.getSubStatus()) {
-            case SUB_STATUS_MOVE_TO_CONTAINER:
+            case SUB_STATUS_MOVE_TO_RELATED_POS:
+                // 如果没有可用的移动目标，那么会直接跳出，使得该workIn状态结束
                 if (!workInPOIModel.getTargetMovePos()) return false
-                // 子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
                 if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
                     workInPOIModel.moveToTargetPos()
                     return true
                 }
-                
-                // 容器取出与结算逻辑
-                let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
-                if (!DefaultShopContainerStrategies[containerBlock.id]) {
-                    workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-                    return true
-                }
-                DefaultShopContainerStrategies[containerBlock.id](workInPOIModel, poiBlockModel, containerBlock, false)
-                if (workInPOIModel.isNeedBuyMore()) {
-                    // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
-                    this.workInPOIInit()
-                    return true
-                }
-                workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+                // 如果到达了目标位置，搜索可用流体，offset额外下沉以减少搜索范围
+                let validLiquidBlocks = FindNearBlocks(mob, 10, 2, -2, (level, blockPos) => {
+                    let blockState = level.getBlockState(blockPos)
+                    if (blockState.liquid() && !blockState.getFluidState().isEmpty()) {
+                        return true
+                    }
+                    return false
+                })
+                workInPOIModel.setTargetMovePos(RandomGet(validLiquidBlocks))
+                workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_ONSEN_POS)
                 return true
+
+            case SUB_STATUS_MOVE_TO_ONSEN_POS:
+                // 如果没有可用的移动目标，那么会直接跳出，使得该workIn状态结束
+                if (!workInPOIModel.getTargetMovePos()) return false
+                if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
+                    workInPOIModel.moveToTargetPos()
+                    return true
+                }
+                // 如果到达了目标位置，那么开始进入等待阶段
+                workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_WAITING)
+                if (mob instanceof $EntityCustomNpc) {
+                    mob.setCurrentAnimation(ANIMATION_SIT)
+                }
+                workInPOIModel.setWaitTimer(Math.random() * 1200 + 600)
+            case SUB_STATUS_ONSEN_WAITING:
+                if (workInPOIModel.checkWaitTimer()) {
+                    if (mob instanceof $EntityCustomNpc) {
+                        mob.setCurrentAnimation(ANIMATION_NONE)
+                    }
+                    workInPOIModel.setConsumedMoney(100)
+                    workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+                } else {
+                    if (mob.age % 20 == 0 && Math.random() < 0.1) {
+                        if (mob instanceof $EntityCustomNpc) {
+                            mob.saySurrounding(new $Line('舒服！'))
+                        }
+                    }
+                }
+
             case SUB_STATUS_RETURN_TO_POI:
                 if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
                     workInPOIModel.moveToPOIPos()
                     return true
                 }
-    
+
                 if (mob.navigation.isInProgress()) {
                     if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
                         mob.navigation.stop()
@@ -96,14 +114,14 @@ OnsenPOIModel.prototype = {
                         mob.navigation.setSpeedModifier(0.1)
                     }
                 }
-    
+
                 if (workInPOIModel.getConsumedMoney() <= 0) {
                     // 没有消费则直接返回
                     workInPOIModel.clearMovePos()
                     workInPOIModel.setSubStatus(SUB_STATUS_NONE)
                     return false
                 }
-    
+
                 if (poiBlockModel.checkIsShopping()) {
                     // 等待释放
                     return true

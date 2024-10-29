@@ -149,23 +149,15 @@ EntityRouteMove.prototype = {
      * @param {Number} time
      */
     setFindIntervalTimer: function (time) {
-        this.routeMoveConfig.putInt('findIntervalTimer', time)
-        this.findIntervalTimer = time
+        this.findIntervalTimer = time + this.mob.age
+        this.routeMoveConfig.putInt('findIntervalTimer', this.findIntervalTimer)
     },
     /**
      * 校验寻找间隔
      * @returns {Boolean}
      */
     checkFindIntervalTimer: function () {
-        if (this.findIntervalTimer <= 0) return true
+        if (this.findIntervalTimer <= this.mob.age) return true
         return false
     },
-    /**
-     * 减少寻找间隔
-     * @param {Number}
-     */
-    decreaseFindIntervalTimer: function () {
-        this.routeMoveConfig.putInt('findIntervalTimer', this.findIntervalTimer - 1)
-        this.findIntervalTimer -= 1
-    }
 }

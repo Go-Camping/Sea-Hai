@@ -8,6 +8,7 @@
 const POIModelStrategies = {
     'kubejs:fish_shop': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
     'kubejs:grocery': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
+    'kubejs:onsen_resort': (workInPOIModel, poiBlock) => new OnsenPOIModel(workInPOIModel, poiBlock),
 }
 
 
