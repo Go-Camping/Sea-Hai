@@ -4,8 +4,8 @@ ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:grocery', 100)
         .requireFunctionOnEnd(ctx => {
             /**@type {Internal.BlockContainerJS} */
-            let block = ctx.block
-            let shopPOIModel = new ShopPOIBlock(block)
+            const block = ctx.block
+            const shopPOIModel = new ShopPOIBlock(block)
 
             let playerBankAccount = $BankSaveData.GetBankAccount(false, ctx.machine.ownerId)
             playerBankAccount.depositMoney(ConvertMainMoneyValue(shopPOIModel.getConsumingMoney()))

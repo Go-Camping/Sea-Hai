@@ -4,7 +4,7 @@ ServerEvents.recipes(event => {
         .requireFunctionEachTick(ctx => {
             if (ctx.remainingTime % 100 != 0) return ctx.success()
 
-            let { machine, block } = ctx
+                const { machine, block } = ctx
 
             let item = machine.getItemStored('route_marker')
             if (!item || !item.hasNBT()) return ctx.error('no target')

@@ -6,9 +6,37 @@
  * @type {Object<string,function(EntityWorkInPOI, Internal.BlockContainerJS):DefaultPOIModel>}
  */
 const POIModelStrategies = {
-    'kubejs:fish_shop': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
+    'kubejs:fish_shop': (workInPOIModel, poiBlock) => new FishShopPOIModel(workInPOIModel, poiBlock),
     'kubejs:grocery': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
     'kubejs:onsen_resort': (workInPOIModel, poiBlock) => new OnsenPOIModel(workInPOIModel, poiBlock),
+}
+
+/**
+ * @constant
+ * @type {Record<string, {validDecorationAmount: number}>}
+ */
+const DefaultContainerProperties = {
+    'minecraft:chest': {
+        validDecorationAmount: 0
+    },
+    'supplementaries:pedestal': {
+        validDecorationAmount: 3
+    },
+}
+
+/**
+ * @constant
+ * @type {Record<string, (workInPOIModel: EntityWorkInPOI, container: Internal.BlockContainerJS) => void>}
+ */
+const DefaultContainerDecorationStrategies = {
+    'minecraft:stone': function (workInPOIModel, container) {
+        // 概率连续购买
+        if (Math.random() > 0.8) workInPOIModel.setNeedBuyMore(true)
+    },
+    'minecraft:iron_block': function (workInPOIModel, container) {
+        // 价格翻倍
+        workInPOIModel.setPriceMutiply(2)
+    },
 }
 
 
@@ -24,119 +52,149 @@ function DefaultPOIModel(workInPOIModel, poiBlock) {
 DefaultPOIModel.prototype = Object.create(POIModel.prototype)
 DefaultPOIModel.prototype.constructor = DefaultPOIModel;
 
-DefaultPOIModel.prototype = {
-    workInPOIInit: function () {
-        let poiBlock = this.poiBlock
-        let workInPOIModel = this.workInPOIModel
-        // 选择一个可用的POI容器
-        let level = poiBlock.level
-        let poiBlockModel = this.poiBlockModel
-        let posList = poiBlockModel.getRelatedPosList()
-        let validContainerBlocks = []
-        posList.forEach(pos => {
-            let tempBlock = level.getBlock(pos)
-            // 这个容器必须有一个有效的取用方法
-            if (!DefaultShopContainerStrategies[tempBlock.id]) return
-            // 且simulate通过
-            if (!DefaultShopContainerStrategies[tempBlock.id](workInPOIModel, poiBlock, tempBlock, true)) return
-            // POI容器可以有权重，先均等概率
-            let tempWeight = 1
-            validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
-        })
-    
-        if (validContainerBlocks.length <= 0) return false
-        /** @type {Internal.BlockContainerJS} */
-        let selectedContainer = GetWeightRandomObj(validContainerBlocks)
-        let selectedPos = selectedContainer.getPos()
-        workInPOIModel.setTargetMovePos(selectedPos)
-        workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
-        return true
-    },
-    workInPOITick: function () {
-        let poiBlock = this.poiBlock
-        let poiBlockModel = this.poiBlockModel
-        let workInPOIModel = this.workInPOIModel
-        let level = poiBlock.level
-        let mob = workInPOIModel.mob
-        switch (workInPOIModel.getSubStatus()) {
-            case SUB_STATUS_MOVE_TO_CONTAINER:
-                if (!workInPOIModel.getTargetMovePos()) return false
-                // 子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
-                if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
-                    workInPOIModel.moveToTargetPos()
-                    return true
-                }
-                
-                // 容器取出与结算逻辑
-                let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
-                if (!DefaultShopContainerStrategies[containerBlock.id]) {
-                    workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-                    return true
-                }
-                DefaultShopContainerStrategies[containerBlock.id](workInPOIModel, poiBlock, containerBlock, false)
-                if (workInPOIModel.isNeedBuyMore()) {
-                    // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
-                    this.workInPOIInit()
-                    return true
-                }
-                workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+DefaultPOIModel.prototype.workInPOIInit = function () {
+    const poiBlock = this.poiBlock
+    const workInPOIModel = this.workInPOIModel
+    // 选择一个可用的POI容器
+    const level = poiBlock.level
+    const poiBlockModel = this.poiBlockModel
+    let posList = poiBlockModel.getRelatedPosList()
+    let validContainerBlocks = []
+    posList.forEach(pos => {
+        let tempBlock = level.getBlock(pos)
+        // 这个容器必须有一个有效的取用方法
+        // 且simulate通过
+        if (!this.consumeContainerItem(tempBlock, true)) return
+        // POI容器可以有权重，先均等概率
+        let tempWeight = 1
+        validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
+    })
+    if (validContainerBlocks.length <= 0) return false
+    /** @type {Internal.BlockContainerJS} */
+    let selectedContainer = GetWeightRandomObj(validContainerBlocks)
+    let selectedPos = selectedContainer.getPos()
+    workInPOIModel.setTargetMovePos(selectedPos)
+    workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
+    return true
+}
+
+DefaultPOIModel.prototype.workInPOITick = function () {
+    const poiBlock = this.poiBlock
+    const poiBlockModel = this.poiBlockModel
+    const workInPOIModel = this.workInPOIModel
+    const level = poiBlock.level
+    const mob = workInPOIModel.mob
+    switch (workInPOIModel.getSubStatus()) {
+        case SUB_STATUS_MOVE_TO_CONTAINER:
+            if (!workInPOIModel.getTargetMovePos()) return false
+            // 子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
+            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
+                workInPOIModel.moveToTargetPos()
                 return true
-            case SUB_STATUS_RETURN_TO_POI:
-                if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
-                    workInPOIModel.moveToPOIPos()
-                    return true
-                }
-    
-                if (mob.navigation.isInProgress()) {
-                    if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
-                        mob.navigation.stop()
-                    } else {
-                        mob.navigation.setSpeedModifier(0.1)
-                    }
-                }
-    
-                if (workInPOIModel.getConsumedMoney() <= 0) {
-                    // 没有消费则直接返回
-                    workInPOIModel.clearMovePos()
-                    workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                    return false
-                }
-    
-                if (poiBlockModel.checkIsShopping()) {
-                    // 等待释放
-                    return true
+            }
+
+            // 容器取出与结算逻辑
+            let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
+            this.consumeContainerItem(containerBlock, false)
+            if (workInPOIModel.isNeedBuyMore()) {
+                // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
+                this.workInPOIInit()
+                return true
+            }
+            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+            return true
+        case SUB_STATUS_RETURN_TO_POI:
+            if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
+                workInPOIModel.moveToPOIPos()
+                return true
+            }
+
+            if (mob.navigation.isInProgress()) {
+                if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
+                    mob.navigation.stop()
                 } else {
-                    // 金额计算逻辑
-                    let consumedMoney = workInPOIModel.getConsumedMoney()
-                    workInPOIModel.clearConsumedMoney()
-                    poiBlockModel.startShopping(consumedMoney)
-                    workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
-                    return true
+                    mob.navigation.setSpeedModifier(0.1)
                 }
+            }
+
+            if (workInPOIModel.getConsumedMoney() <= 0) {
+                // 没有消费则直接返回
+                workInPOIModel.clearMovePos()
+                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+                return false
+            }
+
+            if (poiBlockModel.checkIsShopping()) {
+                // 等待释放
                 return true
-            case SUB_STATUS_START_SHOPPING:
-                let poiPos = workInPOIModel.poiPos
-                mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
-                if (poiBlockModel.checkIsShopping()) {
-                    return true
-                } else {
-                    if (mob instanceof $EntityCustomNpc) {
-                        // todo 调试方法
-                        mob.saySurrounding(new $Line('感觉很实惠！'))
-                    }
-                    workInPOIModel.clearMovePos()
-                    workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                    mob.navigation.setSpeedModifier(1.0)
-                    // 跳出子状态
-                    return false
+            } else {
+                // 金额计算逻辑
+                let consumedMoney = workInPOIModel.getConsumedMoney()
+                workInPOIModel.clearConsumedMoney()
+                poiBlockModel.startShopping(consumedMoney)
+                workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
+                return true
+            }
+        case SUB_STATUS_START_SHOPPING:
+            let poiPos = workInPOIModel.poiPos
+            mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
+            if (poiBlockModel.checkIsShopping()) {
+                return true
+            } else {
+                if (mob instanceof $EntityCustomNpc) {
+                    // todo 调试方法
+                    mob.saySurrounding(new $Line('感觉很实惠！'))
                 }
-                return true
-            default:
-                // 没有设置子状态会行进到这里，强制设置到初始化状态
-                workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
-                return true
-        }
-        return true
+                workInPOIModel.clearMovePos()
+                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+                mob.navigation.setSpeedModifier(1.0)
+                // 跳出子状态
+                return false
+            }
+        default:
+            // 没有设置子状态会行进到这里，强制设置到初始化状态
+            workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
+            return true
     }
+}
+
+
+/**
+ * @param {Internal.ItemStack} item 
+ * @returns {boolean}
+ */
+DefaultPOIModel.prototype.consumeConatinerTester = function (item) {
+    let res = item.hasNBT() && item.nbt.contains('value')
+    return res
+}
+
+/**
+ * @param {Internal.BlockContainerJS} container 
+ * @param {boolean} simulate
+ * @returns {boolean}
+ */
+DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) {
+    const inv = container.getInventory()
+    if (!inv || inv.isEmpty()) return false
+
+    let pickItem = ConsumeFirstItemOfInventory(inv, (item) => this.consumeConatinerTester(item), simulate)
+
+    if (!pickItem || pickItem.isEmpty()) return false
+    if (simulate) return true
+
+    let validDecorationAmount = DefaultContainerProperties[container.id]?.validDecorationAmount || 0
+    if (validDecorationAmount > 0) {
+        let decorationBlocks = FindBlockAroundBlocks(container, 3, 3, (curBlock) => {
+            if (curBlock.blockState.isAir()) return false
+            return curBlock.tags.contains(TAG_DECORATION_BLOCK)
+        })
+        decorationBlocks.slice(0, validDecorationAmount).forEach(block => {
+            DefaultContainerDecorationStrategies[block.id](this.workInPOIModel, container)
+        })
+    }
+
+    let value = this.workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
+    this.workInPOIModel.addConsumedMoney(value)
+    return true
 }
 

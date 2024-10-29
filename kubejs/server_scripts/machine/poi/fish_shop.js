@@ -5,9 +5,9 @@
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:fish_shop', 100)
         .requireFunctionOnEnd(ctx => {
-            let { machine, block } = ctx
-            let owner = machine.getOwner()
-            let shopPOIModel = new ShopPOIBlock(block)
+            const { machine, block } = ctx
+            const owner = machine.getOwner()
+            const shopPOIModel = new ShopPOIBlock(block)
             let consumeMoney = shopPOIModel.getConsumingMoney()
             if (owner && owner.isPlayer()) {
                 let player = owner
@@ -30,3 +30,24 @@ ServerEvents.recipes(event => {
             return ctx.error('invalid')
         })
 })
+
+/** 
+* @param {EntityWorkInPOI} workInPOIModel 
+* @param {Internal.BlockContainerJS} poiBlock 
+*/
+function FishShopPOIModel(workInPOIModel, poiBlock) {
+    DefaultPOIModel.call(this, workInPOIModel, poiBlock)
+}
+
+FishShopPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
+FishShopPOIModel.prototype.constructor = FishShopPOIModel
+
+/**
+ * @param {Internal.ItemStack} item 
+ * @returns 
+ */
+FishShopPOIModel.prototype.consumeConatinerTester = function (item) {
+    let res = item.hasNBT() && item.nbt.contains('value')
+    // return res && item.hasTag('minecraft:fishes')
+    return res
+}
