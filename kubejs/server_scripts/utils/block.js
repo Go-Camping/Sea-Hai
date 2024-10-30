@@ -20,7 +20,7 @@ function FindBlockAroundBlocks(block, searchRange, verticalSearchRange, isValidT
     // Y遍历
     for (let k = 0; k <= verticalSearchRange; k = k > 0 ? -k : 1 - k) {
         // X-Z遍历
-        for (let l = 0; l < searchRange; ++l) {
+        for (let l = 0; l <= searchRange; ++l) {
             for (let i = 0; i <= l; i = i > 0 ? -i : 1 - i) {
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
                     mutableBlockPos.setWithOffset(blockPos, i, k, j);

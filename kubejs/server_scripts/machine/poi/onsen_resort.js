@@ -31,7 +31,9 @@ ServerEvents.recipes(event => {
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function OnsenPOIModel(workInPOIModel, poiBlock) {
-    DefaultPOIModel.call(this, workInPOIModel, poiBlock)
+    // DefaultPOIModel.call(this, workInPOIModel, poiBlock)
+    this.workInPOIModel = workInPOIModel
+    this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
@@ -49,6 +51,7 @@ OnsenPOIModel.prototype.workInPOIInit = function () {
         if (relatedBlock.inventory) return false
         return true
     })
+    if (noInvPos.length <= 0) return false
     workInPOIModel.setTargetMovePos(RandomGet(noInvPos))
     workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_RELATED_POS)
     return true
@@ -59,6 +62,7 @@ OnsenPOIModel.prototype.workInPOITick = function () {
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
+    const level = this.poiBlock.level
     switch (workInPOIModel.getSubStatus()) {
         case SUB_STATUS_MOVE_TO_RELATED_POS:
             // 如果没有可用的移动目标，那么会直接跳出，使得该workIn状态结束
@@ -67,32 +71,37 @@ OnsenPOIModel.prototype.workInPOITick = function () {
                 return true
             }
             // 如果到达了目标位置，搜索可用流体，offset额外下沉以减少搜索范围
-            let validLiquidBlocks = FindNearBlocks(mob, 10, 2, -2, (level, blockPos) => {
+            let validLiquidBlocks = FindNearBlocks(mob, 10, 2, -1, (level, blockPos) => {
                 let blockState = level.getBlockState(blockPos)
                 if (blockState.liquid() && !blockState.getFluidState().isEmpty()) {
                     return true
                 }
                 return false
             })
+            if (validLiquidBlocks.length <= 0) {
+                return false
+            }
             workInPOIModel.setTargetMovePos(RandomGet(validLiquidBlocks))
             workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_ONSEN_POS)
             return true
 
         case SUB_STATUS_MOVE_TO_ONSEN_POS:
             // 如果没有可用的移动目标，那么会直接跳出，使得该workIn状态结束
-            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
+            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_STOP)) {
                 workInPOIModel.moveToTargetPos()
                 return true
             }
             // 如果到达了目标位置，那么开始进入等待阶段
+            mob.navigation.stop()
+            let targetPosV3d = workInPOIModel.getTargetMovePos().getCenter()
+            mob.teleportTo(targetPosV3d.x(), targetPosV3d.y(), targetPosV3d.z())
             workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_WAITING)
-            if (mob instanceof $EntityCustomNpc) {
-                mob.setCurrentAnimation(ANIMATION_SIT)
-            }
+            mob.ais.setAnimation(ANIMATION_SIT)
             workInPOIModel.setWaitTimer(Math.random() * 1200 + 600)
+            return true
         case SUB_STATUS_ONSEN_WAITING:
             if (!workInPOIModel.checkIsWaitTimer()) {
-                mob.setCurrentAnimation(ANIMATION_NONE)
+                mob.ais.setAnimation(ANIMATION_NONE)
                 workInPOIModel.setConsumedMoney(100)
 
                 // 判断是否需要喝饮品
@@ -109,16 +118,15 @@ OnsenPOIModel.prototype.workInPOITick = function () {
                 } else {
                     workInPOIModel.setTargetMovePos(RandomGet(hasInvPos))
                     workInPOIModel.moveToTargetPos()
-                    mob.navigation.setSpeedModifier(0.5)
                     workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_DRINKING)
                     return true
                 }
-
             } else {
-                if (mob.totalTicksAlive % 20 == 0 && Math.random() < 0.1) {
+                if (mob.totalTicksAlive % 20 == 0 && Math.random() < 0.05) {
                     mob.saySurrounding(new $Line('舒服！'))
                 }
             }
+            return true
         case SUB_STATUS_ONSEN_DRINKING:
             if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
                 workInPOIModel.moveToTargetPos()
@@ -141,6 +149,7 @@ OnsenPOIModel.prototype.workInPOITick = function () {
             }
             workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
             mob.navigation.setSpeedModifier(1)
+            return true
         case SUB_STATUS_RETURN_TO_POI:
             if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
                 workInPOIModel.moveToPOIPos()
