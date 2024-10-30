@@ -19,7 +19,7 @@ function EntityWorkInPOI(mob) {
     /** @type {Internal.PathfinderMob} */
     this.mob = mob
     /** @type {Number} */
-    this.speed = 0.8
+    this.speed = 1
 
     // 由于有强制初始化，理想化均包含这些字段，不进行额外空校验，但这仍旧会在部分人工修改内容的场景引发问题
     /** @type {Internal.CompoundTag} */
@@ -232,8 +232,8 @@ EntityWorkInPOI.prototype = {
      * 是否到达等待时间
      * @returns {Boolean}
      */
-    checkWaitTimer: function () {
-        if (this.waitTimer <= this.mob.totalTicksAlive) return true
-        return false
+    checkIsWaitTimer: function () {
+        if (this.waitTimer <= this.mob.totalTicksAlive) return false
+        return true
     },
 }

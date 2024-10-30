@@ -26,7 +26,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         // console.log('status findPOI BeginBehavior')
         let findPOIModel = new EntityFindPOI(mob)
-        findPOIModel.setSpeed(0.5)
+        mob.navigation.setSpeedModifier(0.5)
         findPOIModel.setIdleCenter(GetEntityPosition(mob).offset(0, -1, 0))
         findPOIModel.idleAroundCenter(5)
         findPOIModel.setIdleTimer(Math.floor(Math.random() * 60 + 20))
@@ -56,6 +56,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
                 workInPOIModel.setPOIPos(findPOIModel.targetPOI)
             }
             findPOIModel.moveToTargetPOI()
+            mob.navigation.setSpeedModifier(1.0)
         } else {
             // todo 该部分先简单实现，在后续可以增添更多设计，思路可参考#commit 9aaa9919e0ce2bd252736f094695a211779388a9
             // 如果在这个阶段加上概率亦或是长时间停留，会让玩家误以为搜索效率低下，干扰判断

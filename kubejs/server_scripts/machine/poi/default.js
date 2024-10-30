@@ -111,6 +111,7 @@ DefaultPOIModel.prototype.workInPOITick = function () {
 
             if (mob.navigation.isInProgress()) {
                 if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
+                    mob.navigation.setSpeedModifier(1.0)
                     mob.navigation.stop()
                 } else {
                     mob.navigation.setSpeedModifier(0.1)
@@ -147,7 +148,6 @@ DefaultPOIModel.prototype.workInPOITick = function () {
                 }
                 workInPOIModel.clearMovePos()
                 workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                mob.navigation.setSpeedModifier(1.0)
                 // 跳出子状态
                 return false
             }

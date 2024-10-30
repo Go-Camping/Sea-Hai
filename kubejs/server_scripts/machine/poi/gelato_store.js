@@ -3,7 +3,7 @@
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
 ServerEvents.recipes(event => {
-    event.recipes.custommachinery.custom_machine('kubejs:onsen_resort', 100)
+    event.recipes.custommachinery.custom_machine('kubejs:gelato_store', 100)
         .requireFunctionOnEnd(ctx => {
             /**@type {Internal.BlockContainerJS} */
             const block = ctx.block
@@ -24,21 +24,22 @@ ServerEvents.recipes(event => {
         })
 })
 
-
 // priority: 800
 /**
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {Internal.BlockContainerJS} poiBlock 
  */
-function OnsenPOIModel(workInPOIModel, poiBlock) {
-    DefaultPOIModel.call(this, workInPOIModel, poiBlock)
+function GelatoPOIModel(workInPOIModel, poiBlock) {
+    // DefaultPOIModel.call(this, workInPOIModel, poiBlock)
+    this.workInPOIModel = workInPOIModel
+    this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
-OnsenPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
-OnsenPOIModel.prototype.constructor = OnsenPOIModel;
+GelatoPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
+GelatoPOIModel.prototype.constructor = GelatoPOIModel;
 
-OnsenPOIModel.prototype.workInPOIInit = function () {
+GelatoPOIModel.prototype.workInPOIInit = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     const level = this.poiBlock.level
@@ -54,7 +55,7 @@ OnsenPOIModel.prototype.workInPOIInit = function () {
     return true
 }
 
-OnsenPOIModel.prototype.workInPOITick = function () {
+GelatoPOIModel.prototype.workInPOITick = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
