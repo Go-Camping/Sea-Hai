@@ -40,6 +40,9 @@ function EntityWorkInPOI(mob) {
     // 是否继续购买，这是一个非持久化的变量，因为只有在购物策略完成后才会涉及到该判断
     /** @type {Boolean} */
     this.needBuyMore = false
+    // 是否消耗物品，这是一个非持久化的变量，因为只有在购物策略完成后才会涉及到该判断
+    /** @type {Boolean} */
+    this.needExtractItem = true
     // 价格系数，这是一个非持久化的变量，因为只有在购物策略完成后才会涉及到该判断
     this.priceMutiply = 1
 }
@@ -82,7 +85,7 @@ EntityWorkInPOI.prototype = {
      * 设置目标POI位置
      * @param {BlockPos} pos 
      */
-     setPOIPos: function (pos) {
+    setPOIPos: function (pos) {
         if (!pos) return
         this.poiPos = pos
         this.workInPOIConfig.put('poiPos', ConvertPos2Nbt(pos))
@@ -92,7 +95,7 @@ EntityWorkInPOI.prototype = {
      * 获取POI方块
      * @returns {Internal.BlockContainerJS}
      */
-     getPOIBlock: function () {
+    getPOIBlock: function () {
         let level = this.mob.level
         let poiBlock = level.getBlock(this.poiPos)
         if (!poiBlock.entity) return null
@@ -193,21 +196,36 @@ EntityWorkInPOI.prototype = {
      * 是否需要继续购买
      * @returns {Boolean}
      */
-    isNeedBuyMore() {
+    isNeedBuyMore: function () {
         return this.needBuyMore
     },
     /**
      * 是否需要继续购买
      * @param {Boolean} needBuyMore
      */
-    setNeedBuyMore(needBuyMore) {
+    setNeedBuyMore: function (needBuyMore) {
         this.needBuyMore = needBuyMore
+        return
+    },
+    /**
+     * 是否需要消耗物品
+     * @returns {Boolean}
+     */
+    isNeedExtractItem: function () {
+        return this.needExtractItem
+    },
+    /**
+     * 是否需要消耗物品
+     * @param {Boolean} needBuyMore
+     */
+    setNeedExtractItem: function (needExtractItem) {
+        this.needExtractItem = needExtractItem
         return
     },
     /**
      * 根据付费逻辑，修正消费的金币数额
      */
-    calculateConsumedMoney: function (value){
+    calculateConsumedMoney: function (value) {
         return value * this.priceMutiply
     },
     /**

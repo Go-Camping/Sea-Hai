@@ -1,7 +1,6 @@
 // priority: 1000
 
 /**
- * 
  * @param {BlockPos} pos 
  * @returns {BlockPos}
  */

@@ -111,7 +111,6 @@ DefaultPOIModel.prototype.workInPOITick = function () {
 
             if (mob.navigation.isInProgress()) {
                 if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
-                    mob.navigation.setSpeedModifier(1.0)
                     mob.navigation.stop()
                 } else {
                     mob.navigation.setSpeedModifier(0.1)
@@ -142,10 +141,9 @@ DefaultPOIModel.prototype.workInPOITick = function () {
             if (poiBlockModel.checkIsShopping()) {
                 return true
             } else {
-                if (mob instanceof $EntityCustomNpc) {
-                    // todo 调试方法
-                    mob.saySurrounding(new $Line('感觉很实惠！'))
-                }
+                // todo 调试方法
+                mob.saySurrounding(new $Line('感觉很实惠！'))
+
                 workInPOIModel.clearMovePos()
                 workInPOIModel.setSubStatus(SUB_STATUS_NONE)
                 // 跳出子状态
@@ -177,9 +175,8 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
     const inv = container.getInventory()
     if (!inv || inv.isEmpty()) return false
 
-    let pickItem = ConsumeFirstItemOfInventory(inv, (item) => this.consumeConatinerTester(item), simulate)
-
-    if (!pickItem || pickItem.isEmpty()) return false
+    let slot = FindValidSlotOfInventory(inv, (item) => this.consumeConatinerTester(item), simulate)
+    if (!slot) return false
     if (simulate) return true
 
     let validDecorationAmount = DefaultContainerProperties[container.id]?.validDecorationAmount ?? 0
@@ -192,7 +189,11 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
             DefaultContainerDecorationStrategies[block.id](this.workInPOIModel, container)
         })
     }
-    
+
+    if (this.workInPOIModel.isNeedExtractItem()) {
+        inv.extractItem(slot, 1, false)
+    }
+
     let value = this.workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
     this.workInPOIModel.addConsumedMoney(value)
     return true

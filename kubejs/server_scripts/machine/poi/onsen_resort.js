@@ -38,7 +38,7 @@ function OnsenPOIModel(workInPOIModel, poiBlock) {
 }
 
 OnsenPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
-OnsenPOIModel.prototype.constructor = OnsenPOIModel;
+OnsenPOIModel.prototype.constructor = OnsenPOIModel
 
 OnsenPOIModel.prototype.workInPOIInit = function () {
     const poiBlockModel = this.poiBlockModel

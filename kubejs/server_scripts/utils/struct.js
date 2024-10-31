@@ -4,7 +4,10 @@ const DUNGEON_DIM = new ResourceLocation('kubejs:dungeon')
 const SIDE_LENGTH = 16 * 16
 const MAX_X = SIDE_LENGTH * 50
 
-// todo 生成岛屿
+const MAINISLAND_TEMPLATE_LIST = []
+const SUBISLAND_TEMPLATE_LIST = []
+
+// todo 生成
 /**
  * @param {Internal.Level} level 
  */
@@ -19,7 +22,8 @@ function GenDungeonIslands(level) {
     let buildX = dungeonNum * SIDE_LENGTH % MAX_X
     let buildZ = Math.floor(dungeonNum * SIDE_LENGTH / MAX_X) * SIDE_LENGTH
 
-    let mainIslandId = 'todo'
+    let mainIslandId = RandomGet(MAINISLAND_TEMPLATE_LIST)
+    
     let mainIslandTemplate = dungeonStructManager.getOrCreate(new ResourceLocation(mainIslandId))
     let mainIslandSizeRang = new BlockPos(32, 64, 32)
     let mainIslandBuildPos = new BlockPos(buildX, 64, buildZ)
