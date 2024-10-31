@@ -33,3 +33,15 @@ function Shuffle(arr){
 }
 
 
+/**
+ * 非重取出
+ * @param {any[]} arr
+ * @param {number} count
+ * @returns {any[]}
+ */
+function RandomGetN(arr, count) {
+    if (count >= arr.length) return arr
+    let arrCopy = arr.slice()
+    Shuffle(arrCopy)
+    return arrCopy.slice(0, count)
+}

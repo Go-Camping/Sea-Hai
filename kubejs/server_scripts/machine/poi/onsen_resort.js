@@ -122,14 +122,14 @@ OnsenPOIModel.prototype.workInPOITick = function () {
                     return true
                 }
             } else {
-                if (mob.totalTicksAlive % 20 == 0 && Math.random() < 0.05) {
+                if (mob.totalTicksAlive % 200 == 0 && Math.random() < 0.2) {
                     mob.saySurrounding(new $Line('舒服！'))
                 }
             }
             return true
         case SUB_STATUS_ONSEN_DRINKING:
             if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
-                workInPOIModel.moveToTargetPos()
+                workInPOIModel.moveToTargetPos()  
                 return true
             }
             // 容器取出与结算逻辑

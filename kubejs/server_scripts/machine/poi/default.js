@@ -45,7 +45,9 @@ const DefaultContainerDecorationStrategies = {
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function DefaultPOIModel(workInPOIModel, poiBlock) {
-    POIModel.call(this, workInPOIModel, poiBlock)
+    // POIModel.call(this, workInPOIModel, poiBlock)
+    this.workInPOIModel = workInPOIModel
+    this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
@@ -191,7 +193,8 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
     }
 
     if (this.workInPOIModel.isNeedExtractItem()) {
-        inv.extractItem(slot, 1, false)
+        let pickItem = inv.extractItem(slot, 1, false)
+        this.workInPOIModel.mob.setMainHandItem(pickItem)
     }
 
     let value = this.workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))

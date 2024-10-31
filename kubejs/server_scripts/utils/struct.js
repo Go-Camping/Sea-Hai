@@ -1,11 +1,21 @@
 // priority: 1000
 
 const DUNGEON_DIM = new ResourceLocation('kubejs:dungeon')
-const SIDE_LENGTH = 16 * 16
+const SIDE_LENGTH = 512
 const MAX_X = SIDE_LENGTH * 50
+const ISLAND_SIDE_LENGTH = 32
 
 const MAINISLAND_TEMPLATE_LIST = []
 const SUBISLAND_TEMPLATE_LIST = []
+const BUILDPOS_OFFSET = [
+    new Vec3i(-ISLAND_SIDE_LENGTH, 0, ISLAND_SIDE_LENGTH), 
+    new Vec3i(ISLAND_SIDE_LENGTH, 0, ISLAND_SIDE_LENGTH), 
+    new Vec3i(ISLAND_SIDE_LENGTH, 0, -ISLAND_SIDE_LENGTH), 
+    new Vec3i(-ISLAND_SIDE_LENGTH, 0, -ISLAND_SIDE_LENGTH),
+    new Vec3i(ISLAND_SIDE_LENGTH, 0, 0),
+    new Vec3i(-ISLAND_SIDE_LENGTH, 0, 0),
+    new Vec3i(0, 0, ISLAND_SIDE_LENGTH),
+    new Vec3i(0, 0, -ISLAND_SIDE_LENGTH)] 
 
 // todo 生成
 /**
@@ -15,10 +25,8 @@ function GenDungeonIslands(level) {
     let minecraftServer = level.getServer()
     let dungeonLevel = minecraftServer.getLevel(DUNGEON_DIM)
     let dungeonStructManager = dungeonLevel.getStructureManager()
-
-    let dungeonNum = dungeonLevel.data.getOrDefault('dungeonNum', 0)
-    dungeonLevel.data.put('dungeonNum', dungeonNum + 1)
-
+    let dungeonNum = dungeonLevel.data.getOrDefault('islandNum', 0)
+    
     let buildX = dungeonNum * SIDE_LENGTH % MAX_X
     let buildZ = Math.floor(dungeonNum * SIDE_LENGTH / MAX_X) * SIDE_LENGTH
 
@@ -33,19 +41,40 @@ function GenDungeonIslands(level) {
     let chunkAccess = dungeonLevel.getChunk(chunkX, chunkZ, $ChunkStatus.FULL, true)
     if (!chunkAccess) return
 
-    // 此处应提取方法
+    // 主岛
     let placementSettings = new $StructurePlaceSettings().setMirror($Mirror.NONE).setRotation($Rotation.NONE).setIgnoreEntities(false)
-    mainIslandTemplate.placeInWorld(dungeonLevel, position, sizeRange ,placementSettings, dungeonLevel.getRandom(), 2)
+    mainIslandTemplate.placeInWorld(dungeonLevel, mainIslandBuildPos, mainIslandSizeRang ,placementSettings, dungeonLevel.getRandom(), 2)
+    HandleDataBlock(mainIslandTemplate)
+    // 副岛
+    let subIslandTemplateList = RandomGetN(SUBISLAND_TEMPLATE_LIST, 8)
+    for (let i = 0; i < 8; i++) {
+        if (Math.random() < 0.7) return
+        let subIslandTemplate = dungeonStructManager.getOrCreate(new ResourceLocation(subIslandTemplateList[i]))
+        let subIslandSizeRang = new BlockPos(32, 64, 32)
+        let subIslandBuildPos = new BlockPos(buildX, 64, buildZ).offset(BUILDPOS_OFFSET[i])
+        let subIslandPlacementSettings = new $StructurePlaceSettings().setMirror($Mirror.NONE).setRotation($Rotation.NONE).setIgnoreEntities(false)
+        subIslandTemplate.placeInWorld(dungeonLevel, subIslandBuildPos, subIslandSizeRang, subIslandPlacementSettings, dungeonLevel.getRandom(), 2)
+        HandleDataBlock(subIslandTemplate)
+    }
 
-    // 结构行为
-    mainIslandTemplate.filterBlocks(position, placementSettings, Blocks.STRUCTURE_BLOCK).forEach(block => {
-        if (block.nbt()) {
-
-        }
-    })
+    dungeonLevel.data.put('islandNum', dungeonNum + 1)
 }
 
-
+/**
+ * @param {Internal.StructureTemplate} template 
+ */
+function HandleDataBlock(template) {
+    // 结构行为
+    template.filterBlocks(position, placementSettings, Blocks.STRUCTURE_BLOCK).forEach(block => {
+        if (block.nbt()) {
+            let structureMode = $StructureMode.valueOf(block.nbt().getString('mode'))
+            if (structureMode == $StructureMode.DATA) {
+                
+            }
+        }
+        return
+    })
+}
 
 
 /**

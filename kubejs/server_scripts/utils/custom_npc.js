@@ -27,5 +27,6 @@ function CreateCustomNPCEntity(level) {
 function SitOnChair(mob, chairPos) {
    if (!mob instanceof $EntityCustomNpc) return
    mob.ais.setAnimation(ANIMATION_SIT)
-   mob.teleportTo(chairPos.x, chairPos.y + 1, chairPos.z)
+   let chairPosCenter = chairPos.getCenter()
+   mob.teleportTo(chairPosCenter.x, chairPosCenter.y + 1, chairPosCenter.z)
 }

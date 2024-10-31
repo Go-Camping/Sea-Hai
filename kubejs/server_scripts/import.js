@@ -6,6 +6,7 @@ const $Mirror = Java.loadClass('net.minecraft.world.level.block.Mirror')
 const $Rotation = Java.loadClass('net.minecraft.world.level.block.Rotation')
 const $ChunkStatus = Java.loadClass('net.minecraft.world.level.chunk.ChunkStatus')
 const $PalettedContainer = Java.loadClass('net.minecraft.world.level.chunk.PalettedContainer')
+const $StructureMode = Java.loadClass('net.minecraft.world.level.block.state.properties.StructureMode')
 
 const $TagKey = Java.loadClass('net.minecraft.tags.TagKey')
 const $Registries = Java.loadClass("net.minecraft.core.registries.BuiltInRegistries")
