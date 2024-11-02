@@ -1,0 +1,44 @@
+{
+  "name": {
+    "text": "Gelato Store"
+  },
+  "appearance": {
+
+  },
+  "components": [
+    {
+      "type": "custommachinery:item",
+      "id": "output_1",
+      "mode": "output"
+    }
+  ],
+  "gui": [
+    {
+        "type": "custommachinery:status",
+        "x": 3,
+        "y": 3
+    },
+    {
+      "type": "custommachinery:player_inventory",
+      "x": 7,
+      "y": 83
+    },
+    {
+      "type": "custommachinery:background",
+      "texture": "kubejs:textures/gui/common_background.png",
+      "width": 176,
+      "height": 166
+    },
+    {
+      "type": "custommachinery:progress",
+      "x": 116,
+      "y": 50
+    },
+    {
+      "type": "custommachinery:slot",
+      "id": "output_1",
+      "x": 60,
+      "y": 50
+    }
+  ]
+}

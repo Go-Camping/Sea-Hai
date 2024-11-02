@@ -23,8 +23,8 @@ const $Line = Java.loadClass('noppes.npcs.controllers.data.Line')
 
 const $BankAPI = Java.loadClass('io.github.lightman314.lightmanscurrency.api.money.bank.BankAPI')
 const $BankSaveData = Java.loadClass('io.github.lightman314.lightmanscurrency.common.bank.BankSaveData')
-const $CoinValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.money.value.builtin.CoinValue");
-const $MoneyValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.money.value.MoneyValue");
+const $CoinValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.money.value.builtin.CoinValue")
+const $MoneyValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.money.value.MoneyValue")
 
 const $TargetDummyEntity = Java.loadClass('net.mehvahdjukaar.dummmmmmy.common.TargetDummyEntity')
 

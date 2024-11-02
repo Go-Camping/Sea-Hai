@@ -132,13 +132,29 @@ EntityRouteMove.prototype = {
         return true
     },
     /**
+     * 清除恢复位置
+     * @returns {Boolean}
+     */
+    clearRecoverPos: function () {
+        if (!this.recoverPos) return false
+        this.routeMoveConfig.put('recoverPos', new $CompoundTag())
+        return true
+    },
+    /**
      * 移动到恢复位置，并且在到达时清除恢复信息
      * @param {Number} dist
      */
     moveToRecoverPos: function (dist) {
         if (!this.recoverPos) return
-        if (this.mob.getPosition(1.0).distanceTo(new Vec3d(this.recoverPos.x, this.recoverPos.y, this.recoverPos.z)) <= dist) {
-            this.routeMoveConfig.put('recoverPos', new $CompoundTag())
+        let recoverDis = this.mob.getPosition(1.0).distanceTo(new Vec3d(this.recoverPos.x, this.recoverPos.y, this.recoverPos.z))
+        if (recoverDis <= dist) {
+            this.clearRecoverPos()
+            return
+        }
+        let nextMovePos = this.getNextMovePos()
+        if (this.mob.getPosition(1.0).distanceTo(new Vec3d(nextMovePos.x, nextMovePos.y, nextMovePos.z)) <= recoverDis) {
+            this.clearRecoverPos()
+            this.moveToNextPos()
             return
         }
         this.moveToPos(this.recoverPos)

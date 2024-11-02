@@ -10,7 +10,7 @@ ItemEvents.entityInteracted(FORCE_POI_MOVE_TOOL, event => {
     let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
     if (GetEntityStatus(target) != STATUS_IDLE && GetEntityStatus(target) != STATUS_ROUTE_MOVE) return
     let targetPos = GetEntityPosition(target)
-    if (poiPos.distSqr(new Vec3i(targetPos.x, targetPos.y, targetPos.z)) > 16) return
+    if (poiPos.distSqr(new Vec3i(targetPos.x, targetPos.y, targetPos.z)) > 256) return
     let findPOIModel = new EntityFindPOI(target)
     if (findPOIModel.checkIsMarkedPOI(poiPos)) return
     SetEntityStatus(target, STATUS_FIND_POI)

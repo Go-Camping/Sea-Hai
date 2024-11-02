@@ -28,8 +28,11 @@ FishingItemModel.prototype = {
  * @constant
  * @type {Object<string,function(Internal.ItemStack):FishingItemModel>}
  */
-const FishingItemStrategy = {
-    'kubejs:duck_bobber': (item) => new DuckBobberModel(item),
-    'kubejs:octopus_bobber': (item) => new OctopusBobberModel(item),
-    'kubejs:hard_fishing_line': (item) => new HardFishingLineModel(item),
+const FishingItemStrategy = {}
+/**
+ * @param {string} id 
+ * @param {function(Internal.ItemStack)} model 
+ */
+function RegistryFishingItemStrategy(id, model) {
+    FishingItemStrategy[id] = (item) => new model(item)
 }

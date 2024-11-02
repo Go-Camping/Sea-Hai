@@ -1,5 +1,5 @@
 // priority: 800
-
+RegistryPOIStrategy('kubejs:grocery', DefaultPOIModel)
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:grocery', 100)
         .requireFunctionOnEnd(ctx => {

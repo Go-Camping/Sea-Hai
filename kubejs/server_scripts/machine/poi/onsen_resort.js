@@ -2,6 +2,7 @@
 /**
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
+RegistryPOIStrategy('kubejs:onsen_resort', OnsenPOIModel)
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:onsen_resort', 100)
         .requireFunctionOnEnd(ctx => {
@@ -31,9 +32,9 @@ ServerEvents.recipes(event => {
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function OnsenPOIModel(workInPOIModel, poiBlock) {
-    // DefaultPOIModel.call(this, workInPOIModel, poiBlock)
-    this.workInPOIModel = workInPOIModel
-    this.poiBlock = poiBlock
+    DefaultPOIModel.call(this, workInPOIModel, poiBlock)
+    // this.workInPOIModel = workInPOIModel
+    // this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
@@ -195,9 +196,5 @@ OnsenPOIModel.prototype.workInPOITick = function () {
                 // 跳出子状态
                 return false
             }
-        default:
-            // 没有设置子状态会行进到这里，强制设置到初始化状态
-            workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_RELATED_POS)
-            return true
     }
 }

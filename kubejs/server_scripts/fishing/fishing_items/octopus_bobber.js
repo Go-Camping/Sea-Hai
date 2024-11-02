@@ -1,4 +1,5 @@
 // priority: 800
+RegistryFishingItemStrategy('kubejs:octopus_bobber', OctopusBobberModel)
 /**
  * 
  * @param {Internal.ItemStack} item 

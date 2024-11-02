@@ -1,4 +1,5 @@
 // priority: 800
+RegistryFishingItemStrategy('kubejs:hard_fishing_line', HardFishingLineModel)
 /**
  * 
  * @param {Internal.ItemStack} item 

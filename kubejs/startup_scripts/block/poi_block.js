@@ -5,7 +5,8 @@ StartupEvents.registry('block', event => {
         .machine('kubejs:grocery')
     event.create('kubejs:onsen_resort', 'custommachinery')
         .machine('kubejs:onsen_resort')
-
+    event.create('kubejs:gelato_store', 'custommachinery')
+        .machine('kubejs:gelato_store')
 
     event.create('kubejs:way_node')
         .soundType(SoundType.STONE)

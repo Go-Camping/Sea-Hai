@@ -5,10 +5,14 @@
  * @constant
  * @type {Object<string,function(EntityWorkInPOI, Internal.BlockContainerJS):DefaultPOIModel>}
  */
-const POIModelStrategies = {
-    'kubejs:fish_shop': (workInPOIModel, poiBlock) => new FishShopPOIModel(workInPOIModel, poiBlock),
-    'kubejs:grocery': (workInPOIModel, poiBlock) => new DefaultPOIModel(workInPOIModel, poiBlock),
-    'kubejs:onsen_resort': (workInPOIModel, poiBlock) => new OnsenPOIModel(workInPOIModel, poiBlock),
+const POIModelStrategies = {}
+
+/**
+ * @param {string} id 
+ * @param {function(EntityWorkInPOI, Internal.BlockContainerJS)} model 
+ */
+function RegistryPOIStrategy(id, model) {
+    POIModelStrategies[id] = (workInPOIModel, poiBlock) => new model(workInPOIModel, poiBlock)
 }
 
 /**
@@ -45,9 +49,7 @@ const DefaultContainerDecorationStrategies = {
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function DefaultPOIModel(workInPOIModel, poiBlock) {
-    // POIModel.call(this, workInPOIModel, poiBlock)
-    this.workInPOIModel = workInPOIModel
-    this.poiBlock = poiBlock
+    POIModel.call(this, workInPOIModel, poiBlock)
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
@@ -61,7 +63,7 @@ DefaultPOIModel.prototype.workInPOIInit = function () {
     const level = poiBlock.level
     const poiBlockModel = this.poiBlockModel
     let posList = poiBlockModel.getRelatedPosList()
-    let validContainerBlocks = []
+    let containerWeightModel = new WeightRandomModel()
     posList.forEach(pos => {
         let tempBlock = level.getBlock(pos)
         // 这个容器必须有一个有效的取用方法
@@ -69,11 +71,11 @@ DefaultPOIModel.prototype.workInPOIInit = function () {
         if (!this.consumeContainerItem(tempBlock, true)) return
         // POI容器可以有权重，先均等概率
         let tempWeight = 1
-        validContainerBlocks.push(new WeightRandom(tempBlock, tempWeight))
+        containerWeightModel.addWeightRandom(tempBlock, tempWeight)
     })
-    if (validContainerBlocks.length <= 0) return false
+    if (containerWeightModel.weightRandomList.length <= 0) return false
     /** @type {Internal.BlockContainerJS} */
-    let selectedContainer = GetWeightRandomObj(validContainerBlocks)
+    let selectedContainer = containerWeightModel.getWeightRandomObj()
     let selectedPos = selectedContainer.getPos()
     workInPOIModel.setTargetMovePos(selectedPos)
     workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
@@ -151,10 +153,6 @@ DefaultPOIModel.prototype.workInPOITick = function () {
                 // 跳出子状态
                 return false
             }
-        default:
-            // 没有设置子状态会行进到这里，强制设置到初始化状态
-            workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
-            return true
     }
 }
 
