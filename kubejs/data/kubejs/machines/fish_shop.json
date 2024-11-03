@@ -3,6 +3,7 @@
     "text": "Fish Shop"
   },
   "appearance": {
+    "item": "kubejs:machine/fish_shop_item",
     "running": {
       "custommachinery:block": "kubejs:machine/fish_shop"
     },
@@ -17,9 +18,9 @@
   ],
   "gui": [
     {
-        "type": "custommachinery:status",
-        "x": 3,
-        "y": 3
+      "type": "custommachinery:status",
+      "x": 3,
+      "y": 3
     },
     {
       "type": "custommachinery:player_inventory",

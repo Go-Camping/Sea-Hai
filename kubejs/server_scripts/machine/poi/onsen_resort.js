@@ -32,9 +32,9 @@ ServerEvents.recipes(event => {
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function OnsenPOIModel(workInPOIModel, poiBlock) {
-    DefaultPOIModel.call(this, workInPOIModel, poiBlock)
-    // this.workInPOIModel = workInPOIModel
-    // this.poiBlock = poiBlock
+    // DefaultPOIModel.call(this, workInPOIModel, poiBlock)
+    this.workInPOIModel = workInPOIModel
+    this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
@@ -87,13 +87,16 @@ OnsenPOIModel.prototype.workInPOITick = function () {
             return true
 
         case SUB_STATUS_MOVE_TO_ONSEN_POS:
+            if (workInPOIModel.waitTimer > 0) {
+                workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_WAITING)
+                return true
+            }
             // 如果没有可用的移动目标，那么会直接跳出，使得该workIn状态结束
-            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_STOP)) {
+            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_ONSEN_DISTANCE_STOP)) {
                 workInPOIModel.moveToTargetPos()
                 return true
             }
             // 如果到达了目标位置，那么开始进入等待阶段
-            mob.navigation.stop()
             let targetPosV3d = workInPOIModel.getTargetMovePos().getCenter()
             mob.teleportTo(targetPosV3d.x(), targetPosV3d.y(), targetPosV3d.z())
             workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_WAITING)
@@ -130,7 +133,7 @@ OnsenPOIModel.prototype.workInPOITick = function () {
             return true
         case SUB_STATUS_ONSEN_DRINKING:
             if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
-                workInPOIModel.moveToTargetPos()  
+                workInPOIModel.moveToTargetPos()
                 return true
             }
             // 容器取出与结算逻辑
@@ -180,14 +183,16 @@ OnsenPOIModel.prototype.workInPOITick = function () {
                 // 金额计算逻辑
                 let consumedMoney = workInPOIModel.getConsumedMoney()
                 workInPOIModel.clearConsumedMoney()
-                poiBlockModel.startShopping(consumedMoney)
+                if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
+                    return true
+                }
                 workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
                 return true
             }
         case SUB_STATUS_START_SHOPPING:
             let poiPos = workInPOIModel.poiPos
             mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
-            if (poiBlockModel.checkIsShopping()) {
+            if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
                 return true
             } else {
                 mob.saySurrounding(new $Line('感觉很实惠！'))
@@ -196,5 +201,9 @@ OnsenPOIModel.prototype.workInPOITick = function () {
                 // 跳出子状态
                 return false
             }
+        default:
+            workInPOIModel.clearMovePos()
+            workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+            return false
     }
 }

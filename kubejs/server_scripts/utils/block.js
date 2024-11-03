@@ -13,7 +13,6 @@
  * @returns {Internal.BlockContainerJS[]}
  */
 function FindBlockAroundBlocks(block, searchRange, verticalSearchRange, isValidTarget) {
-    let mutableBlockPos = BlockPos.ZERO.mutable()
     let blockPos = block.pos
     let resBlockList = []
     let level = block.level
@@ -23,8 +22,7 @@ function FindBlockAroundBlocks(block, searchRange, verticalSearchRange, isValidT
         for (let l = 0; l <= searchRange; ++l) {
             for (let i = 0; i <= l; i = i > 0 ? -i : 1 - i) {
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k, j);
-                    let curBlock = level.getBlock(mutableBlockPos)
+                    let curBlock = level.getBlock(blockPos.x + i, blockPos.y + k, blockPos.z + j)
                     if (isValidTarget(curBlock)) {
                         resBlockList.push(curBlock)
                     }

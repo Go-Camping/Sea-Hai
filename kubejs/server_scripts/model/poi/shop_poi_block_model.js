@@ -36,7 +36,7 @@ function ShopPOIBlock(block) {
 ShopPOIBlock.prototype = {
     /**
      * 设置购物状态
-     * @param {boolean} isShopping 
+     * @param {boolean} isShopping
      */
     setIsShopping: function (isShopping) {
         this.isShopping = isShopping
@@ -85,12 +85,39 @@ ShopPOIBlock.prototype = {
         return this.persistentData.getList('relatedPosList', GET_COMPOUND_TYPE)
     },
     /**
+     * @param {Internal.UUID} uuid 
+     */
+    setShopper: function (uuid) {
+        this.persistentData.putUUID('shopper', uuid)
+        this.tile.setChanged()
+    },
+    /**
+     * @returns {Internal.UUID}
+     */
+    getShopper: function () {
+        return this.persistentData.getUUID('shopper')
+    },
+    /**
      * 启动购买配方
      * @param {number} amount
+     * @param {Internal.UUID} uuid
+     * @returns {boolean}
      */
-    startShopping: function (amount) {
+    startShopping: function (uuid, amount) {
+        if (this.checkIsShopping()) {
+            return false
+        }
         this.setIsShopping(true)
+        this.setShopper(uuid)
         this.setConsumingMoney(this.getConsumingMoney() + amount)
+        return true
+    },
+    /**
+     * 校验购物状态
+     * @returns {boolean}
+     */
+    checkIsUUIDShopping: function (uuid) {
+        return this.isShopping && this.getShopper().equals(uuid)
     },
     /**
      * 设置正在消费的金额

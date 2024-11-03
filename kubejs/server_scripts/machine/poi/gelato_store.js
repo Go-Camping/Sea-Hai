@@ -25,7 +25,6 @@ ServerEvents.recipes(event => {
         })
 })
 
-// priority: 800
 /**
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {Internal.BlockContainerJS} poiBlock 
@@ -50,7 +49,10 @@ GelatoPOIModel.prototype.workInPOIInit = function () {
     posList.forEach(pos => {
         let relatedBlock = level.getBlock(pos)
         if (relatedBlock.id == 'gelato_galore:ice_cream_cauldron') {
-            validFlavors.push(relatedBlock.entityData.getString('Flavor'))
+            let curFlavor = relatedBlock.entityData.getString('Flavor')
+            if (curFlavor && validFlavors.indexOf(curFlavor) == -1) {
+                validFlavors.push(curFlavor)
+            }
         }
     })
     if (validFlavors.length == 0) return false
@@ -60,6 +62,7 @@ GelatoPOIModel.prototype.workInPOIInit = function () {
     let weightBallCountModel = new WeightRandomModel()
     weightBallCountModel.addWeightRandom(1, 1).addWeightRandom(2, 1).addWeightRandom(3, 1)
     let ballCount = weightBallCountModel.getWeightRandomObj()
+    if (ballCount > validFlavors.length) ballCount = validFlavors.length
     RandomGetN(validFlavors, ballCount).forEach(flavor => {
         selectedFlavorList.add(NBT.stringTag(flavor))
     })
@@ -75,6 +78,8 @@ GelatoPOIModel.prototype.workInPOIInit = function () {
     workInPOIModel.setSubStatus(SUB_STATUS_GELATO_WAITING_INTERACT)
     return true
 }
+
+
 
 GelatoPOIModel.prototype.workInPOITick = function () {
     const poiBlockModel = this.poiBlockModel
@@ -113,32 +118,46 @@ GelatoPOIModel.prototype.workInPOITick = function () {
                 // 金额计算逻辑
                 let consumedMoney = workInPOIModel.getConsumedMoney()
                 workInPOIModel.clearConsumedMoney()
-                poiBlockModel.startShopping(consumedMoney)
+                if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
+                    return true
+                }
                 workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
                 return true
             }
         case SUB_STATUS_START_SHOPPING:
             let poiPos = workInPOIModel.poiPos
             mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
-            if (poiBlockModel.checkIsShopping()) {
+            if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
                 return true
             } else {
                 mob.saySurrounding(new $Line('感觉很实惠！'))
                 workInPOIModel.clearMovePos()
                 workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+                mob.advanced.setLine(LINE_INTERACT, 0, '', '')
                 // 跳出子状态
                 return false
             }
+        default:
+            workInPOIModel.clearMovePos()
+            workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+            return false
     }
 }
 
 
 ItemEvents.entityInteracted(event => {
-    const { target, player, item } = event
+    const { item, player } = event
+    /**@type {Internal.EntityCustomNpc} */
+    const target = event.target
+    if (event.getHand() == 'off_hand') return
     if (GetEntityStatus(target) != STATUS_WORK_IN_POI) return
     const workInPOIModel = new EntityWorkInPOI(target)
+
+    if (player.isShiftKeyDown()) {
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+    }
+    // todo 打包成为策略方法
     if (workInPOIModel.getSubStatus() == SUB_STATUS_GELATO_WAITING_INTERACT) {
-        let item = player.getMainHandItem()
         if (item && item.nbt && item.nbt.contains('Flavors')) {
             let hadFlavors = []
             item.nbt.getList('Flavors', GET_COMPOUND_TYPE).forEach(/** @param {Internal.CompoundTag} nbt */nbt => {
@@ -149,16 +168,75 @@ ItemEvents.entityInteracted(event => {
             let needFlavors = workInPOIModel.workInPOIConfig.getList('gelatoFlavors', GET_STRING_TYPE)
             let flag = true
             needFlavors.forEach(flavor => {
-                if (hadFlavors.indexOf(flavor) == -1) {
-                    player.tell(flavor)
+                if (hadFlavors.indexOf(flavor.getAsString()) == -1) {
                     flag = false
                 }
             })
             if (flag) {
+                target.saySurrounding(new $Line(Text.translatable('interactline.kubejs.gelato.complete.1').getString()))
+                let holdItem = item.copy()
+                holdItem.setCount(1)
+                target.setMainHandItem(holdItem)
+                if (item.count > 1) {
+                    item.shrink(1)
+                } else {
+                    player.setMainHandItem('minecraft:air')
+                }
+
                 workInPOIModel.setConsumedMoney(10)
                 workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+                return
             }
-
+        } else {
+            let selectedFlavorListNbt = workInPOIModel.workInPOIConfig.getList('gelatoFlavors', GET_STRING_TYPE)
+            if (!selectedFlavorListNbt) return
+            let selectedFlavorList = []
+            selectedFlavorListNbt.forEach(flavor => {
+                selectedFlavorList.push(flavor.getAsString())
+            })
+            target.saySurrounding(new $Line(getGelatoStoreWaitString(selectedFlavorList)))
         }
     }
 })
+
+
+/**
+ * 
+ * @param {String[]} flavorList 
+ */
+function getGelatoStoreWaitString(flavorList) {
+    let flavorListString = []
+    flavorList.forEach(flavor => {
+        return flavorListString.push(getTransFromFlavor(flavor))
+    })
+    let lineString
+    switch (flavorListString.length) {
+        case 1:
+            lineString = RandomGet(ONE_BALL_INTERACT_LINE)(flavorListString)
+            break
+        case 2:
+            lineString = RandomGet(TWO_BALL_INTERACT_LINE)(flavorListString)
+            break
+        case 3:
+            lineString = RandomGet(THREE_BALL_INTERACT_LINE)(flavorListString)
+            break
+    }
+    return lineString
+}
+
+const ONE_BALL_INTERACT_LINE = [
+    (selectedFlavorList) => Text.translatable('interactline.kubejs.gelato.one_ball.1', selectedFlavorList[0]).getString()
+]
+const TWO_BALL_INTERACT_LINE = [
+    (selectedFlavorList) => Text.translatable('interactline.kubejs.gelato.two_ball.1', selectedFlavorList[0], selectedFlavorList[1]).getString()
+]
+const THREE_BALL_INTERACT_LINE = [
+    (selectedFlavorList) => Text.translatable('interactline.kubejs.gelato.three_ball.1', selectedFlavorList[0], selectedFlavorList[1], selectedFlavorList[2]).getString()
+]
+
+/**
+ * @param {string} flavor 
+ */
+function getTransFromFlavor(flavor) {
+    return Text.translatable('kubejs.gelato.flavor.' + flavor.split(':')[1])
+}

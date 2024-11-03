@@ -15,5 +15,27 @@
     "status.kubejs.poi_container_tool.show_poi_container.1": "已展示当前POI绑定的所有容器位置",
     "status.kubejs.poi_container_tool.clear_poi_container.1": "已清空该POI绑定的所有容器",
     "status.kubejs.poi_container_tool.remove_poi_container.1": "已将该容器解绑该POI",
-    "status.kubejs.poi_container_tool.clear_selected_poi.1": "取消了POI方块的绑定"
+    "status.kubejs.poi_container_tool.clear_selected_poi.1": "取消了POI方块的绑定",
+
+    "_comment_.gelato": "冰激凌",
+    "interactline.kubejs.gelato.one_ball.1": "我想要一个%s味的单球冰激凌",
+    "interactline.kubejs.gelato.two_ball.1": "我想要一个%s、%s味的双球冰激凌",
+    "interactline.kubejs.gelato.three_ball.1": "我想要一个%s、%s、%s味的三球冰激凌",
+    "interactline.kubejs.gelato.complete.1": "谢谢，这正是我所需要的！",
+    
+    "kubejs.gelato.flavor.unknown": "未知",
+    "kubejs.gelato.flavor.chocolate": "巧克力",
+    "kubejs.gelato.flavor.sweet_berry": "甜浆果",
+    "kubejs.gelato.flavor.caramel": "焦糖",
+    "kubejs.gelato.flavor.honey": "蜂蜜",
+    "kubejs.gelato.flavor.vanilla": "香草",
+    "kubejs.gelato.flavor.melon": "西瓜",
+    "kubejs.gelato.flavor.apple": "苹果",
+    "kubejs.gelato.flavor.chorus": "紫颂果",
+    "kubejs.gelato.flavor.coffee": "咖啡",
+    "kubejs.gelato.flavor.green_tea": "绿茶",
+    "kubejs.gelato.flavor.banana": "香蕉",
+    "kubejs.gelato.flavor.mint": "薄荷",
+    "kubejs.gelato.flavor.adzuki": "红豆",
+    "kubejs.gelato.flavor.strawberry": "草莓"
 }

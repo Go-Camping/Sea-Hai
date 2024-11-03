@@ -49,7 +49,9 @@ const DefaultContainerDecorationStrategies = {
  * @param {Internal.BlockContainerJS} poiBlock 
  */
 function DefaultPOIModel(workInPOIModel, poiBlock) {
-    POIModel.call(this, workInPOIModel, poiBlock)
+    // POIModel.call(this, workInPOIModel, poiBlock)
+    this.workInPOIModel = workInPOIModel
+    this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
@@ -135,24 +137,29 @@ DefaultPOIModel.prototype.workInPOITick = function () {
                 // 金额计算逻辑
                 let consumedMoney = workInPOIModel.getConsumedMoney()
                 workInPOIModel.clearConsumedMoney()
-                poiBlockModel.startShopping(consumedMoney)
+                if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
+                    return true
+                }
                 workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
                 return true
             }
         case SUB_STATUS_START_SHOPPING:
             let poiPos = workInPOIModel.poiPos
             mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
-            if (poiBlockModel.checkIsShopping()) {
+            if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
                 return true
             } else {
                 // todo 调试方法
                 mob.saySurrounding(new $Line('感觉很实惠！'))
-
                 workInPOIModel.clearMovePos()
                 workInPOIModel.setSubStatus(SUB_STATUS_NONE)
                 // 跳出子状态
                 return false
             }
+        default:
+            workInPOIModel.clearMovePos()
+            workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+            return false
     }
 }
 
@@ -174,9 +181,8 @@ DefaultPOIModel.prototype.consumeConatinerTester = function (item) {
 DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) {
     const inv = container.getInventory()
     if (!inv || inv.isEmpty()) return false
-
-    let slot = FindValidSlotOfInventory(inv, (item) => this.consumeConatinerTester(item), simulate)
-    if (!slot) return false
+    let { slot, pickItem } = FindValidSlotOfInventory(inv, (item) => this.consumeConatinerTester(item))
+    if (slot == null || slot < 0) return false
     if (simulate) return true
 
     let validDecorationAmount = DefaultContainerProperties[container.id]?.validDecorationAmount ?? 0
@@ -189,12 +195,11 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
             DefaultContainerDecorationStrategies[block.id](this.workInPOIModel, container)
         })
     }
-
+    console.log(pickItem)
     if (this.workInPOIModel.isNeedExtractItem()) {
-        let pickItem = inv.extractItem(slot, 1, false)
+        inv.extractItem(slot, 1, false)
         this.workInPOIModel.mob.setMainHandItem(pickItem)
     }
-
     let value = this.workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
     this.workInPOIModel.addConsumedMoney(value)
     return true

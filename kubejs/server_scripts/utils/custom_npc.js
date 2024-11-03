@@ -30,3 +30,16 @@ function SitOnChair(mob, chairPos) {
    let chairPosCenter = chairPos.getCenter()
    mob.teleportTo(chairPosCenter.x, chairPosCenter.y + 1, chairPosCenter.z)
 }
+
+
+/**
+ * 清空指定类型的台词
+ * @param {Internal.EntityCustomNpc} mob 
+ * @param {number} type 
+ */
+function ClearLine(mob, type) {
+    let lineCount = mob.advanced.getLineCount(type)
+    for (let i = 0; i < lineCount; i++) {
+        mob.advanced.setLine(type, 0, '', '')
+    }
+}

@@ -7,3 +7,8 @@ const $RenderSystem = Java.loadClass('com.mojang.blaze3d.systems.RenderSystem')
 const $Tesselator = Java.loadClass('com.mojang.blaze3d.vertex.Tesselator')
 const $VertexBuffer = Java.loadClass('com.mojang.blaze3d.vertex.VertexBuffer')
 const $GameRenderer = Java.loadClass('net.minecraft.client.renderer.GameRenderer')
+const $OverlayTexture = Java.loadClass('net.minecraft.client.renderer.texture.OverlayTexture')
+
+const $GLFWKey = Java.loadClass("org.lwjgl.glfw.GLFW")
+
+const $EntityCustomNpc = Java.loadClass('noppes.npcs.entity.EntityCustomNpc')

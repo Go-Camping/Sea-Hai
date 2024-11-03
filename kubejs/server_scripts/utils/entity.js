@@ -212,16 +212,14 @@ function NavigateWithDegrade(mob, pos, speed) {
     let navigation = mob.getNavigation()
     if (navigation.isInProgress() && mob.isInFluidType()) {
         mob.jumpControl.jump()
-        return true
-    }
-    if (!navigation.isInProgress() || !navigation.targetPos.equals(pos)) {
-        navigation.moveTo(pos.x, pos.y, pos.z, speed)
-        return true
     }
     if (navigation.isStuck()) {
         console.log('NavigateWithDegrade: degrade tp')
         mob.teleportTo(pos.x, pos.y, pos.z)
         navigation.recomputePath()
+    }
+    if (!navigation.isInProgress() || !navigation.targetPos.equals(pos)) {
+        navigation.moveTo(pos.x, pos.y, pos.z, speed)
         return true
     }
     return true

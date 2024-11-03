@@ -25,6 +25,7 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         let workInPOIModel = new EntityWorkInPOI(mob)
+        if (workInPOIModel.getSubStatus() != SUB_STATUS_NONE) return
         let poiBlock = workInPOIModel.getPOIBlock()
         if (!poiBlock) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)
         let poiBlockId = poiBlock.id
@@ -35,6 +36,9 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         //console.log('status workInPOI StopBehavior')
+        let workInPOIModel = new EntityWorkInPOI(mob)
+        if (workInPOIModel.getSubStatus() == SUB_STATUS_NONE) return
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
     },
     true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {

@@ -143,7 +143,7 @@ EntityWorkInPOI.prototype = {
         return
     },
     /**
-     * 移动到目标POI位置
+     * 移动到目标位置
      */
     moveToTargetPos: function () {
         this.moveToPos(this.targetMovePos)
@@ -174,7 +174,8 @@ EntityWorkInPOI.prototype = {
      * @param {Number} consumingMoney
      */
     addConsumedMoney: function (consumingMoney) {
-        this.setConsumedMoney(consumingMoney + this.consumedMoney)
+        this.consumedMoney = consumingMoney + this.consumedMoney
+        this.workInPOIConfig.putInt('consumedMoney', this.consumedMoney)
         return
     },
     /**

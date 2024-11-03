@@ -151,12 +151,6 @@ EntityRouteMove.prototype = {
             this.clearRecoverPos()
             return
         }
-        let nextMovePos = this.getNextMovePos()
-        if (this.mob.getPosition(1.0).distanceTo(new Vec3d(nextMovePos.x, nextMovePos.y, nextMovePos.z)) <= recoverDis) {
-            this.clearRecoverPos()
-            this.moveToNextPos()
-            return
-        }
         this.moveToPos(this.recoverPos)
         return
     },
