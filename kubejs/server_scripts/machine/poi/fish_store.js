@@ -2,9 +2,9 @@
 /**
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
-RegistryPOIStrategy('kubejs:fish_shop', FishShopPOIModel)
+RegistryPOIStrategy('kubejs:fish_store', FishShopPOIModel)
 ServerEvents.recipes(event => {
-    event.recipes.custommachinery.custom_machine('kubejs:fish_shop', 100)
+    event.recipes.custommachinery.custom_machine('kubejs:fish_store', 100)
         .requireFunctionOnEnd(ctx => {
             const { machine, block } = ctx
             const owner = machine.getOwner()

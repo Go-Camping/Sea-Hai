@@ -1,6 +1,6 @@
 StartupEvents.registry('block', event => {
-    event.create('kubejs:fish_shop', 'custommachinery')
-        .machine('kubejs:fish_shop')
+    event.create('kubejs:fish_store', 'custommachinery')
+        .machine('kubejs:fish_store')
     event.create('kubejs:grocery', 'custommachinery')
         .machine('kubejs:grocery')
     event.create('kubejs:onsen_resort', 'custommachinery')

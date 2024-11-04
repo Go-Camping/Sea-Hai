@@ -3,11 +3,11 @@
     "text": "Fish Shop"
   },
   "appearance": {
-    "item": "kubejs:machine/fish_shop_item",
+    "item": "kubejs:machine/fish_store_item",
     "running": {
-      "custommachinery:block": "kubejs:machine/fish_shop"
+      "custommachinery:block": "kubejs:machine/fish_store"
     },
-    "custommachinery:block": "kubejs:machine/fish_shop_idle"
+    "custommachinery:block": "kubejs:machine/fish_store_idle"
   },
   "components": [
     {

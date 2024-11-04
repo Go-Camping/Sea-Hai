@@ -15,34 +15,6 @@ function RegistryPOIStrategy(id, model) {
     POIModelStrategies[id] = (workInPOIModel, poiBlock) => new model(workInPOIModel, poiBlock)
 }
 
-/**
- * @constant
- * @type {Record<string, {validDecorationAmount: number}>}
- */
-const DefaultContainerProperties = {
-    'minecraft:chest': {
-        validDecorationAmount: 0
-    },
-    'supplementaries:pedestal': {
-        validDecorationAmount: 3
-    },
-}
-
-/**
- * @constant
- * @type {Record<string, (workInPOIModel: EntityWorkInPOI, container: Internal.BlockContainerJS) => void>}
- */
-const DefaultContainerDecorationStrategies = {
-    'minecraft:stone': function (workInPOIModel, container) {
-        // 概率连续购买
-        if (Math.random() > 0.1) workInPOIModel.setNeedBuyMore(true)
-    },
-    'minecraft:iron_block': function (workInPOIModel, container) {
-        // 价格翻倍
-        workInPOIModel.setPriceMutiply(2)
-    },
-}
-
 
 /**
  * @param {EntityWorkInPOI} workInPOIModel 
@@ -55,6 +27,7 @@ function DefaultPOIModel(workInPOIModel, poiBlock) {
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
+// 通过原型链继承
 DefaultPOIModel.prototype = Object.create(POIModel.prototype)
 DefaultPOIModel.prototype.constructor = DefaultPOIModel;
 
@@ -185,14 +158,14 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
     if (slot == null || slot < 0) return false
     if (simulate) return true
 
-    let validDecorationAmount = DefaultContainerProperties[container.id]?.validDecorationAmount ?? 0
+    let validDecorationAmount = ContainerProperty[container.id]?.validDecorationAmount ?? 0
     if (validDecorationAmount > 0) {
         let decorationBlocks = FindBlockAroundBlocks(container, 3, 3, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
             return curBlock.tags.contains(TAG_DECORATION_BLOCK)
         })
         decorationBlocks.slice(0, validDecorationAmount).forEach(block => {
-            DefaultContainerDecorationStrategies[block.id](this.workInPOIModel, container)
+            ContainerDecorationStrategy[block.id](this.workInPOIModel, container)
         })
     }
     console.log(pickItem)

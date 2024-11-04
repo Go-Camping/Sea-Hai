@@ -27,7 +27,7 @@ function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, i
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
                     mutableBlockPos.setWithOffset(blockPos, i, k, j);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i, k, j))
+                        resBlockPosList.push(new BlockPos(blockPos.x + i, blockPos.y + k, blockPos.z + j))
                     }
                 }
             }
@@ -67,7 +67,7 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
                 for (let j = 0; j <= secondaryRange; j = j > 0 ? -j : 1 - j) {
                     mutableBlockPos.setWithOffset(blockPos, i * dx, k, j);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i * dx, k, j))
+                        resBlockPosList.push(new BlockPos(blockPos.x + i * dx, blockPos.y + k, blockPos.z + j))
                     }
                 }
             }
@@ -77,7 +77,7 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
                 for (let i = 0; i <= secondaryRange; i = i > 0 ? -i : 1 - i) {
                     mutableBlockPos.setWithOffset(blockPos, i, k, j * dz);
                     if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(BlockPos.ZERO.mutable().setWithOffset(blockPos, i, k, j * dz))
+                        resBlockPosList.push(new BlockPos(blockPos.x + i, blockPos.y + k, blockPos.z + j * dz))
                     }
                 }
             }
