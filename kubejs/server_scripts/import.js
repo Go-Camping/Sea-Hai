@@ -9,7 +9,8 @@ const $PalettedContainer = Java.loadClass('net.minecraft.world.level.chunk.Palet
 const $StructureMode = Java.loadClass('net.minecraft.world.level.block.state.properties.StructureMode')
 
 const $TagKey = Java.loadClass('net.minecraft.tags.TagKey')
-const $Registries = Java.loadClass("net.minecraft.core.registries.BuiltInRegistries")
+const $Registries = Java.loadClass('net.minecraft.core.registries.Registries')
+const $ResourceKey = Java.loadClass('net.minecraft.resources.ResourceKey')
 
 const $CustomGoal = Java.loadClass('net.liopyu.entityjs.util.ai.CustomGoal')
 const $Vec3 = Java.loadClass('net.minecraft.world.phys.Vec3')

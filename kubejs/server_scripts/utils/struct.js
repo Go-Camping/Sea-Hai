@@ -1,21 +1,21 @@
 // priority: 1000
 
 const DUNGEON_DIM = new ResourceLocation('kubejs:dungeon')
-const SIDE_LENGTH = 512
-const MAX_X = SIDE_LENGTH * 50
-const ISLAND_SIDE_LENGTH = 32
 
-const MAINISLAND_TEMPLATE_LIST = []
+const ISLAND_SIDE_LENGTH = 32
+const ISLAND_BUILD_INTERVAL = 512
+
+const MAINISLAND_TEMPLATE_LIST = ['kubejs:test']
 const SUBISLAND_TEMPLATE_LIST = []
 const BUILDPOS_OFFSET = [
-    new Vec3i(-ISLAND_SIDE_LENGTH, 0, ISLAND_SIDE_LENGTH), 
-    new Vec3i(ISLAND_SIDE_LENGTH, 0, ISLAND_SIDE_LENGTH), 
-    new Vec3i(ISLAND_SIDE_LENGTH, 0, -ISLAND_SIDE_LENGTH), 
+    new Vec3i(-ISLAND_SIDE_LENGTH, 0, ISLAND_SIDE_LENGTH),
+    new Vec3i(ISLAND_SIDE_LENGTH, 0, ISLAND_SIDE_LENGTH),
+    new Vec3i(ISLAND_SIDE_LENGTH, 0, -ISLAND_SIDE_LENGTH),
     new Vec3i(-ISLAND_SIDE_LENGTH, 0, -ISLAND_SIDE_LENGTH),
     new Vec3i(ISLAND_SIDE_LENGTH, 0, 0),
     new Vec3i(-ISLAND_SIDE_LENGTH, 0, 0),
     new Vec3i(0, 0, ISLAND_SIDE_LENGTH),
-    new Vec3i(0, 0, -ISLAND_SIDE_LENGTH)] 
+    new Vec3i(0, 0, -ISLAND_SIDE_LENGTH)]
 
 // todo 生成
 /**
@@ -25,26 +25,32 @@ function GenDungeonIslands(level) {
     let minecraftServer = level.getServer()
     let dungeonLevel = minecraftServer.getLevel(DUNGEON_DIM)
     let dungeonStructManager = dungeonLevel.getStructureManager()
-    let dungeonNum = dungeonLevel.data.getOrDefault('islandNum', 0)
+    let dungeonNum = 0
+    if (dungeonLevel.persistentData.contains('islandNum')) {
+        dungeonNum = dungeonLevel.persistentData.getInt('islandNum')
+    }
     
-    let buildX = dungeonNum * SIDE_LENGTH % MAX_X
-    let buildZ = Math.floor(dungeonNum * SIDE_LENGTH / MAX_X) * SIDE_LENGTH
-
+    console.log('Generate Dungeon Island', dungeonNum)
+    let buildOffset = caculateStructureCenterPos(dungeonNum)
+    let buildX = buildOffset.x * ISLAND_BUILD_INTERVAL
+    let buildZ = buildOffset.z * ISLAND_BUILD_INTERVAL
+    console.log('buildX:', buildX, 'buildZ:', buildZ)
     let mainIslandId = RandomGet(MAINISLAND_TEMPLATE_LIST)
-    
+
     let mainIslandTemplate = dungeonStructManager.getOrCreate(new ResourceLocation(mainIslandId))
     let mainIslandSizeRang = new BlockPos(32, 64, 32)
-    let mainIslandBuildPos = new BlockPos(buildX, 64, buildZ)
+    let mainIslandBuildPos = new BlockPos(buildX, 0, buildZ)
 
-    let chunkX = Math.floor(blockPos.x / 16)
-    let chunkZ = Math.floor(blockPos.z / 16)
+    let chunkX = Math.floor(mainIslandBuildPos.x / 16)
+    let chunkZ = Math.floor(mainIslandBuildPos.z / 16)
     let chunkAccess = dungeonLevel.getChunk(chunkX, chunkZ, $ChunkStatus.FULL, true)
     if (!chunkAccess) return
 
+
     // 主岛
     let placementSettings = new $StructurePlaceSettings().setMirror($Mirror.NONE).setRotation($Rotation.NONE).setIgnoreEntities(false)
-    mainIslandTemplate.placeInWorld(dungeonLevel, mainIslandBuildPos, mainIslandSizeRang ,placementSettings, dungeonLevel.getRandom(), 2)
-    HandleDataBlock(mainIslandTemplate)
+    mainIslandTemplate.placeInWorld(dungeonLevel, mainIslandBuildPos, mainIslandSizeRang, placementSettings, dungeonLevel.getRandom(), 2)
+    HandleDataBlock(mainIslandTemplate, mainIslandBuildPos, placementSettings)
     // 副岛
     let subIslandTemplateList = RandomGetN(SUBISLAND_TEMPLATE_LIST, 8)
     for (let i = 0; i < 8; i++) {
@@ -57,19 +63,21 @@ function GenDungeonIslands(level) {
         HandleDataBlock(subIslandTemplate)
     }
 
-    dungeonLevel.data.put('islandNum', dungeonNum + 1)
+    dungeonLevel.persistentData.putInt('islandNum', dungeonNum + 1)
 }
 
 /**
  * @param {Internal.StructureTemplate} template 
+ * @param {BlockPos} position
+ * @param {Internal.StructurePlaceSettings} placementSettings
  */
-function HandleDataBlock(template) {
+function HandleDataBlock(template, position, placementSettings) {
     // 结构行为
     template.filterBlocks(position, placementSettings, Blocks.STRUCTURE_BLOCK).forEach(block => {
         if (block.nbt()) {
             let structureMode = $StructureMode.valueOf(block.nbt().getString('mode'))
             if (structureMode == $StructureMode.DATA) {
-                
+
             }
         }
         return
@@ -80,12 +88,14 @@ function HandleDataBlock(template) {
 /**
  * 在某区块
  * @param {Internal.ServerLevel} level 
- * @param {Internal.ChunkAccess} chunkAccess 
+ * @param {Internal.ChunkAccess} chunkAccess
+ * @param {string} biomeName
  */
 function SetChunkBiomeAtBlockPos(level, chunkAccess, biomeName) {
-    let levelBiomeRegistryOpt = level.registryAccess().registry(Registry.WorldgenBiome)
+    let levelBiomeRegistryOpt = level.registryAccess().registry($Registries.BIOME)
     if (!levelBiomeRegistryOpt.isPresent()) return
-    let biomeHolderOpt = levelBiomeRegistryOpt.get().getHolder(biomeName)
+    
+    let biomeHolderOpt = levelBiomeRegistryOpt.get().getHolder($ResourceKey.create($Registries.BIOME, new ResourceLocation(biomeName)))
     if (!biomeHolderOpt.isPresent()) return
     let biomeHolder = biomeHolderOpt.get()
 
@@ -102,4 +112,29 @@ function SetChunkBiomeAtBlockPos(level, chunkAccess, biomeName) {
         }
     })
     chunkAccess.setUnsaved(true)
+}
+
+
+const X_SIDE_MODIFIER = [0, -1, 0, 1]
+const Z_SIDE_MODIFIER = [1, 0, -1, 0]
+const X_POINT_MODIFIER = [1, 1, -1, -1]
+const Z_POINT_MODIFIER = [-1, 1, 1, -1]
+/**
+ * 
+ * @param {number} n 
+ * @returns {{x: number, z: number}}
+ */
+function caculateStructureCenterPos(n) {
+    if (n == 0) return {x: 0, z: 0}
+    let rad = Math.floor((Math.pow(n, 1 / 2) + 1) / 2)
+
+    let perimeter = 8 * rad
+    let sideLength = 2 * rad + 1
+    let left = perimeter - Math.pow(sideLength, 2) + n
+
+    let sideNum = Math.floor(left / sideLength)
+    let moveNum = left % sideLength
+    let x = rad * X_POINT_MODIFIER[sideNum] + X_SIDE_MODIFIER[sideNum] * moveNum
+    let z = rad * Z_POINT_MODIFIER[sideNum] + Z_SIDE_MODIFIER[sideNum] * moveNum
+    return {x: x, z: z}
 }
