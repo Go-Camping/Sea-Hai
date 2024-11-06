@@ -38,7 +38,7 @@ function GenDungeonIslands(level) {
     let mainIslandId = RandomGet(MAINISLAND_TEMPLATE_LIST)
 
     let mainIslandTemplate = dungeonStructManager.getOrCreate(new ResourceLocation(mainIslandId))
-    let mainIslandSizeRang = new BlockPos(32, 64, 32)
+    let mainIslandSizeRange = ConvertVec3i2BlockPos(mainIslandTemplate.getSize())
     let mainIslandBuildPos = new BlockPos(buildX, 0, buildZ)
 
     let chunkX = Math.floor(mainIslandBuildPos.x / 16)
@@ -46,25 +46,33 @@ function GenDungeonIslands(level) {
     let chunkAccess = dungeonLevel.getChunk(chunkX, chunkZ, $ChunkStatus.FULL, true)
     if (!chunkAccess) return
 
-
     // 主岛
     let placementSettings = new $StructurePlaceSettings().setMirror($Mirror.NONE).setRotation($Rotation.NONE).setIgnoreEntities(false)
-    mainIslandTemplate.placeInWorld(dungeonLevel, mainIslandBuildPos, mainIslandSizeRang, placementSettings, dungeonLevel.getRandom(), 2)
+    mainIslandTemplate.placeInWorld(dungeonLevel, mainIslandBuildPos, mainIslandSizeRange, placementSettings, dungeonLevel.getRandom(), 2)
     HandleDataBlock(mainIslandTemplate, mainIslandBuildPos, placementSettings)
     // 副岛
     let subIslandTemplateList = RandomGetN(SUBISLAND_TEMPLATE_LIST, 8)
     for (let i = 0; i < 8; i++) {
         if (Math.random() < 0.7) return
         let subIslandTemplate = dungeonStructManager.getOrCreate(new ResourceLocation(subIslandTemplateList[i]))
-        let subIslandSizeRang = new BlockPos(32, 64, 32)
+        let subIslandSizeRange = ConvertVec3i2BlockPos(subIslandTemplate.getSize())
         let subIslandBuildPos = new BlockPos(buildX, 64, buildZ).offset(BUILDPOS_OFFSET[i])
         let subIslandPlacementSettings = new $StructurePlaceSettings().setMirror($Mirror.NONE).setRotation($Rotation.NONE).setIgnoreEntities(false)
-        subIslandTemplate.placeInWorld(dungeonLevel, subIslandBuildPos, subIslandSizeRang, subIslandPlacementSettings, dungeonLevel.getRandom(), 2)
+        subIslandTemplate.placeInWorld(dungeonLevel, subIslandBuildPos, subIslandSizeRange, subIslandPlacementSettings, dungeonLevel.getRandom(), 2)
         HandleDataBlock(subIslandTemplate)
     }
 
     dungeonLevel.persistentData.putInt('islandNum', dungeonNum + 1)
 }
+
+/**
+ * @param {Vec3i} vec3i 
+ * @returns {BlockPos}
+ */
+function ConvertVec3i2BlockPos(vec3i) {
+    return new BlockPos(vec3i.x, vec3i.y, vec3i.z)
+}
+
 
 /**
  * @param {Internal.StructureTemplate} template 
@@ -91,7 +99,7 @@ function HandleDataBlock(template, position, placementSettings) {
  * @param {Internal.ChunkAccess} chunkAccess
  * @param {string} biomeName
  */
-function SetChunkBiomeAtBlockPos(level, chunkAccess, biomeName) {
+function SetBiomeByChunk(level, chunkAccess, biomeName) {
     let levelBiomeRegistryOpt = level.registryAccess().registry($Registries.BIOME)
     if (!levelBiomeRegistryOpt.isPresent()) return
     
