@@ -22,13 +22,20 @@ function CreateCustomNPCEntity(level) {
  * 
  * @param {Internal.Level} level 
  * @param {Internal.EntityCustomNpc} mob 
- * @param {BlockPos} chairPos 
+ * @param {BlockPos} pos 
+ * @param {number} seatHeight
+ * @param {Internal.Direction} direction
+ * @returns {boolean}
  */
-function SitOnChair(mob, chairPos) {
-   if (!mob instanceof $EntityCustomNpc) return
-   mob.ais.setAnimation(ANIMATION_SIT)
-   let chairPosCenter = chairPos.getCenter()
-   mob.teleportTo(chairPosCenter.x, chairPosCenter.y + 1, chairPosCenter.z)
+function SitOnChair(mob, pos, seatHeight, direction) {
+    const level = mob.level
+    if (level.getEntitiesOfClass($Seat.class, new AABB.ofBlock(pos)).isEmpty()) {
+        let seatYaw = direction.getYaw()
+        let seat = new $Seat(level, pos, seatHeight, seatYaw, true)
+        level.addFreshEntity(seat)
+        return mob.startRiding(seat)
+    }
+    return false
 }
 
 

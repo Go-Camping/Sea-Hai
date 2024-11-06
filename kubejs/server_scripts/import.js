@@ -34,6 +34,7 @@ const $InteractionHand = Java.loadClass('net.minecraft.world.InteractionHand')
 const $AquaFishingRodItem = Java.loadClass('com.teammetallurgy.aquaculture.item.AquaFishingRodItem')
 const $AquacultureAPI = Java.loadClass('com.teammetallurgy.aquaculture.api.AquacultureAPI')
 
+const $Seat = Java.loadClass('com.mrcrayfish.furniture.refurbished.entity.Seat')
 
 const $SkillsAPI = Java.loadClass('net.puffish.skillsmod.api.SkillsAPI')
 const $SkillsMode = Java.loadClass('net.puffish.skillsmod.SkillsMod')
