@@ -5,9 +5,8 @@
  */
 function FishingItemModel(item) {
     this.item = item
+    this.priority = 0
 }
-
-// Object.assign(DefaultPOIModel.prototype, POIModel.prototype)
 
 FishingItemModel.prototype = {
     /**
