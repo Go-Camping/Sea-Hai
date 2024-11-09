@@ -32,6 +32,18 @@ function Shuffle(arr) {
     return arr;
 }
 
+/**
+ * 数组交集
+ * @param {any[]} arr1 
+ * @param {any[]} arr2 
+ * @returns {any[]}
+ */
+function Intersect(arr1, arr2) {
+    return arr1.filter(function (value) {
+        return arr2.indexOf(value) > -1
+    })
+}
+
 
 /**
  * 非重取出
