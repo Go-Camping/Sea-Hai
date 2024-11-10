@@ -22,7 +22,7 @@ PufferskillModel.prototype = {
     /**
      * @param {Internal.Category} category 
      * @param {string} skillName 
-     * @returns 
+     * @returns {Internal.Skill}
      */
     getSkill: function (category, skillName) {
         let skillOpt = category.getSkill(skillName)
@@ -34,8 +34,8 @@ PufferskillModel.prototype = {
      * @param {string} skillName 
      * @returns 
      */
-    hasSkill: function (category, skillName) {
-        let skill = GetSkill(category, skillName)
+    getSkillState: function (category, skillName) {
+        let skill = this.getSkill(category, skillName)
         if (skill == null) return false
         return skill.getState(this.player)
     },
@@ -55,3 +55,22 @@ PufferskillModel.prototype = {
 
 
 
+/**
+ * 
+ * @param {Object<string, function>} skillMap 
+ * @param {string} skillCategoryName 
+ * @param {any} params 
+ * @returns 
+ */
+function ApplySkillEffect(skillMap, skillCategoryName, params) {
+    const cateGoryOpt = $SkillsAPI.getCategory(new ResourceLocation(skillCategoryName))
+    if (!cateGoryOpt.isPresent()) return null
+    const category = cateGoryOpt.get()
+
+    Object.keys(skillMap).forEach(key => {
+        let skillState = skillModel.getSkillState(category, key)
+        if (skillState && skillState == $SkillState.UNLOCKED) {
+            skillMap[key](params)
+        }
+    })
+}

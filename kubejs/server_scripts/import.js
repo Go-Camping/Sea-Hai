@@ -38,5 +38,6 @@ const $Seat = Java.loadClass('com.mrcrayfish.furniture.refurbished.entity.Seat')
 
 const $SkillsAPI = Java.loadClass('net.puffish.skillsmod.api.SkillsAPI')
 const $SkillsMode = Java.loadClass('net.puffish.skillsmod.SkillsMod')
+const $SkillState = Java.loadClass('net.puffish.skillsmod.api.Skill$State')
 
 const $Integer = Java.loadClass('java.lang.Integer')
