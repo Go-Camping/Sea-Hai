@@ -10,7 +10,7 @@ function EntityWorkInPOI(mob) {
     if (!mob.persistentData.contains(NBT_WORK_IN_POI)) {
         let workInPOIConfig = new $CompoundTag()
         workInPOIConfig.put('poiPos', new $CompoundTag())
-        workInPOIConfig.putInt('subStatus', SUB_STATUS_MOVE_TO_CONTAINER)
+        workInPOIConfig.putInt('subStatus', SUB_STATUS_NONE)
         workInPOIConfig.put('targetMovePos', new $CompoundTag())
         workInPOIConfig.putInt('consumedMoney', 0)
         workInPOIConfig.putInt('waitTimer', 0)

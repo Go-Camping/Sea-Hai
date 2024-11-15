@@ -68,10 +68,10 @@ GelatoPOIModel.prototype.workInPOIInit = function () {
     })
     workInPOIModel.workInPOIConfig.put('gelatoFlavors', selectedFlavorList)
 
-    let entityList = GetNearByCNPCEntity(level, mob.position(), 3, (plevel, pentity) => {
+    let entityList = GetLivingWithinRadius(level, mob.position(), 3, (plevel, pentity) => {
         return pentity.isLiving() && GetEntityStatus(pentity) != STATUS_NONE
     })
-    if (entityList.length > 3) {
+    if (entityList.length > 5) {
         // POI周围人数过多，则放弃排队
         return false
     }
