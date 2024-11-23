@@ -2,7 +2,7 @@
 /**
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
-RegistryPOIStrategy('kubejs:fish_store', FishShopPOIModel)
+RegistryPOIStrategy('kubejs:fish_store', FishStorePOIModel)
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:fish_store', 100)
         .requireFunctionOnEnd(ctx => {
@@ -60,18 +60,18 @@ ServerEvents.recipes(event => {
 * @param {EntityWorkInPOI} workInPOIModel 
 * @param {Internal.BlockContainerJS} poiBlock 
 */
-function FishShopPOIModel(workInPOIModel, poiBlock) {
+function FishStorePOIModel(workInPOIModel, poiBlock) {
     DefaultPOIModel.call(this, workInPOIModel, poiBlock)
 }
 
-FishShopPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
-FishShopPOIModel.prototype.constructor = FishShopPOIModel
+FishStorePOIModel.prototype = Object.create(DefaultPOIModel.prototype)
+FishStorePOIModel.prototype.constructor = FishStorePOIModel
 
 /**
  * @param {Internal.ItemStack} item 
  * @returns 
  */
-FishShopPOIModel.prototype.consumeConatinerTester = function (item) {
+FishStorePOIModel.prototype.consumeConatinerTester = function (item) {
     let res = item.hasNBT() && item.nbt.contains('value')
     // return res && item.hasTag('minecraft:fishes')
     return res

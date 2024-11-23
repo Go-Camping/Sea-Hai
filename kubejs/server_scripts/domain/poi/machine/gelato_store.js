@@ -2,7 +2,7 @@
 /**
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
-RegistryPOIStrategy('kubejs:gelato_store', GelatoPOIModel)
+RegistryPOIStrategy('kubejs:gelato_store', GelatoStorePOIModel)
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:gelato_store', 100)
         .requireFunctionOnEnd(ctx => {
@@ -29,17 +29,17 @@ ServerEvents.recipes(event => {
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {Internal.BlockContainerJS} poiBlock 
  */
-function GelatoPOIModel(workInPOIModel, poiBlock) {
+function GelatoStorePOIModel(workInPOIModel, poiBlock) {
     // DefaultPOIModel.call(this, workInPOIModel, poiBlock)
     this.workInPOIModel = workInPOIModel
     this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
-GelatoPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
-GelatoPOIModel.prototype.constructor = GelatoPOIModel
+GelatoStorePOIModel.prototype = Object.create(DefaultPOIModel.prototype)
+GelatoStorePOIModel.prototype.constructor = GelatoStorePOIModel
 
-GelatoPOIModel.prototype.workInPOIInit = function () {
+GelatoStorePOIModel.prototype.workInPOIInit = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     const mob = workInPOIModel.mob
@@ -81,7 +81,7 @@ GelatoPOIModel.prototype.workInPOIInit = function () {
 
 
 
-GelatoPOIModel.prototype.workInPOITick = function () {
+GelatoStorePOIModel.prototype.workInPOITick = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */

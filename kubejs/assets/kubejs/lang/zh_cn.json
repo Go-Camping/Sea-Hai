@@ -5,6 +5,7 @@
 
     "_comment.common": "物品组",
     "common.kubejs.key.shift": "[Shift]",
+    "common.kubejs.key.right_click": "[右键]",
 
     "_comment.item": "物品",
     "item.kubejs.route_tool": "路径工具",
@@ -19,6 +20,9 @@
     "tooltips.kubejs.item.menu.1": "菜单数量：%s / 9",
     "tooltips.kubejs.item.menu.2": "按下 %s 以显示细节",
     "tooltips.kubejs.item.menu.3": "-    %s",
+    "tooltips.kubejs.item.exp_bottle.1": "经验类型： %s",
+    "tooltips.kubejs.item.exp_bottle.2": "存储数量： %s  mb",
+    "tooltips.kubejs.item.exp_bottle.3": "长按 %s 饮用以获得经验 ",
     
     "_comment.status": "状态消息",
     "status.kubejs.poi_container_tool.selected_poi.1": "已选定POI方块",
@@ -27,6 +31,12 @@
     "status.kubejs.poi_container_tool.clear_poi_container.1": "已清空该POI绑定的所有容器",
     "status.kubejs.poi_container_tool.remove_poi_container.1": "已将该容器解绑该POI",
     "status.kubejs.poi_container_tool.clear_selected_poi.1": "取消了POI方块的绑定",
+
+    "status.kubejs.exp_bottle.gain_exp.1": "你在 %s 方面的经验增长了 %s 点",
+
+    "_comment_.skill": "技能",
+    "skill.kubejs.fishing.name": "钓鱼",
+
 
     "_comment_.gelato": "冰激凌",
     "interactline.kubejs.gelato.one_ball.1": "我想要一个%s味的单球冰激凌",

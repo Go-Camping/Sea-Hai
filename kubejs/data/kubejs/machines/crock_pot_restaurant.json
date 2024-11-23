@@ -1,13 +1,13 @@
 {
   "name": {
-    "text": "Fish Shop"
+    "text": "Crock Pot Restaurant"
   },
   "appearance": {
-    "item": "kubejs:machine/fish_store_item",
+    "item": "kubejs:machine/crock_pot_restaurant",
     "running": {
-      "custommachinery:block": "kubejs:machine/fish_store"
+      "custommachinery:block": "kubejs:machine/crock_pot_restaurant"
     },
-    "custommachinery:block": "kubejs:machine/fish_store_idle"
+    "custommachinery:block": "kubejs:machine/crock_pot_restaurant_idle"
   },
   "components": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "type": "custommachinery:item",
-      "id": "input_1",
+      "id": "menu_input",
       "mode": "input"
     },
     {
@@ -38,11 +38,11 @@
     {
       "type": "custommachinery:fluid",
       "capacity": 10000,
-      "id": "fishing_exp_tank",
+      "id": "cook_exp_tank",
       "maxInput": 10000,
       "maxOutput": 10000,
       "filter": [
-        "kubejs:fishing_exp_fluid"
+        "kubejs:cook_exp_fluid"
       ],
       "whitelist": true,
       "unique": true
@@ -90,7 +90,7 @@
     },
     {
       "type": "custommachinery:slot",
-      "id": "input_1",
+      "id": "menu_input",
       "x": 15,
       "y": 24
     },
@@ -104,13 +104,13 @@
       "type": "custommachinery:fluid",
       "x": 95,
       "y": 8,
-      "id": "fishing_exp_tank"
+      "id": "cook_exp_tank"
     },
     {
       "type": "custommachinery:button",
       "x": 95,
       "y": 54,
-      "id": "dump_fishing_exp",
+      "id": "dump_cook_exp",
       "item": "minecraft:diamond",
       "hold_time": 20
     }

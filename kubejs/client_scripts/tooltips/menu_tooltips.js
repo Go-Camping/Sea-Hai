@@ -1,4 +1,3 @@
-
 ItemEvents.tooltip((tooltip) => {
     tooltip.addAdvanced('kubejs:menu', (item, advanced, text) => {
         let lineNum = 1

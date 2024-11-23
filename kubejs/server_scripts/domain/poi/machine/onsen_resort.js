@@ -2,7 +2,7 @@
 /**
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
-RegistryPOIStrategy('kubejs:onsen_resort', OnsenPOIModel)
+RegistryPOIStrategy('kubejs:onsen_resort', OnsenStorePOIModel)
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:onsen_resort', 100)
         .requireFunctionOnEnd(ctx => {
@@ -31,17 +31,17 @@ ServerEvents.recipes(event => {
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {Internal.BlockContainerJS} poiBlock 
  */
-function OnsenPOIModel(workInPOIModel, poiBlock) {
+function OnsenStorePOIModel(workInPOIModel, poiBlock) {
     // DefaultPOIModel.call(this, workInPOIModel, poiBlock)
     this.workInPOIModel = workInPOIModel
     this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
-OnsenPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
-OnsenPOIModel.prototype.constructor = OnsenPOIModel
+OnsenStorePOIModel.prototype = Object.create(DefaultPOIModel.prototype)
+OnsenStorePOIModel.prototype.constructor = OnsenStorePOIModel
 
-OnsenPOIModel.prototype.workInPOIInit = function () {
+OnsenStorePOIModel.prototype.workInPOIInit = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     const level = this.poiBlock.level
@@ -58,7 +58,7 @@ OnsenPOIModel.prototype.workInPOIInit = function () {
     return true
 }
 
-OnsenPOIModel.prototype.workInPOITick = function () {
+OnsenStorePOIModel.prototype.workInPOITick = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */

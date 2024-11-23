@@ -41,3 +41,7 @@ const $SkillsMode = Java.loadClass('net.puffish.skillsmod.SkillsMod')
 const $SkillState = Java.loadClass('net.puffish.skillsmod.api.Skill$State')
 
 const $Integer = Java.loadClass('java.lang.Integer')
+
+const $MachineJS = Java.loadClass('fr.frinn.custommachinery.common.integration.kubejs.function.MachineJS')
+const $CustomMachineTile = Java.loadClass('fr.frinn.custommachinery.common.init.CustomMachineTile')
+const $CMRegistration = Java.loadClass('fr.frinn.custommachinery.common.init.Registration')
