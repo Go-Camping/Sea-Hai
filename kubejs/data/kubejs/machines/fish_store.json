@@ -14,6 +14,38 @@
       "type": "custommachinery:item",
       "id": "output_1",
       "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "output_2",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "exp_output",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "input_1",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "input_2",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:fluid",
+      "capacity": 10000,
+      "id": "fishing_exp_tank",
+      "maxInput": 10000,
+      "maxOutput": 10000,
+      "filter": [
+        "kubejs:fishing_exp_fluid"
+      ],
+      "whitelist": true,
+      "unique": true
     }
   ],
   "gui": [
@@ -35,14 +67,52 @@
     },
     {
       "type": "custommachinery:progress",
-      "x": 116,
-      "y": 50
+      "x": 115,
+      "y": 38
     },
     {
       "type": "custommachinery:slot",
       "id": "output_1",
-      "x": 60,
-      "y": 50
+      "x": 145,
+      "y": 18
+    },
+    {
+      "type": "custommachinery:slot",
+      "id": "output_2",
+      "x": 145,
+      "y": 36
+    },
+    {
+      "type": "custommachinery:slot",
+      "id": "exp_output",
+      "x": 145,
+      "y": 54
+    },
+    {
+      "type": "custommachinery:slot",
+      "id": "input_1",
+      "x": 15,
+      "y": 24
+    },
+    {
+      "type": "custommachinery:slot",
+      "id": "input_2",
+      "x": 15,
+      "y": 42
+    },
+    {
+      "type": "custommachinery:fluid",
+      "x": 95,
+      "y": 8,
+      "id": "fishing_exp_tank"
+    },
+    {
+      "type": "custommachinery:button",
+      "x": 95,
+      "y": 54,
+      "id": "dump_fishing_exp",
+      "item": "minecraft:diamond",
+      "hold_time": 20
     }
   ]
 }

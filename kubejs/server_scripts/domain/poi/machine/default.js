@@ -168,7 +168,6 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
             ContainerDecorationStrategy[block.id](this.workInPOIModel, container)
         })
     }
-    console.log(pickItem)
     if (this.workInPOIModel.isNeedExtractItem()) {
         inv.extractItem(slot, 1, false)
         this.workInPOIModel.mob.setMainHandItem(pickItem)

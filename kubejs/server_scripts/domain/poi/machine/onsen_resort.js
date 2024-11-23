@@ -84,6 +84,7 @@ OnsenPOIModel.prototype.workInPOITick = function () {
             }
             workInPOIModel.setTargetMovePos(RandomGet(validLiquidBlocks))
             workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_ONSEN_POS)
+            workInPOIModel.setConsumedMoney(100)
             return true
 
         case SUB_STATUS_MOVE_TO_ONSEN_POS:
@@ -106,7 +107,6 @@ OnsenPOIModel.prototype.workInPOITick = function () {
         case SUB_STATUS_ONSEN_WAITING:
             if (!workInPOIModel.checkIsWaitTimer()) {
                 mob.ais.setAnimation(ANIMATION_NONE)
-                workInPOIModel.setConsumedMoney(100)
 
                 // 判断是否需要喝饮品
                 let hasInvPos = poiBlockModel.getRelatedPosList().filter(relatedPos => {

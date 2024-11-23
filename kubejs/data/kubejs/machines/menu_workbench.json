@@ -1,0 +1,175 @@
+{
+    "name": "Menu Workbench",
+    "appearance": {
+        "block": "minecraft:furnace",
+        "running": {
+            "block": "minecraft:furnace[lit=true]",
+            "light": 15
+        }
+    },
+    "tooltips": [],
+    "components": [
+        {
+            "type": "custommachinery:item",
+            "id": "input_1",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_2",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_3",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_4",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_5",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_6",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_7",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_8",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "input_9",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "paper_input",
+            "mode": "input",
+            "filter": [
+                "minecraft:paper"
+            ],
+            "whitelist": true
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "menu_output",
+            "mode": "output"
+        }
+
+    ],
+    "gui": [
+        {
+            "type": "custommachinery:status",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "type": "custommachinery:player_inventory",
+            "x": 7,
+            "y": 83
+        },
+        {
+            "type": "custommachinery:background",
+            "texture": "kubejs:textures/gui/common_background.png",
+            "width": 176,
+            "height": 166
+        },
+        {
+            "type": "custommachinery:progress",
+            "x": 116,
+            "y": 50,
+            "texture_empty": "kubejs:textures/gui/aether_gate_progress_empty.png",
+            "texture_filled": "kubejs:textures/gui/aether_gate_progress.png",
+            "direction": "top"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 10,
+            "y": 20,
+            "id": "input_1"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 28,
+            "y": 20,
+            "id": "input_2"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 46,
+            "y": 20,
+            "id": "input_3"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 64,
+            "y": 20,
+            "id": "input_4"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 82,
+            "y": 20,
+            "id": "input_5"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 100,
+            "y": 20,
+            "id": "input_6"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 118,
+            "y": 20,
+            "id": "input_7"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 136,
+            "y": 20,
+            "id": "input_8"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 204,
+            "y": 20,
+            "id": "input_9"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 25,
+            "y": 60,
+            "id": "paper_input"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 60,
+            "y": 60,
+            "id": "menu_output"
+        },
+        {
+            "type": "custommachinery:button",
+            "x": 100,
+            "y": 60,
+            "id": "start_botton",
+            "item": "minecraft:diamond",
+            "hold_time": 20
+        }
+    ],
+    "jei": [],
+    "catalysts": []
+}

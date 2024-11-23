@@ -214,7 +214,6 @@ function NavigateWithDegrade(mob, pos, speed) {
         mob.jumpControl.jump()
     }
     if (navigation.isStuck()) {
-        console.log('NavigateWithDegrade: degrade tp')
         mob.teleportTo(pos.x, pos.y, pos.z)
         navigation.recomputePath()
     }

@@ -1,4 +1,11 @@
 {
+    "_comment.errors": "错误消息",
+    "errors.kubejs.machine.no_enough_output_space": "没有足够的输出空间！",
+    "errors.kubejs.machine.no_use_output": "无意义的输出！",
+
+    "_comment.common": "物品组",
+    "common.kubejs.key.shift": "[Shift]",
+
     "_comment.item": "物品",
     "item.kubejs.route_tool": "路径工具",
     "item.kubejs.poi_container_tool": "容器链接工具",
@@ -8,6 +15,10 @@
     "tooltips.kubejs.item.duck_bobber.1": "鱼钩将更少的受到重力的影响",
     "tooltips.kubejs.item.octopus_bobber.1": "鱼会变得懒惰",
     "tooltips.kubejs.item.hard_fishing_line.1": "结实的鱼线使得你的鱼钩略容易被提升",
+
+    "tooltips.kubejs.item.menu.1": "菜单数量：%s / 9",
+    "tooltips.kubejs.item.menu.2": "按下 %s 以显示细节",
+    "tooltips.kubejs.item.menu.3": "-    %s",
     
     "_comment.status": "状态消息",
     "status.kubejs.poi_container_tool.selected_poi.1": "已选定POI方块",
