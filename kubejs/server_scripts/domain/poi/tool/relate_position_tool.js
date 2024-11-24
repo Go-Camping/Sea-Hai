@@ -1,8 +1,8 @@
 // priority: 500
 
-const POI_CONTAINER_TOOL = 'kubejs:poi_container_tool'
+const RELATE_POSITION_TOOL = 'kubejs:relate_position_tool'
 
-ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
+ItemEvents.firstRightClicked(RELATE_POSITION_TOOL, event => {
     let { item, player, level } = event
     let rayTraceResult = player.rayTrace(player.blockReach)
     let block = rayTraceResult.block
@@ -12,8 +12,8 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
             ClearBlockOutlineRender(player)
             let nbt = item.getOrCreateTag()
             nbt.put('poiPos', ConvertPos2Nbt(block.getPos()))
-            RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#000000')], 20 * 15)
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.selected_poi.1'))
+            RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#00ea33')], 20 * 15)
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.selected_poi.1'))
         } else {
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
@@ -27,8 +27,8 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
             if (posList.some(pos => { if (pos.equals(block.getPos())) return true })) return
             posListNbt.add(ConvertPos2Nbt(block.getPos()))
             shopPOIModel.setRelatedPosListNbt(posListNbt)
-            RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#000000'), 20 * 15)
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.add_poi_container.1'))
+            RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#00ea33'), 20 * 15)
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.add_relate_position.1'))
         }
     } else {
         if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
@@ -39,13 +39,13 @@ ItemEvents.firstRightClicked(POI_CONTAINER_TOOL, event => {
         if (!poiBlock.tags.contains(TAG_POI_ENTRANCE)) return
         let shopPOIModel = new ShopPOIBlock(poiBlock)
         let posListNbt = shopPOIModel.getRelatedPosListNbt()
-        RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#000000'), 20 * 15)
-        player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.show_poi_container.1'))
+        RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#00ea33'), 20 * 15)
+        player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.show_relate_position.1'))
     }
     
 })
 
-ItemEvents.firstLeftClicked(POI_CONTAINER_TOOL, event => {
+ItemEvents.firstLeftClicked(RELATE_POSITION_TOOL, event => {
     let { item, player, level } = event
     let rayTraceResult = player.rayTrace(player.blockReach)
     let block = rayTraceResult.block
@@ -56,7 +56,7 @@ ItemEvents.firstLeftClicked(POI_CONTAINER_TOOL, event => {
             ClearBlockOutlineRender(player)
             let shopPOIModel = new ShopPOIBlock(block)
             shopPOIModel.setRelatedPosListNbt(new $ListTag())
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.clear_poi_container.1'))
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_relate_position.1'))
         } else {
             if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
             let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
@@ -71,14 +71,14 @@ ItemEvents.firstLeftClicked(POI_CONTAINER_TOOL, event => {
                 return pos.equals(block.getPos())
             })
             shopPOIModel.setRelatedPosListNbt(posListNbt)
-            RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#000000')])
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.remove_poi_container.1'))
+            RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#00ea33')])
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.remove_relate_position.1'))
         }        
     } else {
         if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
         // 解除掉工具对于POI的绑定
         ClearBlockOutlineRender(player)
         item.nbt.remove('poiPos')
-        player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.clear_selected_poi.1'))
+        player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_selected_poi.1'))
     }
 })

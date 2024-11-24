@@ -27,7 +27,7 @@ ItemEvents.firstRightClicked(FORCE_POI_MOVE_TOOL, event => {
             // 选中POI模式
             let nbt = item.getOrCreateTag()
             nbt.put('poiPos', ConvertPos2Nbt(block.getPos()))
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.selected_poi.1'))
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.selected_poi.1'))
         }
     }
 })
@@ -38,5 +38,5 @@ ItemEvents.firstLeftClicked(FORCE_POI_MOVE_TOOL, event => {
     if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
     // 清除工具绑定的POI
     item.nbt.remove('poiPos')
-    player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.clear_poi.1'))
+    player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_poi.1'))
 })

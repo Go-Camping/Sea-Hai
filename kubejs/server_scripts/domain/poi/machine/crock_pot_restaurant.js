@@ -44,18 +44,29 @@ CrockPotRestaurantPOIModel.prototype.workInPOIInit = function () {
     const workInPOIModel = this.workInPOIModel
     const mob = workInPOIModel.mob
     const level = this.poiBlock.level
+    const poiBlock = this.poiBlock
+    const machine = ConvertBlockEntity2MachineJS(poiBlock.entity)
+    if (!machine) return false
+    let menuItems = GetMachineMenuItems(machine)
+    if (menuItems.length <= 0) return false
     let posList = poiBlockModel.getRelatedPosList()
+    if (posList.length <= 0) return false
+    let validTableList = []
     posList.forEach(pos => {
         let relatedBlock = level.getBlock(pos)
-        if (relatedBlock.id == 'gelato_galore:ice_cream_cauldron') {
-            let curFlavor = relatedBlock.entityData.getString('Flavor')
-            if (curFlavor && validFlavors.indexOf(curFlavor) == -1) {
-                validFlavors.push(curFlavor)
-            }
+        if (relatedBlock.hasTag(TAG_TABLE_BLOCK)) {
+            validTableList = FindBlockAroundBlocks(relatedBlock, 2, 1, (curBlock) => {
+                if (curBlock.hasTag(TAG_CHAIR_BLOCK)) {
+                    let entityList = GetLivingWithinRadius(level, mob.position(), 1, (plevel, pentity) => {
+                        return pentity.isLiving() & GetEntityStatus(pentity) != STATUS_NONE
+                    })
+                    if (entityList.length <= 0) return false
+                }
+                return true
+            })
         }
     })
     if (validFlavors.length == 0) return false
-    const poiBlock = workInPOIModel.getPOIBlock()
 
     workInPOIModel.setSubStatus(SUB_STATUS_GELATO_WAITING_INTERACT)
     return true

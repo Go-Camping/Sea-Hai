@@ -3,7 +3,11 @@
     "text": "Gelato Store"
   },
   "appearance": {
-
+    "item": "kubejs:machine/gelato_store_item",
+    "running": {
+      "custommachinery:block": "kubejs:machine/gelato_store"
+    },
+    "custommachinery:block": "kubejs:machine/gelato_store_idle"
   },
   "components": [
     {
@@ -14,9 +18,9 @@
   ],
   "gui": [
     {
-        "type": "custommachinery:status",
-        "x": 3,
-        "y": 3
+      "type": "custommachinery:status",
+      "x": 3,
+      "y": 3
     },
     {
       "type": "custommachinery:player_inventory",

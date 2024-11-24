@@ -10,3 +10,20 @@ function ConvertBlockEntity2MachineJS(blockEntity) {
     }
     return null
 }
+
+/**
+ * @param {CustomMachine} machine 
+ * @returns {Internal.ItemStack[]}
+ */
+function GetMachineMenuItems(machine) {
+    let menu = machine.getItemStored('menu_input')
+    if (menu.id != 'kubejs:menu') return []
+    if (!menu.hasNBT() || !menu.nbt.contains('inventory')) return []
+    let menuItemNbtList = menu.nbt.getList('inventory', GET_COMPOUND_TYPE)
+    if (!menuItemNbtList) return []
+    let outputList = []
+    menuItemNbtList.forEach(itemNbt => {
+        outputList.push(Item.of(itemNbt.getString('id')))
+    })
+    return outputList
+}

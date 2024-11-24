@@ -6,7 +6,10 @@ const TAG_NODE_ENTRANCE = new ResourceLocation('kubejs:node_entrance')
 const TAG_NODE_BLOCK = new ResourceLocation('kubejs:node_block')
 // 装饰方块
 const TAG_DECORATION_BLOCK = new ResourceLocation('kubejs:decoration_block')
-
+// 桌子方块
+const TAG_TABLE_BLOCK = new ResourceLocation('kubejs:table_block')
+// 椅子方块
+const TAG_CHAIR_BLOCK = new ResourceLocation('kubejs:chair_block')
 
 ServerEvents.tags('block', event => {
     event.add('kubejs:poi_entrance', ['kubejs:fish_store','kubejs:grocery', 'kubejs:onsen_resort', 'kubejs:gelato_store'])
@@ -16,4 +19,8 @@ ServerEvents.tags('block', event => {
     event.add('kubejs:node_block', ['kubejs:way_node'])
 
     event.add('kubejs:node_entrance', ['kubejs:aether_gate'])
+
+    event.add('kubejs:table_block', ['#refurbished_furniture:tuckable'])
+
+    event.add('kubejs:chair_block', ['refurbished_furniture:oak_chair', 'refurbished_furniture:spruce_chair', 'refurbished_furniture:birch_chair', 'refurbished_furniture:jungle_chair', 'refurbished_furniture:acacia_chair', 'refurbished_furniture:dark_oak_chair', 'refurbished_furniture:mangrove_chair', 'refurbished_furniture:cherry_chair', 'refurbished_furniture:crimson_chair', 'refurbished_furniture:warped_chair'])
 })

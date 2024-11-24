@@ -12,8 +12,8 @@ ItemEvents.firstRightClicked(RELATE_NODE_TOOL, event => {
             ClearBlockOutlineRender(player)
             let nbt = item.getOrCreateTag()
             nbt.put('nodePos', ConvertPos2Nbt(block.getPos()))
-            RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#000000')], 20 * 15)
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.selected_poi.1'))
+            RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#00ea33')], 20 * 15)
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.selected_poi.1'))
         } else {
             let nodePos = ConvertNbt2Pos(item.nbt.get('nodePos'))
             let nodeBlock = level.getBlock(nodePos)
@@ -26,8 +26,8 @@ ItemEvents.firstRightClicked(RELATE_NODE_TOOL, event => {
             relatedNodePosListNbt.add(ConvertPos2Nbt(block.getPos()))
             nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
             nodeEntity.setChanged()
-            RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#000000'), 20 * 15)
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.add_poi_container.1'))
+            RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#00ea33'), 20 * 15)
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.add_relate_position.1'))
         }
     } else {
         if (!item.hasNBT() || !item.nbt.contains('nodePos')) return
@@ -38,8 +38,8 @@ ItemEvents.firstRightClicked(RELATE_NODE_TOOL, event => {
         if (!nodeBlock.entity) return
         let nodeEntity = nodeBlock.entity
         let relatedNodePosListNbt = nodeEntity.persistentData.getList('relatedNodePos', GET_COMPOUND_TYPE)
-        RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#000000'), 20 * 15)
-        player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.show_poi_container.1'))
+        RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#00ea33'), 20 * 15)
+        player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.show_relate_position.1'))
     }
     
 })
@@ -60,7 +60,7 @@ ItemEvents.firstLeftClicked(RELATE_NODE_TOOL, event => {
             ClearBlockOutlineRender(player)
             nodeEntity.persistentData.remove('relatedNodePos')
             nodeEntity.setChanged()
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.clear_poi_container.1'))
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_relate_position.1'))
         } else {
             let relatedNodePosListNbt = nodeEntity.persistentData.getList('relatedNodePos', GET_COMPOUND_TYPE)
             // 删除node绑定
@@ -70,14 +70,14 @@ ItemEvents.firstLeftClicked(RELATE_NODE_TOOL, event => {
             })
             nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
             nodeEntity.setChanged()
-            RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#000000')])
-            player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.remove_poi_container.1'))
+            RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#00ea33')])
+            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.remove_relate_position.1'))
         }        
     } else {
         if (!item.hasNBT() || !item.nbt.contains('nodePos')) return
         // 解除掉工具对于node的绑定
         item.nbt.remove('nodePos')
         ClearBlockOutlineRender(player)
-        player.setStatusMessage(Text.translatable('status.kubejs.poi_container_tool.clear_selected_poi.1'))
+        player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_selected_poi.1'))
     }
 })

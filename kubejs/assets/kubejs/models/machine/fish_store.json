@@ -3,7 +3,7 @@
 	"texture_size": [32, 32],
 	"textures": {
 		"shop_texture": "kubejs:block/fish_store",
-		"particle": "kubejs:block/fish_store_idle"
+		"particle": "kubejs:block/fish_store"
 	},
 	"elements": [
 		{
