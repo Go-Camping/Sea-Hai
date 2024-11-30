@@ -1,8 +1,7 @@
 // priority: 1000
 /**
  * @callback isValidTarget
- * @param {Internal.Level}
- * @param {BlockPos}
+ * @param {Internal.BlockContainerJS}
  * @returns {Boolean}
  */
 /**
@@ -12,12 +11,12 @@
  * @param {number} verticalSearchRange 
  * @param {number} verticalOffset 
  * @param {isValidTarget} isValidTarget
- * @returns {Internal.BlockPos$MutableBlockPos[]}
+ * @returns {Internal.BlockContainerJS[]}
  */
 function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, isValidTarget) {
     let blockPos = mob.blockPosition().offset(0, verticalOffset, 0);
     let mutableBlockPos = BlockPos.ZERO.mutable()
-    let resBlockPosList = []
+    let resBlockList = []
 
     // Y遍历
     for (let k = 0; k <= verticalSearchRange; k = k > 0 ? -k : 1 - k) {
@@ -25,15 +24,16 @@ function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, i
         for (let l = 0; l <= searchRange; ++l) {
             for (let i = 0; i <= l; i = i > 0 ? -i : 1 - i) {
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k, j);
-                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(new BlockPos(blockPos.x + i, blockPos.y + k, blockPos.z + j))
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j)
+                    let curBlock = mob.level.getBlock(mutableBlockPos.x, mutableBlockPos.y, mutableBlockPos.z)
+                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(curBlock)) {
+                        resBlockList.push(curBlock)
                     }
                 }
             }
         }
     }
-    return resBlockPosList
+    return resBlockList
 }
 
 
@@ -45,12 +45,12 @@ function FindNearBlocks(mob, searchRange, verticalSearchRange, verticalOffset, i
  * @param {number} verticalSearchRange 
  * @param {number} verticalOffset 
  * @param {isValidTarget} isValidTarget
- * @returns {Internal.BlockPos$MutableBlockPos[]}
+ * @returns {Internal.BlockContainerJS[]}
  */
 function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearchRange, verticalOffset, isValidTarget) {
     let blockPos = mob.blockPosition().offset(0, verticalOffset, 0);
     let mutableBlockPos = BlockPos.ZERO.mutable()
-    let resBlockPosList = []
+    let resBlockList = []
 
     // 粗略朝向方向
     let facing = mob.getHorizontalFacing()
@@ -65,9 +65,10 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
             for (let i = 0; i <= searchRange; i++) {
                 // 次级范围，在寻找对应方向的方块时，对于非关键方向的视线有限
                 for (let j = 0; j <= secondaryRange; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i * dx, k, j);
-                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(new BlockPos(blockPos.x + i * dx, blockPos.y + k, blockPos.z + j))
+                    mutableBlockPos.setWithOffset(blockPos, i * dx, k, j)
+                    let curBlock = mob.level.getBlock(mutableBlockPos.x, mutableBlockPos.y, mutableBlockPos.z)
+                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(curBlock)) {
+                        resBlockList.push(curBlock)
                     }
                 }
             }
@@ -75,15 +76,16 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
             // 如果X方向为无关方向，那么Z方向就是一个关键方向
             for (let j = 0; j <= searchRange; j++) {
                 for (let i = 0; i <= secondaryRange; i = i > 0 ? -i : 1 - i) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k, j * dz);
-                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        resBlockPosList.push(new BlockPos(blockPos.x + i, blockPos.y + k, blockPos.z + j * dz))
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j * dz)
+                    let curBlock = mob.level.getBlock(mutableBlockPos.x, mutableBlockPos.y, mutableBlockPos.z)
+                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(curBlock)) {
+                        resBlockList.push(curBlock)
                     }
                 }
             }
         }
     }
-    return resBlockPosList
+    return resBlockList
 }
 
 
@@ -96,7 +98,7 @@ function FindDirectionNearBlocks(mob, searchRange, secondaryRange, verticalSearc
  * @param {number} verticalSearchRange 
  * @param {number} verticalOffset 
  * @param {isValidTarget} isValidTarget
- * @returns {Internal.BlockPos$MutableBlockPos}
+ * @returns {Internal.BlockContainerJS}
  */
 function FindNearestBlock(mob, searchRange, verticalSearchRange, verticalOffset, isValidTarget) {
     let blockPos = mob.blockPosition().offset(0, verticalOffset, 0);
@@ -108,9 +110,10 @@ function FindNearestBlock(mob, searchRange, verticalSearchRange, verticalOffset,
         for (let l = 0; l <= searchRange; ++l) {
             for (let i = 0; i <= l; i = i > 0 ? -i : 1 - i) {
                 for (let j = i < l && i > -l ? l : 0; j <= l; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k, j);
-                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        return mutableBlockPos
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j)
+                    let curBlock = mob.level.getBlock(mutableBlockPos.x, mutableBlockPos.y, mutableBlockPos.z)
+                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(curBlock)) {
+                        return curBlock
                     }
                 }
             }
@@ -127,7 +130,7 @@ function FindNearestBlock(mob, searchRange, verticalSearchRange, verticalOffset,
  * @param {number} verticalSearchRange 
  * @param {number} verticalOffset 
  * @param {isValidTarget} isValidTarget
- * @returns {Internal.BlockPos$MutableBlockPos}
+ * @returns {Internal.BlockContainerJS}
  */
 function FindDirectionNearestBlock(mob, searchRange, verticalSearchRange, verticalOffset, isValidTarget) {
     let blockPos = mob.blockPosition().offset(0, verticalOffset, 0);
@@ -146,9 +149,10 @@ function FindDirectionNearestBlock(mob, searchRange, verticalSearchRange, vertic
             // 关键方向是优先级更高的方向
             for (let i = 0; i <= searchRange; i++) {
                 for (let j = 0; j <= searchRange; j = j > 0 ? -j : 1 - j) {
-                    mutableBlockPos.setWithOffset(blockPos, i * dx, k, j);
-                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        return mutableBlockPos
+                    mutableBlockPos.setWithOffset(blockPos, i * dx, k, j)
+                    let curBlock = mob.level.getBlock(mutableBlockPos.x, mutableBlockPos.y, mutableBlockPos.z)
+                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(curBlock)) {
+                        return curBlock
                     }
                 }
             }
@@ -156,9 +160,10 @@ function FindDirectionNearestBlock(mob, searchRange, verticalSearchRange, vertic
             // 如果X方向为无关方向，那么Z方向就是一个关键方向
             for (let j = 0; j <= searchRange; j++) {
                 for (let i = 0; i <= searchRange; i = i > 0 ? -i : 1 - i) {
-                    mutableBlockPos.setWithOffset(blockPos, i, k, j * dz);
-                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(mob.level, mutableBlockPos)) {
-                        return mutableBlockPos
+                    mutableBlockPos.setWithOffset(blockPos, i, k, j * dz)
+                    let curBlock = mob.level.getBlock(mutableBlockPos.x, mutableBlockPos.y, mutableBlockPos.z)
+                    if (mob.isWithinRestriction(mutableBlockPos) && isValidTarget(curBlock)) {
+                        return curBlock
                     }
                 }
             }

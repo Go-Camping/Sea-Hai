@@ -51,6 +51,10 @@
     "painting": true,
     "chiseled_bookshelf": true
   },
+  "crockpot": {
+    "birdcage": true,
+    "crock_pot": true
+  },
   "supplementaries": {
     "hat_stand": true
   },

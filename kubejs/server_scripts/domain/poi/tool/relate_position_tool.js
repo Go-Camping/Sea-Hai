@@ -23,8 +23,26 @@ ItemEvents.firstRightClicked(RELATE_POSITION_TOOL, event => {
             let shopPOIModel = new ShopPOIBlock(poiBlock)
             let posListNbt = shopPOIModel.getRelatedPosListNbt()
             let posList = ConvertNbt2PosList(posListNbt)
-            // 选中容器绑定
-            if (posList.some(pos => { if (pos.equals(block.getPos())) return true })) return
+            // 重复右键解绑
+            if (posList.some(pos => { if (pos.equals(block.getPos())) return true })) {
+                if (block.tags.contains(TAG_POI_ENTRANCE)) {
+                    // 清空POI中的所有绑定容器
+                    ClearBlockOutlineRender(player)
+                    shopPOIModel.setRelatedPosListNbt(new $ListTag())
+                    player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_relate_position.1'))
+                } else {
+                    let posListNbt = shopPOIModel.getRelatedPosListNbt()
+                    // 删除容器绑定
+                    posListNbt.removeIf(posNbt => {
+                        let pos = ConvertNbt2Pos(posNbt)
+                        return pos.equals(block.getPos())
+                    })
+                    shopPOIModel.setRelatedPosListNbt(posListNbt)
+                    RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#00ea33')])
+                    player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.remove_relate_position.1'))
+                }
+                return
+            }
             posListNbt.add(ConvertPos2Nbt(block.getPos()))
             shopPOIModel.setRelatedPosListNbt(posListNbt)
             RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#00ea33'), 20 * 15)
@@ -42,7 +60,6 @@ ItemEvents.firstRightClicked(RELATE_POSITION_TOOL, event => {
         RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#00ea33'), 20 * 15)
         player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.show_relate_position.1'))
     }
-    
 })
 
 ItemEvents.firstLeftClicked(RELATE_POSITION_TOOL, event => {
@@ -50,30 +67,7 @@ ItemEvents.firstLeftClicked(RELATE_POSITION_TOOL, event => {
     let rayTraceResult = player.rayTrace(player.blockReach)
     let block = rayTraceResult.block
     if (block) {
-        if (block.tags.contains(TAG_POI_ENTRANCE)) {
-            // 清空POI中的所有绑定容器
-            if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
-            ClearBlockOutlineRender(player)
-            let shopPOIModel = new ShopPOIBlock(block)
-            shopPOIModel.setRelatedPosListNbt(new $ListTag())
-            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_relate_position.1'))
-        } else {
-            if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
-            let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
-            let poiBlock = level.getBlock(poiPos)
-            if (!poiBlock.tags.contains(TAG_POI_ENTRANCE)) return
 
-            let shopPOIModel = new ShopPOIBlock(poiBlock)
-            let posListNbt = shopPOIModel.getRelatedPosListNbt()
-            // 删除容器绑定
-            posListNbt.removeIf(posNbt => {
-                let pos = ConvertNbt2Pos(posNbt)
-                return pos.equals(block.getPos())
-            })
-            shopPOIModel.setRelatedPosListNbt(posListNbt)
-            RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#00ea33')])
-            player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.remove_relate_position.1'))
-        }        
     } else {
         if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
         // 解除掉工具对于POI的绑定
@@ -82,3 +76,4 @@ ItemEvents.firstLeftClicked(RELATE_POSITION_TOOL, event => {
         player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_selected_poi.1'))
     }
 })
+

@@ -12,6 +12,7 @@ function EntityWorkInPOI(mob) {
         workInPOIConfig.put('poiPos', new $CompoundTag())
         workInPOIConfig.putInt('subStatus', SUB_STATUS_NONE)
         workInPOIConfig.put('targetMovePos', new $CompoundTag())
+        workInPOIConfig.put('menuItems', new $ListTag())
         workInPOIConfig.putInt('consumedMoney', 0)
         workInPOIConfig.putInt('waitTimer', 0)
         mob.persistentData.put(NBT_WORK_IN_POI, workInPOIConfig)
@@ -29,10 +30,13 @@ function EntityWorkInPOI(mob) {
     this.poiPos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('poiPos'))
     /** @type {Number} */
     this.subStatus = this.workInPOIConfig.getInt('subStatus')
-    //POI工作过程中移向的位置
+    // POI工作过程中移向的位置
     /** @type {BlockPos} */
     // 通用空间，用于存储策略中的通用移动位置
     this.targetMovePos = ConvertNbt2Pos(this.workInPOIConfig.getCompound('targetMovePos'))
+    /** @type {Internal.ItemStack[]} */
+    // 通用空间，用于存储在POI地点获得的菜单内容
+    this.menuItems = ConvertNBT2ItemStackList(this.workInPOIConfig.getList('menuItems', GET_COMPOUND_TYPE))
     /** @type {Number} */
     this.consumedMoney = this.workInPOIConfig.getInt('consumedMoney')
     // 通用空间，用于存储策略中需要等待的时间点
@@ -251,8 +255,43 @@ EntityWorkInPOI.prototype = {
      * 是否到达等待时间
      * @returns {Boolean}
      */
-    checkIsWaitTimer: function () {
-        if (this.waitTimer <= this.mob.totalTicksAlive) return false
-        return true
+    checkArriveWaitTimer: function () {
+        if (this.waitTimer <= this.mob.totalTicksAlive) return true
+        return false
+    },
+    /**
+     * 设置菜单物品
+     * @param {Internal.ItemStack[]} menuItems
+     * @returns
+     */
+    setMenuItems: function (menuItems) {
+        this.menuItems = menuItems
+        this.workInPOIConfig.put('menuItems', ConvertItemStackList2NBT(menuItems))
+        return
+    },
+    /**
+     * 获取菜单物品
+     * @returns {Internal.ItemStack[]}
+     */
+    getMenuItems: function () {
+        return this.menuItems
+    },
+    /**
+     * 清除菜单物品
+     */
+    clearMenuItems: function () {
+        this.menuItems = []
+        this.workInPOIConfig.put('menuItems', new $ListTag())
+        return
+    },
+    /**
+     * 添加菜单物品
+     * @param {Internal.ItemStack} item
+     * @returns
+     */
+    addMenuItem: function (item) {
+        this.menuItems.push(item)
+        this.workInPOIConfig.put('menuItems', ConvertItemStackList2NBT(this.menuItems))
+        return
     },
 }

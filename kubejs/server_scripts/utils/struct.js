@@ -73,6 +73,13 @@ function ConvertVec3i2BlockPos(vec3i) {
     return new BlockPos(vec3i.x, vec3i.y, vec3i.z)
 }
 
+/**
+ * @param {BlockPos} blockPos 
+ * @returns {Vec3d}
+ */
+function ConvertBlockPos2Vec3d(blockPos) {
+    return new Vec3d(blockPos.x, blockPos.y, blockPos.z)
+}
 
 /**
  * @param {Internal.StructureTemplate} template 

@@ -1,0 +1,16 @@
+#display hidden
+display_hidden = false
+#ui visibility
+ui_visibility = true
+
+#the visibility button's offset, by default is 7
+#anchored at right-up of the ui
+#left and down is positive direction
+[visibility_button_offset]
+	#offset x
+	#Range: > -2147483648
+	offset_x = 7
+	#offset y
+	#Range: > -2147483648
+	offset_y = 7
+

@@ -182,10 +182,9 @@ EntityFindPOI.prototype = {
  * @returns {Internal.BlockPos$MutableBlockPos[]}
  */
     findAheadPOIs(mob, dist, secondaryRange) {
-        let blockPosList = FindDirectionNearBlocks(mob, dist, secondaryRange, 3, -1, (level, blockPos) => {
-            let targetBlock = level.getBlock(blockPos)
-            if (targetBlock.blockState.isAir()) return false
-            return targetBlock.tags.contains(TAG_POI_ENTRANCE)
+        let blockPosList = FindDirectionNearBlocks(mob, dist, secondaryRange, 3, -1, (curBlock) => {
+            if (curBlock.blockState.isAir()) return false
+            return curBlock.tags.contains(TAG_POI_ENTRANCE)
         })
         return blockPosList.filter(blockPos => {
             return !this.checkIsMarkedPOI(blockPos)

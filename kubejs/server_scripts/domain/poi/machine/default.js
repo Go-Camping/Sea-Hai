@@ -160,7 +160,7 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
 
     let validDecorationAmount = ContainerProperty[container.id]?.validDecorationAmount ?? 0
     if (validDecorationAmount > 0) {
-        let decorationBlocks = FindBlockAroundBlocks(container, 3, 3, (curBlock) => {
+        let decorationBlocks = FindBlocksAroundBlock(container, 3, 3, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
             return curBlock.tags.contains(TAG_DECORATION_BLOCK)
         })

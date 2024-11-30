@@ -10,14 +10,12 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
     entity,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         if (GetEntityStatus(mob) == STATUS_WORK_IN_POI) {
-            //console.log('status workInPOI Begin')
             return true
         }
         return false
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
         if (GetEntityStatus(mob) == STATUS_WORK_IN_POI) {
-            //console.log('status workInPOI Continue')
             return true
         }
         return false
@@ -35,14 +33,12 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
         if (!poiModel.workInPOIInit()) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)
     },
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status workInPOI StopBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
         if (workInPOIModel.getSubStatus() == SUB_STATUS_NONE) return
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
     },
     true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        //console.log('status workInPOI TickBehavior')
         let workInPOIModel = new EntityWorkInPOI(mob)
         let poiBlock = workInPOIModel.getPOIBlock()
         if (!poiBlock) return SetEntityStatus(mob, STATUS_ROUTE_MOVE)

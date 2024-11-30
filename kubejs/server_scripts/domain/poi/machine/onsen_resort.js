@@ -72,8 +72,8 @@ OnsenStorePOIModel.prototype.workInPOITick = function () {
                 return true
             }
             // 如果到达了目标位置，搜索可用流体，offset额外下沉以减少搜索范围
-            let validLiquidBlocks = FindNearBlocks(mob, 10, 2, -1, (level, blockPos) => {
-                let blockState = level.getBlockState(blockPos)
+            let validLiquidBlocks = FindNearBlocks(mob, 10, 2, -1, (curBlock) => {
+                let blockState = curBlock.blockState
                 if (blockState.liquid() && !blockState.getFluidState().isEmpty()) {
                     return true
                 }
@@ -105,9 +105,8 @@ OnsenStorePOIModel.prototype.workInPOITick = function () {
             workInPOIModel.setWaitTimer(Math.random() * 1200 + 600)
             return true
         case SUB_STATUS_ONSEN_WAITING:
-            if (!workInPOIModel.checkIsWaitTimer()) {
+            if (workInPOIModel.checkArriveWaitTimer()) {
                 mob.ais.setAnimation(ANIMATION_NONE)
-
                 // 判断是否需要喝饮品
                 let hasInvPos = poiBlockModel.getRelatedPosList().filter(relatedPos => {
                     let relatedBlock = level.getBlock(relatedPos)

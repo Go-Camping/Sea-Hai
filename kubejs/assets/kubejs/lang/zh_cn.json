@@ -23,6 +23,8 @@
     "tooltips.kubejs.item.exp_bottle.1": "经验类型： %s",
     "tooltips.kubejs.item.exp_bottle.2": "存储数量： %s  mb",
     "tooltips.kubejs.item.exp_bottle.3": "长按 %s 饮用以获得经验 ",
+
+    "tooltips.kubejs.item.gaming_console.1": "总分：%s",
     
     "_comment.status": "状态消息",
     "status.kubejs.relate_position_tool.selected_poi.1": "已选定POI方块",

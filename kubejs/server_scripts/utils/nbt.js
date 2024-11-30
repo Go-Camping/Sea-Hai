@@ -54,3 +54,52 @@ function ConvertNbt2Pos(nbt) {
     let pos = new BlockPos(nbt.getInt('x'), nbt.getInt('y'), nbt.getInt('z'))
     return pos
 }
+
+
+/**
+ * 转换ItemStack为NBT
+ * @param {Internal.ItemStack} item 
+ * @returns 
+ */
+function ConverItemStack2NBT(item) {
+    let nbt = new $CompoundTag()
+    nbt.putString('id', item.id)
+    nbt.putInt('count', item.count)
+    if (item.hasNBT()) {
+        nbt.put('nbt', item.nbt)
+    }
+    return nbt
+}
+
+
+/**
+ * 转换ItemStackList为ListTag
+ * @param {Internal.ItemStack[]} items 
+ * @returns {Internal.ListTag}
+ */
+function ConvertItemStackList2NBT(items) {
+    let nbtList = new $ListTag()
+    items.forEach(/** @param {Internal.ItemStack} item */item => {
+        nbtList.add(ConverItemStack2NBT(item))
+    })
+    return nbtList
+}
+
+
+/**
+ * 转换ListTag为ItemStackList
+ * @param {Internal.ListTag} nbtList 
+ * @returns {Internal.ItemStack[]}
+ */
+function ConvertNBT2ItemStackList(nbtList) {
+    let items = []
+    nbtList.forEach(/** @param {Internal.CompoundTag} nbt */nbt => {
+        let item = Item.of(nbt.getString('id'))
+        item.setCount(nbt.getInt('count'))
+        if (nbt.contains('nbt')) {
+            item.setNbt(nbt.get('nbt'))
+        }
+        items.push(item)
+    })
+    return items
+}

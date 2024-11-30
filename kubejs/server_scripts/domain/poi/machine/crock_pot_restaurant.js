@@ -51,24 +51,30 @@ CrockPotRestaurantPOIModel.prototype.workInPOIInit = function () {
     if (menuItems.length <= 0) return false
     let posList = poiBlockModel.getRelatedPosList()
     if (posList.length <= 0) return false
+    console.log('posList', posList)
     let validTableList = []
     posList.forEach(pos => {
         let relatedBlock = level.getBlock(pos)
         if (relatedBlock.hasTag(TAG_TABLE_BLOCK)) {
-            validTableList = FindBlockAroundBlocks(relatedBlock, 2, 1, (curBlock) => {
+            let validChair = FindNearestBlockAroundBlock(relatedBlock, 2, 1, (curBlock) => {
                 if (curBlock.hasTag(TAG_CHAIR_BLOCK)) {
-                    let entityList = GetLivingWithinRadius(level, mob.position(), 1, (plevel, pentity) => {
-                        return pentity.isLiving() & GetEntityStatus(pentity) != STATUS_NONE
-                    })
-                    if (entityList.length <= 0) return false
+                    if (IsAnyOnChair(curBlock)) return false
                 }
                 return true
             })
+            if (validChair) {
+                validTableList.push(pos)
+            }
         }
     })
-    if (validFlavors.length == 0) return false
-
-    workInPOIModel.setSubStatus(SUB_STATUS_GELATO_WAITING_INTERACT)
+    console.log('validTableList', validTableList)
+    if (validTableList.length <= 0) return false
+    /** @type {Internal.ItemStack} */
+    let needMenuItem = RandomGet(menuItems)
+    workInPOIModel.addMenuItem(needMenuItem)
+    workInPOIModel.setTargetMovePos(RandomGet(validTableList))
+    workInPOIModel.setSubStatus(SUB_STATUS_MOVE_RESTAURANT_TABLE)
+    console.log(0)
     return true
 }
 
@@ -79,8 +85,70 @@ CrockPotRestaurantPOIModel.prototype.workInPOITick = function () {
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
+    const level = mob.level
     switch (workInPOIModel.getSubStatus()) {
-        case SUB_STATUS_GELATO_WAITING_INTERACT:
+        case SUB_STATUS_MOVE_RESTAURANT_TABLE:
+            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POS_DISTANCE_SLOW)) {
+                workInPOIModel.moveToTargetPos()
+                return true
+            }
+            let targetTableBlock = level.getBlock(workInPOIModel.getTargetMovePos())
+            let chairBlock = FindNearestBlockAroundBlock(targetTableBlock, 2, 1, (curBlock) => {
+                if (curBlock.hasTag(TAG_CHAIR_BLOCK) && !curBlock.blockState.getValue(BLOCKSTATE_TUCKED)) {
+                    if (IsAnyOnChair(curBlock)) return false
+                    return true
+                }
+            })
+            
+            if (!chairBlock) return false
+            console.log(chairBlock.blockState.getValue(BLOCKSTATE_DIRECTION))
+            SitOnChair(mob, chairBlock.pos, 0.5, chairBlock.blockState.getValue(BLOCKSTATE_DIRECTION))
+            workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
+            workInPOIModel.setWaitTimer(20 * 10)
+
+            return false
+        case SUB_STATUS_WAITING_FOR_DISHES:
+            if (workInPOIModel.checkArriveWaitTimer()) return true
+            let menuItems = workInPOIModel.getMenuItems()
+            if (menuItems.length <= 0) return false
+            let needMenuItem = menuItems[0]
+            let selectBlock = FindNearestBlock(mob, 1, 1, 0, (curBlock) => {
+                if (curBlock.id == needMenuItem.id) {
+                    level.removeBlock(curBlock.pos, false)
+                    if (needMenuItem.count == 1) {
+                        workInPOIModel.clearMenuItems()
+                        workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+                    } else if (needMenuItem.count > 1) {
+                        workInPOIModel.clearMenuItems()
+                        workInPOIModel.setMenuItems(needMenuItem.withCount(needMenuItem.count - 1))
+                    }
+                    return true
+                }
+                if (curBlock.id == 'plonk:placed_items' && curBlock.entityData) {
+                    let nbt = curBlock.entityData
+                    if (nbt.contains('Items')) return false
+                    let plonkItemsNbt = nbt.getList('Items', GET_COMPOUND_TYPE)
+                    for (let i = 0; i < plonkItemsNbt.size(); i++) {
+                        let plonkItemNbt = plonkItemsNbt.getCompound(i)
+                        if (plonkItemNbt.getString('id') != needMenuItem.id) continue
+                        let hasCount = plonkItemNbt.getInt('Count')
+                        if (hasCount < needMenuItem.count) {
+                            workInPOIModel.setMenuItems(needMenuItem.withCount(needMenuItem.count - hasCount))
+                            plonkItemsNbt.remove(i)
+                            workInPOIModel.setWaitTimer(20 * 10)
+                        } else if (hasCount == needMenuItem.count) {
+                            plonkItemsNbt.remove(i)
+                            workInPOIModel.clearMenuItems()
+                            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+                        } else {
+                            plonkItemNbt.putInt('Count', hasCount - needMenuItem.count)
+                            workInPOIModel.clearMenuItems()
+                            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+                        }
+                    }
+                    return true
+                }
+            })
             return true
         case SUB_STATUS_RETURN_TO_POI:
             if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {

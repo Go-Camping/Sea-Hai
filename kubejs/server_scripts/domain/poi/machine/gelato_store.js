@@ -153,7 +153,7 @@ ItemEvents.entityInteracted(event => {
     if (GetEntityStatus(target) != STATUS_WORK_IN_POI) return
     const workInPOIModel = new EntityWorkInPOI(target)
 
-    if (player.isShiftKeyDown()) {
+    if (workInPOIModel.getSubStatus() == SUB_STATUS_GELATO_WAITING_INTERACT && player.isShiftKeyDown()) {
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
     }
     // todo 打包成为策略方法

@@ -13,7 +13,6 @@ const $Registries = Java.loadClass('net.minecraft.core.registries.Registries')
 const $ResourceKey = Java.loadClass('net.minecraft.resources.ResourceKey')
 
 const $CustomGoal = Java.loadClass('net.liopyu.entityjs.util.ai.CustomGoal')
-const $Vec3 = Java.loadClass('net.minecraft.world.phys.Vec3')
 
 const $RemovalReason = Java.loadClass('net.minecraft.world.entity.Entity$RemovalReason')
 const $ParticleTypes = Java.loadClass('net.minecraft.core.particles.ParticleTypes')
@@ -41,6 +40,8 @@ const $SkillsMode = Java.loadClass('net.puffish.skillsmod.SkillsMod')
 const $SkillState = Java.loadClass('net.puffish.skillsmod.api.Skill$State')
 
 const $Integer = Java.loadClass('java.lang.Integer')
+const $BooleanProperty = Java.loadClass('net.minecraft.world.level.block.state.properties.BooleanProperty')
+const $BlockStateProperties = Java.loadClass('net.minecraft.world.level.block.state.properties.BlockStateProperties')
 
 const $MachineJS = Java.loadClass('fr.frinn.custommachinery.common.integration.kubejs.function.MachineJS')
 const $CustomMachineTile = Java.loadClass('fr.frinn.custommachinery.common.init.CustomMachineTile')

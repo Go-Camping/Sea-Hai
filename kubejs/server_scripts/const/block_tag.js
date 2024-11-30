@@ -12,7 +12,7 @@ const TAG_TABLE_BLOCK = new ResourceLocation('kubejs:table_block')
 const TAG_CHAIR_BLOCK = new ResourceLocation('kubejs:chair_block')
 
 ServerEvents.tags('block', event => {
-    event.add('kubejs:poi_entrance', ['kubejs:fish_store','kubejs:grocery', 'kubejs:onsen_resort', 'kubejs:gelato_store'])
+    event.add('kubejs:poi_entrance', ['kubejs:fish_store','kubejs:grocery', 'kubejs:onsen_resort', 'kubejs:gelato_store', 'kubejs:crock_pot_restaurant'])
 
     event.add('kubejs:decoration_block', ['minecraft:iron_block', 'minecraft:stone'])
 

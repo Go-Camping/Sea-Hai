@@ -11,7 +11,7 @@ ServerEvents.recipes(event => {
             let entity = CreateCustomNPCEntity(block.level)
             let pos = RandomOffsetPos(block.pos, 5)
             entity.setPos(pos.x, pos.y + 1, pos.z)
-            let num = Math.ceil(Math.random() * 11)
+            let num = Math.ceil(Math.random() * 17)
             entity.display.setSkinTexture(`kubejs:textures/entity/skin/guest_${num}.png`)
             let routeMoveModel = new EntityRouteMove(entity)
             let nodePosList = genDepthMap(block.level, block.pos)

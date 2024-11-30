@@ -25,12 +25,7 @@ ServerEvents.recipes(event => {
             MENU_WORKBENCH_INPUT_SOLT_LIST.forEach(slotName => {
                 if (machine.getItemStored(slotName).isEmpty()) return
                 let soltItem = machine.getItemStored(slotName)
-                let soltNbt = new $CompoundTag()
-                soltNbt.putString('id', soltItem.id)
-                if (soltItem.hasNBT()) {
-                    soltNbt.put('nbt', soltItem.nbt)
-                }
-                itemListNbt.add(soltNbt)
+                itemListNbt.add(ConverItemStack2NBT(soltItem))
             })
             nbt.put('inventory', itemListNbt)
             machine.setItemStored('menu_output', outputMenuItem.withNBT(nbt))
