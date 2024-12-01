@@ -25,16 +25,17 @@ function CreateCustomNPCEntity(level) {
  * @param {BlockPos} pos 
  * @param {number} seatHeight
  * @param {Internal.Direction} direction
+ * @param {boolean} lock
  * @returns {boolean}
  */
-function SitOnChair(mob, pos, seatHeight, direction) {
+function SitOnChair(mob, pos, seatHeight, direction, lock) {
     let level = mob.level
     if (level.getEntitiesOfClass($Seat, new AABB.of(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1.0, pos.getY() + 1.0, pos.getZ() + 1.0)).isEmpty()) {
         let seatYaw = direction.getYaw()
         let seat = new $Seat(level)
         seat.setPos(Vec3d.atBottomCenterOf(pos).add(0, seatHeight, 0))
-        seat.setRotation(seatYaw, 0)
-        $Seat.LOCK_YAW.setValue(seat, true)
+        // seat.setRotation(seatYaw, 0)
+        // $Seat.LOCK_YAW.setValue(seat, lock)
         level.addFreshEntity(seat)
         return mob.startRiding(seat)
     }

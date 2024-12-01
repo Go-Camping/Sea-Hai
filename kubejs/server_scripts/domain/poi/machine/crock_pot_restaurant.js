@@ -51,7 +51,6 @@ CrockPotRestaurantPOIModel.prototype.workInPOIInit = function () {
     if (menuItems.length <= 0) return false
     let posList = poiBlockModel.getRelatedPosList()
     if (posList.length <= 0) return false
-    console.log('posList', posList)
     let validTableList = []
     posList.forEach(pos => {
         let relatedBlock = level.getBlock(pos)
@@ -67,140 +66,254 @@ CrockPotRestaurantPOIModel.prototype.workInPOIInit = function () {
             }
         }
     })
-    console.log('validTableList', validTableList)
     if (validTableList.length <= 0) return false
     /** @type {Internal.ItemStack} */
     let needMenuItem = RandomGet(menuItems)
     workInPOIModel.addMenuItem(needMenuItem)
     workInPOIModel.setTargetMovePos(RandomGet(validTableList))
     workInPOIModel.setSubStatus(SUB_STATUS_MOVE_RESTAURANT_TABLE)
-    console.log(0)
     return true
 }
 
 
 
 CrockPotRestaurantPOIModel.prototype.workInPOITick = function () {
-    const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
-    const mob = workInPOIModel.mob
-    const level = mob.level
     switch (workInPOIModel.getSubStatus()) {
         case SUB_STATUS_MOVE_RESTAURANT_TABLE:
-            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POS_DISTANCE_SLOW)) {
-                workInPOIModel.moveToTargetPos()
-                return true
-            }
-            let targetTableBlock = level.getBlock(workInPOIModel.getTargetMovePos())
-            let chairBlock = FindNearestBlockAroundBlock(targetTableBlock, 2, 1, (curBlock) => {
-                if (curBlock.hasTag(TAG_CHAIR_BLOCK) && !curBlock.blockState.getValue(BLOCKSTATE_TUCKED)) {
-                    if (IsAnyOnChair(curBlock)) return false
-                    return true
-                }
-            })
-            
-            if (!chairBlock) return false
-            console.log(chairBlock.blockState.getValue(BLOCKSTATE_DIRECTION))
-            SitOnChair(mob, chairBlock.pos, 0.5, chairBlock.blockState.getValue(BLOCKSTATE_DIRECTION))
-            workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
-            workInPOIModel.setWaitTimer(20 * 10)
-
-            return false
+            return CrockPotRestaurantMoveResturantTable(this)
         case SUB_STATUS_WAITING_FOR_DISHES:
-            if (workInPOIModel.checkArriveWaitTimer()) return true
-            let menuItems = workInPOIModel.getMenuItems()
-            if (menuItems.length <= 0) return false
-            let needMenuItem = menuItems[0]
-            let selectBlock = FindNearestBlock(mob, 1, 1, 0, (curBlock) => {
-                if (curBlock.id == needMenuItem.id) {
-                    level.removeBlock(curBlock.pos, false)
-                    if (needMenuItem.count == 1) {
-                        workInPOIModel.clearMenuItems()
-                        workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-                    } else if (needMenuItem.count > 1) {
-                        workInPOIModel.clearMenuItems()
-                        workInPOIModel.setMenuItems(needMenuItem.withCount(needMenuItem.count - 1))
-                    }
-                    return true
-                }
-                if (curBlock.id == 'plonk:placed_items' && curBlock.entityData) {
-                    let nbt = curBlock.entityData
-                    if (nbt.contains('Items')) return false
-                    let plonkItemsNbt = nbt.getList('Items', GET_COMPOUND_TYPE)
-                    for (let i = 0; i < plonkItemsNbt.size(); i++) {
-                        let plonkItemNbt = plonkItemsNbt.getCompound(i)
-                        if (plonkItemNbt.getString('id') != needMenuItem.id) continue
-                        let hasCount = plonkItemNbt.getInt('Count')
-                        if (hasCount < needMenuItem.count) {
-                            workInPOIModel.setMenuItems(needMenuItem.withCount(needMenuItem.count - hasCount))
-                            plonkItemsNbt.remove(i)
-                            workInPOIModel.setWaitTimer(20 * 10)
-                        } else if (hasCount == needMenuItem.count) {
-                            plonkItemsNbt.remove(i)
-                            workInPOIModel.clearMenuItems()
-                            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-                        } else {
-                            plonkItemNbt.putInt('Count', hasCount - needMenuItem.count)
-                            workInPOIModel.clearMenuItems()
-                            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-                        }
-                    }
-                    return true
-                }
-            })
-            return true
+            return CrockPotRestaurantWaitingForDishes(this)
+        case SUB_STATUS_EATING_FOOD:
+            return CrockPotRestaurantEatingFood(this)
         case SUB_STATUS_RETURN_TO_POI:
-            if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
-                workInPOIModel.moveToPOIPos()
-                return true
-            }
-
-            if (mob.navigation.isInProgress()) {
-                if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
-                    mob.navigation.setSpeedModifier(1.0)
-                    mob.navigation.stop()
-                } else {
-                    mob.navigation.setSpeedModifier(0.1)
-                }
-            }
-
-            if (workInPOIModel.getConsumedMoney() <= 0) {
-                // 没有消费则直接返回
-                workInPOIModel.clearMovePos()
-                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                return false
-            }
-
-            if (poiBlockModel.checkIsShopping()) {
-                // 等待释放
-                return true
-            } else {
-                // 金额计算逻辑
-                let consumedMoney = workInPOIModel.getConsumedMoney()
-                workInPOIModel.clearConsumedMoney()
-                if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
-                    return true
-                }
-                workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
-                return true
-            }
+            return CrockPotRestaurantReturnToPOI(this)
         case SUB_STATUS_START_SHOPPING:
-            let poiPos = workInPOIModel.poiPos
-            mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
-            if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
-                return true
-            } else {
-                mob.saySurrounding(new $Line('感觉很实惠！'))
-                workInPOIModel.clearMovePos()
-                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                mob.advanced.setLine(LINE_INTERACT, 0, '', '')
-                // 跳出子状态
-                return false
-            }
+            return CrockPotRestaurantStartShopping(this)
         default:
             workInPOIModel.clearMovePos()
             workInPOIModel.setSubStatus(SUB_STATUS_NONE)
             return false
+    }
+}
+
+/**
+ * @param {CrockPotRestaurantPOIModel} crockPotRestaurantPOIModel 
+ * @returns {boolean}
+ */
+function CrockPotRestaurantMoveResturantTable(crockPotRestaurantPOIModel) {
+    const workInPOIModel = crockPotRestaurantPOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+    const level = mob.level
+    if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POS_DISTANCE_SLOW)) {
+        workInPOIModel.moveToTargetPos()
+        return true
+    }
+    console.log('CrockPotRestaurantMoveResturantTable')
+    let targetTableBlock = level.getBlock(workInPOIModel.getTargetMovePos())
+    let chairBlock = FindNearestBlockAroundBlock(targetTableBlock, 2, 1, (curBlock) => {
+        if (curBlock.hasTag(TAG_CHAIR_BLOCK) && !curBlock.blockState.getValue(BLOCKSTATE_TUCKED)) {
+            if (IsAnyOnChair(curBlock)) return false
+            return true
+        }
+    })
+    console.log(chairBlock)
+    if (!chairBlock) return false
+    let chairFacing = chairBlock.blockState.getValue(BLOCKSTATE_DIRECTION).getOpposite()
+    console.log(chairFacing)
+    SitOnChair(mob, chairBlock.pos, 0.5, chairFacing, false)
+    mob.navigation.stop()
+    workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
+    workInPOIModel.setWaitTimer(20 * 5)
+    return true
+}
+
+/**
+ * @param {CrockPotRestaurantPOIModel} crockPotRestaurantPOIModel 
+ * @returns {boolean}
+ */
+function CrockPotRestaurantWaitingForDishes(crockPotRestaurantPOIModel) {
+    const workInPOIModel = crockPotRestaurantPOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+    if (!workInPOIModel.checkArriveWaitTimer()) return true
+    let menuItems = workInPOIModel.getMenuItems()
+    if (menuItems.length <= 0) return false
+    let needMenuItem = menuItems[0]
+    // 寻找对应道具
+    let selectBlock = FindNearestBlock(mob, 2, 1, 0, (curBlock) => {
+        if (curBlock.id == needMenuItem.id) {
+            return true
+        } else if (curBlock.id == 'plonk:placed_items' && curBlock.entityData) {
+            let nbt = curBlock.entityData
+            if (!nbt.contains('Items')) return false
+            let plonkItemsNbt = nbt.getList('Items', GET_COMPOUND_TYPE)
+            for (let i = 0; i < plonkItemsNbt.size(); i++) {
+                let plonkItemNbt = plonkItemsNbt.getCompound(i)
+                if (plonkItemNbt.getString('id') != needMenuItem.id) continue
+                return true
+            }
+        }
+    })
+    if (!selectBlock) {
+        workInPOIModel.setWaitTimer(20 * 5)
+        return true
+    }
+    workInPOIModel.setTargetMovePos(selectBlock.pos)
+    workInPOIModel.setSubStatus(SUB_STATUS_EATING_FOOD)
+    workInPOIModel.setWaitTimer(20 * 10)
+    return true
+}
+
+
+/**
+ * @param {CrockPotRestaurantPOIModel} crockPotRestaurantPOIModel 
+ * @returns {boolean}
+ */
+function CrockPotRestaurantEatingFood(crockPotRestaurantPOIModel) {
+    const workInPOIModel = crockPotRestaurantPOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+    const level = mob.level
+    let targetPos = workInPOIModel.getTargetMovePos()
+    let targetBlock = level.getBlock(targetPos)
+    if (!workInPOIModel.checkArriveWaitTimer()) {
+        mob.lookControl.setLookAt(targetPos.x, targetPos.y, targetPos.z)
+        if (mob.totalTicksAlive % 10 == 0) {
+            mob.swing()
+            mob.playSound('minecraft:entity.generic.eat')
+        }
+        return true
+    }
+
+    let menuItems = workInPOIModel.getMenuItems()
+    if (menuItems.length <= 0) {
+        workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+        return true
+    }
+    let needMenuItem = menuItems[0]
+    if (targetBlock.id == needMenuItem.id) {
+        level.removeBlock(targetPos, false)
+    } else if (targetBlock.id == 'plonk:placed_items' && targetBlock.entityData) {
+        console.log('plonk placed_items')
+        let nbt = targetBlock.entityData
+        if (!nbt.contains('Items')) {
+            workInPOIModel.setWaitTimer(20 * 5)
+            workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
+            return true
+        }
+        let plonkItemsNbt = nbt.getList('Items', GET_COMPOUND_TYPE)
+        let hasItem = false
+        for (let i = 0; i < plonkItemsNbt.size(); i++) {
+            let plonkItemNbt = plonkItemsNbt.getCompound(i)
+            if (plonkItemNbt.getString('id') != needMenuItem.id) continue
+            let hasCount = plonkItemNbt.getInt('Count')
+            if (hasCount == 1) {
+                plonkItemsNbt.remove(i)
+                hasItem = true
+                break
+            } else {
+                plonkItemNbt.putInt('Count', hasCount - 1)
+                hasItem = true
+                break
+            }
+        }
+        if (!hasItem) {
+            workInPOIModel.setWaitTimer(20 * 5)
+            workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
+            return true
+        }
+    } else {
+        workInPOIModel.setWaitTimer(20 * 5)
+        workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
+        return true
+    }
+
+    if (needMenuItem.count == 1) {
+        workInPOIModel.clearMenuItems()
+    } else if (needMenuItem.count > 1) {
+        workInPOIModel.clearMenuItems()
+        workInPOIModel.setMenuItems(needMenuItem.withCount(needMenuItem.count - 1))
+    }
+    workInPOIModel.setConsumedMoney(100)
+    mob.playSound('minecraft:entity.player.burp')
+    let curMenuItems = workInPOIModel.getMenuItems()
+    console.log(curMenuItems)
+    if (curMenuItems.length <= 0) {
+        mob.unRide()
+        workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+        return true
+    }
+    workInPOIModel.setWaitTimer(20 * 5)
+    workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
+    return true
+}
+
+/**
+ * @param {CrockPotRestaurantPOIModel} crockPotRestaurantPOIModel 
+ * @returns {boolean}
+ */
+function CrockPotRestaurantReturnToPOI(crockPotRestaurantPOIModel) {
+    const workInPOIModel = crockPotRestaurantPOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+    const poiBlockModel = crockPotRestaurantPOIModel.poiBlockModel
+    if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
+        workInPOIModel.moveToPOIPos()
+        return true
+    }
+    if (mob.navigation.isInProgress()) {
+        if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
+            mob.navigation.setSpeedModifier(1.0)
+            mob.navigation.stop()
+        } else {
+            mob.navigation.setSpeedModifier(0.1)
+        }
+    }
+    if (workInPOIModel.getConsumedMoney() <= 0) {
+        // 没有消费则直接返回
+        workInPOIModel.clearMovePos()
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        return false
+    }
+
+    if (poiBlockModel.checkIsShopping()) {
+        // 等待释放
+        return true
+    } else {
+        // 金额计算逻辑
+        let consumedMoney = workInPOIModel.getConsumedMoney()
+        workInPOIModel.clearConsumedMoney()
+        if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
+            return true
+        }
+        workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
+        return true
+    }
+}
+
+
+/**
+ * @param {CrockPotRestaurantPOIModel} crockPotRestaurantPOIModel 
+ * @returns {boolean}
+ */
+function CrockPotRestaurantStartShopping(crockPotRestaurantPOIModel) {
+    const workInPOIModel = crockPotRestaurantPOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+    const poiBlockModel = crockPotRestaurantPOIModel.poiBlockModel
+    let poiPos = workInPOIModel.poiPos
+    mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
+    if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
+        return true
+    } else {
+        mob.saySurrounding(new $Line('感觉很实惠！'))
+        workInPOIModel.clearMovePos()
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        mob.advanced.setLine(LINE_INTERACT, 0, '', '')
+        // 跳出子状态
+        return false
     }
 }

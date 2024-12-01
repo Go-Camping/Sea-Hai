@@ -82,61 +82,14 @@ GelatoStorePOIModel.prototype.workInPOIInit = function () {
 
 
 GelatoStorePOIModel.prototype.workInPOITick = function () {
-    const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
-    /**@type {Internal.EntityCustomNpc} */
-    const mob = workInPOIModel.mob
     switch (workInPOIModel.getSubStatus()) {
         case SUB_STATUS_GELATO_WAITING_INTERACT:
             return true
         case SUB_STATUS_RETURN_TO_POI:
-            if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
-                workInPOIModel.moveToPOIPos()
-                return true
-            }
-
-            if (mob.navigation.isInProgress()) {
-                if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
-                    mob.navigation.setSpeedModifier(1.0)
-                    mob.navigation.stop()
-                } else {
-                    mob.navigation.setSpeedModifier(0.1)
-                }
-            }
-
-            if (workInPOIModel.getConsumedMoney() <= 0) {
-                // 没有消费则直接返回
-                workInPOIModel.clearMovePos()
-                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                return false
-            }
-
-            if (poiBlockModel.checkIsShopping()) {
-                // 等待释放
-                return true
-            } else {
-                // 金额计算逻辑
-                let consumedMoney = workInPOIModel.getConsumedMoney()
-                workInPOIModel.clearConsumedMoney()
-                if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
-                    return true
-                }
-                workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
-                return true
-            }
+            return GelatoStoreReturnToPOI(this)
         case SUB_STATUS_START_SHOPPING:
-            let poiPos = workInPOIModel.poiPos
-            mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
-            if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
-                return true
-            } else {
-                mob.saySurrounding(new $Line('感觉很实惠！'))
-                workInPOIModel.clearMovePos()
-                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                mob.advanced.setLine(LINE_INTERACT, 0, '', '')
-                // 跳出子状态
-                return false
-            }
+            return GelatoStoreStartShopping(this)
         default:
             workInPOIModel.clearMovePos()
             workInPOIModel.setSubStatus(SUB_STATUS_NONE)
@@ -239,4 +192,70 @@ const THREE_BALL_INTERACT_LINE = [
  */
 function getTransFromFlavor(flavor) {
     return Text.translatable('kubejs.gelato.flavor.' + flavor.split(':')[1])
+}
+
+/**
+ * @param {GelatoStorePOIModel} gelatoStorePOIModel 
+ * @returns {boolean}
+ */
+function GelatoStoreReturnToPOI(gelatoStorePOIModel) {
+    const poiBlockModel = gelatoStorePOIModel.poiBlockModel
+    const workInPOIModel = gelatoStorePOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+    if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
+        workInPOIModel.moveToPOIPos()
+        return true
+    }
+    if (mob.navigation.isInProgress()) {
+        if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
+            mob.navigation.setSpeedModifier(1.0)
+            mob.navigation.stop()
+        } else {
+            mob.navigation.setSpeedModifier(0.1)
+        }
+    }
+    if (workInPOIModel.getConsumedMoney() <= 0) {
+        // 没有消费则直接返回
+        workInPOIModel.clearMovePos()
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        return false
+    }
+
+    if (poiBlockModel.checkIsShopping()) {
+        // 等待释放
+        return true
+    } else {
+        // 金额计算逻辑
+        let consumedMoney = workInPOIModel.getConsumedMoney()
+        workInPOIModel.clearConsumedMoney()
+        if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
+            return true
+        }
+        workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
+        return true
+    }
+}
+
+/**
+ * @param {GelatoStorePOIModel} gelatoStorePOIModel 
+ * @returns {boolean}
+ */
+function GelatoStoreStartShopping(gelatoStorePOIModel) {
+    const poiBlockModel = gelatoStorePOIModel.poiBlockModel
+    const workInPOIModel = gelatoStorePOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+    let poiPos = workInPOIModel.poiPos
+    mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
+    if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
+        return true
+    } else {
+        mob.saySurrounding(new $Line('感觉很实惠！'))
+        workInPOIModel.clearMovePos()
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        mob.advanced.setLine(LINE_INTERACT, 0, '', '')
+        // 跳出子状态
+        return false
+    }
 }

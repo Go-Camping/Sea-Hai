@@ -58,77 +58,14 @@ DefaultPOIModel.prototype.workInPOIInit = function () {
 }
 
 DefaultPOIModel.prototype.workInPOITick = function () {
-    const poiBlock = this.poiBlock
-    const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
-    const level = poiBlock.level
-    const mob = workInPOIModel.mob
     switch (workInPOIModel.getSubStatus()) {
         case SUB_STATUS_MOVE_TO_CONTAINER:
-            if (!workInPOIModel.getTargetMovePos()) return false
-            // 子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
-            if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
-                workInPOIModel.moveToTargetPos()
-                return true
-            }
-
-            // 容器取出与结算逻辑
-            let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
-            this.consumeContainerItem(containerBlock, false)
-            if (workInPOIModel.isNeedBuyMore()) {
-                // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
-                this.workInPOIInit()
-                return true
-            }
-            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-            return true
+            return DefaultMoveToContainer(this)
         case SUB_STATUS_RETURN_TO_POI:
-            if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
-                workInPOIModel.moveToPOIPos()
-                return true
-            }
-
-            if (mob.navigation.isInProgress()) {
-                if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
-                    mob.navigation.stop()
-                } else {
-                    mob.navigation.setSpeedModifier(0.1)
-                }
-            }
-
-            if (workInPOIModel.getConsumedMoney() <= 0) {
-                // 没有消费则直接返回
-                workInPOIModel.clearMovePos()
-                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                return false
-            }
-
-            if (poiBlockModel.checkIsShopping()) {
-                // 等待释放
-                return true
-            } else {
-                // 金额计算逻辑
-                let consumedMoney = workInPOIModel.getConsumedMoney()
-                workInPOIModel.clearConsumedMoney()
-                if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
-                    return true
-                }
-                workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
-                return true
-            }
+            return DefaultReturnToPOI(this)
         case SUB_STATUS_START_SHOPPING:
-            let poiPos = workInPOIModel.poiPos
-            mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
-            if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
-                return true
-            } else {
-                // todo 调试方法
-                mob.saySurrounding(new $Line('感觉很实惠！'))
-                workInPOIModel.clearMovePos()
-                workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-                // 跳出子状态
-                return false
-            }
+            return DefaultStartShopping(this)
         default:
             workInPOIModel.clearMovePos()
             workInPOIModel.setSubStatus(SUB_STATUS_NONE)
@@ -177,3 +114,93 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
     return true
 }
 
+
+/**
+ * @param {DefaultPOIModel} defaultPOIModel 
+ * @returns {boolean}
+ */
+function DefaultMoveToContainer(defaultPOIModel) {
+    const poiBlock = defaultPOIModel.poiBlock
+    const workInPOIModel = defaultPOIModel.workInPOIModel
+    const level = poiBlock.level
+    if (!workInPOIModel.getTargetMovePos()) return false
+    // 子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
+    if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
+        workInPOIModel.moveToTargetPos()
+        return true
+    }
+    // 容器取出与结算逻辑
+    let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
+    this.consumeContainerItem(containerBlock, false)
+    if (workInPOIModel.isNeedBuyMore()) {
+        // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
+        this.workInPOIInit()
+        return true
+    }
+    workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+    return true
+}
+
+
+/**
+ * @param {DefaultPOIModel} defaultPOIModel 
+ * @returns {boolean}
+ */
+function DefaultReturnToPOI(defaultPOIModel) {
+    const workInPOIModel = defaultPOIModel.workInPOIModel
+    const mob = workInPOIModel.mob
+    const poiBlockModel = this.poiBlockModel
+    if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
+        workInPOIModel.moveToPOIPos()
+        return true
+    }
+    if (mob.navigation.isInProgress()) {
+        if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
+            mob.navigation.stop()
+        } else {
+            mob.navigation.setSpeedModifier(0.1)
+        }
+    }
+    if (workInPOIModel.getConsumedMoney() <= 0) {
+        // 没有消费则直接返回
+        workInPOIModel.clearMovePos()
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        return false
+    }
+    if (poiBlockModel.checkIsShopping()) {
+        // 等待释放
+        return true
+    } else {
+        // 金额计算逻辑
+        let consumedMoney = workInPOIModel.getConsumedMoney()
+        workInPOIModel.clearConsumedMoney()
+        if (!poiBlockModel.startShopping(mob.uuid, consumedMoney)) {
+            return true
+        }
+        workInPOIModel.setSubStatus(SUB_STATUS_START_SHOPPING)
+        return true
+    }
+}
+
+
+/**
+ * @param {DefaultPOIModel} defaultPOIModel 
+ * @returns {boolean}
+ */
+function DefaultStartShopping(defaultPOIModel) {
+    const workInPOIModel = defaultPOIModel.workInPOIModel
+    const mob = workInPOIModel.mob
+    const poiBlockModel = this.poiBlockModel
+    let poiPos = workInPOIModel.poiPos
+    mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
+    if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
+        return true
+    } else {
+        // todo 调试方法
+        mob.saySurrounding(new $Line('感觉很实惠！'))
+        workInPOIModel.clearMovePos()
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        // 跳出子状态
+        return false
+    }
+}
