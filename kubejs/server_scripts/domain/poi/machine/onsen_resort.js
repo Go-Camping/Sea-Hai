@@ -59,11 +59,8 @@ OnsenStorePOIModel.prototype.workInPOIInit = function () {
 }
 
 OnsenStorePOIModel.prototype.workInPOITick = function () {
-    const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
-    const mob = workInPOIModel.mob
-    const level = this.poiBlock.level
     switch (workInPOIModel.getSubStatus()) {
         case SUB_STATUS_MOVE_TO_RELATED_POS:
             return OnsenResortMoveToRelatedPos(this)

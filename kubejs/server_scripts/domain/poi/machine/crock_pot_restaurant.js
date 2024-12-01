@@ -111,7 +111,6 @@ function CrockPotRestaurantMoveResturantTable(crockPotRestaurantPOIModel) {
         workInPOIModel.moveToTargetPos()
         return true
     }
-    console.log('CrockPotRestaurantMoveResturantTable')
     let targetTableBlock = level.getBlock(workInPOIModel.getTargetMovePos())
     let chairBlock = FindNearestBlockAroundBlock(targetTableBlock, 2, 1, (curBlock) => {
         if (curBlock.hasTag(TAG_CHAIR_BLOCK) && !curBlock.blockState.getValue(BLOCKSTATE_TUCKED)) {
@@ -119,10 +118,8 @@ function CrockPotRestaurantMoveResturantTable(crockPotRestaurantPOIModel) {
             return true
         }
     })
-    console.log(chairBlock)
     if (!chairBlock) return false
     let chairFacing = chairBlock.blockState.getValue(BLOCKSTATE_DIRECTION).getOpposite()
-    console.log(chairFacing)
     SitOnChair(mob, chairBlock.pos, 0.5, chairFacing, false)
     mob.navigation.stop()
     workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
@@ -143,7 +140,7 @@ function CrockPotRestaurantWaitingForDishes(crockPotRestaurantPOIModel) {
     if (menuItems.length <= 0) return false
     let needMenuItem = menuItems[0]
     // 寻找对应道具
-    let selectBlock = FindNearestBlock(mob, 2, 1, 0, (curBlock) => {
+    let selectBlock = FindNearestBlock(mob, 1, 1, 0, (curBlock) => {
         if (curBlock.id == needMenuItem.id) {
             return true
         } else if (curBlock.id == 'plonk:placed_items' && curBlock.entityData) {
@@ -197,7 +194,6 @@ function CrockPotRestaurantEatingFood(crockPotRestaurantPOIModel) {
     if (targetBlock.id == needMenuItem.id) {
         level.removeBlock(targetPos, false)
     } else if (targetBlock.id == 'plonk:placed_items' && targetBlock.entityData) {
-        console.log('plonk placed_items')
         let nbt = targetBlock.entityData
         if (!nbt.contains('Items')) {
             workInPOIModel.setWaitTimer(20 * 5)
@@ -240,7 +236,6 @@ function CrockPotRestaurantEatingFood(crockPotRestaurantPOIModel) {
     workInPOIModel.setConsumedMoney(100)
     mob.playSound('minecraft:entity.player.burp')
     let curMenuItems = workInPOIModel.getMenuItems()
-    console.log(curMenuItems)
     if (curMenuItems.length <= 0) {
         mob.unRide()
         workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)

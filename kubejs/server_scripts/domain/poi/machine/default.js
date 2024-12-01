@@ -131,10 +131,10 @@ function DefaultMoveToContainer(defaultPOIModel) {
     }
     // 容器取出与结算逻辑
     let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
-    this.consumeContainerItem(containerBlock, false)
+    defaultPOIModel.consumeContainerItem(containerBlock, false)
     if (workInPOIModel.isNeedBuyMore()) {
         // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
-        this.workInPOIInit()
+        defaultPOIModel.workInPOIInit()
         return true
     }
     workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
@@ -149,7 +149,7 @@ function DefaultMoveToContainer(defaultPOIModel) {
 function DefaultReturnToPOI(defaultPOIModel) {
     const workInPOIModel = defaultPOIModel.workInPOIModel
     const mob = workInPOIModel.mob
-    const poiBlockModel = this.poiBlockModel
+    const poiBlockModel = defaultPOIModel.poiBlockModel
     if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
         workInPOIModel.moveToPOIPos()
         return true
@@ -190,7 +190,7 @@ function DefaultReturnToPOI(defaultPOIModel) {
 function DefaultStartShopping(defaultPOIModel) {
     const workInPOIModel = defaultPOIModel.workInPOIModel
     const mob = workInPOIModel.mob
-    const poiBlockModel = this.poiBlockModel
+    const poiBlockModel = defaultPOIModel.poiBlockModel
     let poiPos = workInPOIModel.poiPos
     mob.lookControl.setLookAt(poiPos.x, poiPos.y, poiPos.z)
     if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {

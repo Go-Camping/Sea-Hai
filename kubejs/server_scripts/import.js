@@ -25,6 +25,7 @@ const $BankAPI = Java.loadClass('io.github.lightman314.lightmanscurrency.api.mon
 const $BankSaveData = Java.loadClass('io.github.lightman314.lightmanscurrency.common.bank.BankSaveData')
 const $CoinValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.money.value.builtin.CoinValue")
 const $MoneyValue = Java.loadClass("io.github.lightman314.lightmanscurrency.api.money.value.MoneyValue")
+const $WalletItem = Java.loadClass('io.github.lightman314.lightmanscurrency.common.items.WalletItem')
 
 const $TargetDummyEntity = Java.loadClass('net.mehvahdjukaar.dummmmmmy.common.TargetDummyEntity')
 
