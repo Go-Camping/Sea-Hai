@@ -36,9 +36,12 @@
 
     "status.kubejs.exp_bottle.gain_exp.1": "你在 %s 方面的经验增长了 %s 点",
 
-    "_comment_.skill": "技能",
-    "skill.kubejs.fishing.name": "钓鱼",
-
+    "_comment_.puffskill": "技能",
+    "puffskill.kubejs.fishing.title": "钓鱼",
+    "puffskill.kubejs.cooking.title": "烹饪",
+    "puffskill.kubejs.smithing.title": "锻造",
+    "puffskill.kubejs.service.title": "服务",
+    "puffskill.kubejs.other.title": "烹饪",
 
     "_comment_.gelato": "冰激凌",
     "interactline.kubejs.gelato.one_ball.1": "我想要一个%s味的单球冰激凌",

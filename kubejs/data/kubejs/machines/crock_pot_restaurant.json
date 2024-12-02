@@ -3,7 +3,7 @@
     "text": "Crock Pot Restaurant"
   },
   "appearance": {
-    "item": "kubejs:machine/crock_pot_restaurant",
+    "item": "kubejs:machine/crock_pot_restaurant_item",
     "running": {
       "custommachinery:block": "kubejs:machine/crock_pot_restaurant"
     },
@@ -22,8 +22,8 @@
     },
     {
       "type": "custommachinery:item",
-      "id": "exp_output",
-      "mode": "output"
+      "id": "coin_output",
+      "mode": "both"
     },
     {
       "type": "custommachinery:item",
@@ -32,86 +32,96 @@
     },
     {
       "type": "custommachinery:item",
-      "id": "input_2",
+      "id": "upgrade_input",
       "mode": "input"
-    },
-    {
-      "type": "custommachinery:fluid",
-      "capacity": 10000,
-      "id": "cook_exp_tank",
-      "maxInput": 10000,
-      "maxOutput": 10000,
-      "filter": [
-        "kubejs:cook_exp_fluid"
-      ],
-      "whitelist": true,
-      "unique": true
     }
   ],
   "gui": [
     {
       "type": "custommachinery:status",
-      "x": 3,
-      "y": 3
+      "texture_running": "kubejs:textures/gui/running_sign.png",
+      "texture_idle": "kubejs:textures/gui/idle_sign.png",
+      "texture_errored": "kubejs:textures/gui/error_sign.png",
+      "width": 49,
+      "height": 16,
+      "x": 0,
+      "y": 0
     },
     {
       "type": "custommachinery:player_inventory",
       "x": 7,
-      "y": 83
+      "y": 83,
+      "width": 162,
+      "height": 76,
+      "texture": "kubejs:textures/gui/player_inventory.png"
     },
     {
       "type": "custommachinery:background",
-      "texture": "kubejs:textures/gui/common_background.png",
+      "texture": "kubejs:textures/gui/common_store_background.png",
       "width": 176,
       "height": 166
     },
     {
       "type": "custommachinery:progress",
-      "x": 115,
-      "y": 38
+      "x": 40,
+      "y": 38,
+      "texture_empty": "kubejs:textures/gui/recipe_loader_empty.png",
+      "texture_filled": "kubejs:textures/gui/recipe_loader_filled.png"
     },
     {
       "type": "custommachinery:slot",
       "id": "output_1",
-      "x": 145,
-      "y": 18
+      "x": 116,
+      "y": 17,
+      "texture": "kubejs:textures/gui/solt_random.png"
     },
     {
       "type": "custommachinery:slot",
       "id": "output_2",
-      "x": 145,
-      "y": 36
+      "x": 116,
+      "y": 47,
+      "texture": "kubejs:textures/gui/solt_random.png"
     },
     {
       "type": "custommachinery:slot",
-      "id": "exp_output",
-      "x": 145,
-      "y": 54
+      "id": "coin_output",
+      "x": 95,
+      "y": 32,
+      "texture": "kubejs:textures/gui/solt_coin.png"
     },
     {
       "type": "custommachinery:slot",
       "id": "menu_input",
-      "x": 15,
-      "y": 24
+      "x": 19,
+      "y": 32,
+      "texture": "kubejs:textures/gui/solt_transparent.png"
     },
     {
       "type": "custommachinery:slot",
-      "id": "input_2",
-      "x": 15,
-      "y": 42
+      "id": "upgrade_input",
+      "x": 60,
+      "y": 32,
+      "texture": "kubejs:textures/gui/solt_transparent.png"
     },
     {
-      "type": "custommachinery:fluid",
-      "x": 95,
-      "y": 8,
-      "id": "cook_exp_tank"
+      "type": "custommachinery:bar",
+      "x": 155,
+      "y": 11,
+      "id": "exp_bar",
+      "max": 10000,
+      "texture_empty": "kubejs:textures/gui/exp_bar_empty.png",
+      "texture_filled": "kubejs:textures/gui/exp_bar_filled.png",
+      "orientation": "top"
     },
     {
       "type": "custommachinery:button",
-      "x": 95,
-      "y": 54,
-      "id": "dump_cook_exp",
-      "item": "minecraft:diamond",
+      "x": 153,
+      "y": 55,
+      "id": "dump_exp",
+      "texture": "kubejs:textures/gui/exp_button.png",
+      "texture_toogle": "kubejs:textures/gui/exp_button_pressed.png",
+      "texture_hovered": "kubejs:textures/gui/exp_button_pressed.png",
+      "texture_toogle_hovered": "kubejs:textures/gui/exp_button_pressed.png",
       "hold_time": 20
     }
   ]

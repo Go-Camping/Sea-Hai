@@ -1,4 +1,12 @@
 // priority: 900
+const ExpTypeMapToSkillName = {
+    'kubejs:fishing': 'skill.kubejs.fishing.name',
+    'kubejs:cooking': 'puffskill.kubejs.cooking.title',
+    'kubejs:smithing': 'skill.kubejs.smithing.name',
+    'kubejs:service': 'skill.kubejs.service.name',
+    'kubejs:other': 'skill.kubejs.other.name',
+}
+
 /**
  * 
  * @param {Internal.ItemStack} itemstack 
@@ -11,18 +19,12 @@ global.ExpBottleFinishUsing = (itemstack, level, entity) => {
     const expAmount = itemstack.nbt.getInt('amount')
     if (expAmount <= 0) return itemstack
     const type = itemstack.nbt.getString('type')
-    if (!ExpTypeMapToSkillCategory[type]) return
+    if (!type) return
     let playerSkill = new PufferskillModel(player)
-    let skillCategory = playerSkill.getSkillCategory(ExpTypeMapToSkillCategory[type])
+    let skillCategory = playerSkill.getSkillCategory(type)
     playerSkill.addExpToCategory(skillCategory, expAmount)
     player.setStatusMessage(Text.translatable('status.kubejs.exp_bottle.gain_exp.1', Text.translatable(ExpTypeMapToSkillName[type]).gold(), Text.gold(expAmount.toFixed(0))))
     return
 }
 
-const ExpTypeMapToSkillCategory = {
-    'kubejs:fishing': 'kubejs:fishing'
-}
 
-const ExpTypeMapToSkillName = {
-    'kubejs:fishing': 'skill.kubejs.fishing.name'
-}

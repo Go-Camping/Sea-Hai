@@ -67,7 +67,6 @@ ServerEvents.recipes(event => {
             return ctx.success()
         })
         .resetOnError()
-
 })
 
 /** 

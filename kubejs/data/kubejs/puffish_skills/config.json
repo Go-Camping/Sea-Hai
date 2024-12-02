@@ -1,6 +1,10 @@
 {
 	"version": 2,
 	"categories": [
-		"fishing"
+		"fishing",
+		"cooking",
+		"service",
+		"smithing",
+		"other"
 	]
 }
