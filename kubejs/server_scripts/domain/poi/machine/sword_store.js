@@ -39,11 +39,7 @@ ServerEvents.recipes(event => {
             if (!machine.data.exp_bar || machine.data.exp_bar <= 0) {
                 return ctx.error(Text.translatable('errors.kubejs.machine.no_use_output'))
             }
-            let nbt = new $CompoundTag()
-            nbt.putInt('amount', machine.data.exp_bar)
-            // 经验类型
-            nbt.putString('type', 'kubejs:smithing')
-            targetPlayer.give(Item.of('kubejs:exp_bottle').withNBT(nbt))
+            targetPlayer.give(GenExpBottle('kubejs:smithing', machine.data.exp_bar))
             machine.data.exp_bar = 0
             return ctx.success()
         })
@@ -83,6 +79,5 @@ FishShopPOIModel.prototype.constructor = FishShopPOIModel
  */
 FishShopPOIModel.prototype.consumeConatinerTester = function (item) {
     let res = item.hasNBT() && item.nbt.contains('value')
-    // return res && item.hasTag('minecraft:fishes')
-    return res
+    return res && item.hasTag('kubejs:sword_store_goods')
 }

@@ -42,11 +42,7 @@ ServerEvents.recipes(event => {
             if (!machine.data.exp_bar || machine.data.exp_bar <= 0) {
                 return ctx.error(Text.translatable('errors.kubejs.machine.no_use_output'))
             }
-            let nbt = new $CompoundTag()
-            nbt.putInt('amount', machine.data.exp_bar)
-            // 经验类型
-            nbt.putString('type', 'kubejs:service')
-            targetPlayer.give(Item.of('kubejs:exp_bottle').withNBT(nbt))
+            targetPlayer.give(GenExpBottle('kubejs:service', machine.data.exp_bar))
             machine.data.exp_bar = 0
             return ctx.success()
         })
@@ -318,4 +314,13 @@ function OnsenResortStartShopping(onsenStorePOIModel) {
         // 跳出子状态
         return false
     }
+}
+
+/**
+ * @param {Internal.ItemStack} item 
+ * @returns 
+ */
+OnsenStorePOIModel.prototype.consumeConatinerTester = function (item) {
+    let res = item.hasNBT() && item.nbt.contains('value')
+    return res && item.hasTag('kubejs:onsen_resort_goods')
 }

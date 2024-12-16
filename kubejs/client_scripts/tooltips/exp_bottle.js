@@ -1,9 +1,9 @@
 const ExpTypeMapToSkillName = {
-    'kubejs:fishing': 'skill.kubejs.fishing.name',
+    'kubejs:fishing': 'skill.kubejs.fishing.title',
     'kubejs:cooking': 'puffskill.kubejs.cooking.title',
-    'kubejs:smithing': 'skill.kubejs.smithing.name',
-    'kubejs:service': 'skill.kubejs.service.name',
-    'kubejs:other': 'skill.kubejs.other.name',
+    'kubejs:smithing': 'skill.kubejs.smithing.title',
+    'kubejs:service': 'skill.kubejs.service.title',
+    'kubejs:other': 'skill.kubejs.other.title',
 }
 
 ItemEvents.tooltip((tooltip) => {
@@ -15,7 +15,6 @@ ItemEvents.tooltip((tooltip) => {
         let lineNum = 1
         text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.1', Text.translatable(ExpTypeMapToSkillName[type]).white()).gold())
         text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.2', Text.translatable(amount).white()).gold())
-
         text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.3', Text.translatable('common.kubejs.key.right_click').gold()))
     })
 })
