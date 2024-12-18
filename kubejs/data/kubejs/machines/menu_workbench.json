@@ -1,10 +1,10 @@
 {
     "name": "Menu Workbench",
     "appearance": {
-        "block": "minecraft:furnace",
+        "custommachinery:block": "kubejs:machine/menu_workbench",
         "running": {
-            "block": "minecraft:furnace[lit=true]",
-            "light": 15
+            "light": 15,
+            "custommachinery:block": "kubejs:machine/menu_workbench"
         }
     },
     "tooltips": [],
@@ -68,105 +68,108 @@
             "id": "menu_output",
             "mode": "output"
         }
-
     ],
     "gui": [
         {
-            "type": "custommachinery:status",
-            "x": 3,
-            "y": 3
-        },
-        {
             "type": "custommachinery:player_inventory",
             "x": 7,
-            "y": 83
+            "y": 83,
+            "width": 162,
+            "height": 76,
+            "texture": "kubejs:textures/gui/player_inventory.png"
         },
         {
             "type": "custommachinery:background",
-            "texture": "kubejs:textures/gui/common_background.png",
+            "texture": "kubejs:textures/gui/menu_workbench_background.png",
             "width": 176,
             "height": 166
         },
         {
-            "type": "custommachinery:progress",
-            "x": 116,
-            "y": 50,
-            "texture_empty": "kubejs:textures/gui/aether_gate_progress_empty.png",
-            "texture_filled": "kubejs:textures/gui/aether_gate_progress.png",
-            "direction": "top"
+            "type": "custommachinery:slot",
+            "x": 9,
+            "y": 19,
+            "id": "input_1",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
         },
         {
             "type": "custommachinery:slot",
-            "x": 10,
-            "y": 20,
-            "id": "input_1"
+            "x": 26,
+            "y": 19,
+            "id": "input_2",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
         },
         {
             "type": "custommachinery:slot",
-            "x": 28,
-            "y": 20,
-            "id": "input_2"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 46,
-            "y": 20,
-            "id": "input_3"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 64,
-            "y": 20,
-            "id": "input_4"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 82,
-            "y": 20,
-            "id": "input_5"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 100,
-            "y": 20,
-            "id": "input_6"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 118,
-            "y": 20,
-            "id": "input_7"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 136,
-            "y": 20,
-            "id": "input_8"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 204,
-            "y": 20,
-            "id": "input_9"
-        },
-        {
-            "type": "custommachinery:slot",
-            "x": 25,
-            "y": 60,
-            "id": "paper_input"
+            "x": 43,
+            "y": 19,
+            "id": "input_3",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
         },
         {
             "type": "custommachinery:slot",
             "x": 60,
-            "y": 60,
-            "id": "menu_output"
+            "y": 19,
+            "id": "input_4",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 77,
+            "y": 19,
+            "id": "input_5",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 94,
+            "y": 19,
+            "id": "input_6",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 111,
+            "y": 19,
+            "id": "input_7",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 128,
+            "y": 19,
+            "id": "input_8",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 145,
+            "y": 19,
+            "id": "input_9",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 143,
+            "y": 47,
+            "id": "paper_input",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 77,
+            "y": 47,
+            "id": "menu_output",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
         },
         {
             "type": "custommachinery:button",
-            "x": 100,
-            "y": 60,
-            "id": "start_botton",
-            "item": "minecraft:diamond",
+            "x": 127,
+            "y": 42,
+            "id": "menu_button",
+            "texture": "kubejs:textures/gui/menu_button.png",
+            "texture_toogle": "kubejs:textures/gui/menu_button_pressed.png",
+            "texture_hovered": "kubejs:textures/gui/menu_button_pressed.png",
+            "texture_toogle_hovered": "kubejs:textures/gui/menu_button_pressed.png",
             "hold_time": 20
         }
     ],

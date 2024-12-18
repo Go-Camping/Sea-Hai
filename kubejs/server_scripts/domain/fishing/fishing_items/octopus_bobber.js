@@ -20,4 +20,3 @@ OctopusBobberModel.prototype.miniGameStart = function (event) {
     let behavior = event.getFishBehavior()
     behavior.setAvgDistance(behavior.getAvgDistance() * 0.8)
 }
-

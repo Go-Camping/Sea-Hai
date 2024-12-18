@@ -2,7 +2,7 @@
 const MENU_WORKBENCH_INPUT_SOLT_LIST = ['input_1', 'input_2', 'input_3', 'input_4', 'input_5', 'input_6', 'input_7', 'input_8', 'input_9']
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:menu_workbench', 20)
-        .requireButtonPressed('start_botton')
+        .requireButtonPressed('menu_button')
         .requireFunctionOnStart(ctx => {
             let machine = ctx.machine
             let menuOutput = machine.getItemStored('menu_output')

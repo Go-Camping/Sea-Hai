@@ -1,10 +1,10 @@
 // priority: 900
 const ExpTypeMapToSkillName = {
-    'kubejs:fishing': 'skill.kubejs.fishing.name',
+    'kubejs:fishing': 'puffskill.kubejs.fishing.name',
     'kubejs:cooking': 'puffskill.kubejs.cooking.title',
-    'kubejs:smithing': 'skill.kubejs.smithing.name',
-    'kubejs:service': 'skill.kubejs.service.name',
-    'kubejs:other': 'skill.kubejs.other.name',
+    'kubejs:smithing': 'puffskill.kubejs.smithing.name',
+    'kubejs:service': 'puffskill.kubejs.service.name',
+    'kubejs:other': 'puffskill.kubejs.other.name',
 }
 
 /**

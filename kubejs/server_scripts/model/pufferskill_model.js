@@ -32,7 +32,7 @@ PufferskillModel.prototype = {
     /**
      * @param {Internal.Category} category 
      * @param {string} skillName 
-     * @returns 
+     * @returns {Internal.Skill$State}
      */
     getSkillState: function (category, skillName) {
         let skill = this.getSkill(category, skillName)

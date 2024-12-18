@@ -1,9 +1,9 @@
 const ExpTypeMapToSkillName = {
-    'kubejs:fishing': 'skill.kubejs.fishing.name',
+    'kubejs:fishing': 'puffskill.kubejs.fishing.title',
     'kubejs:cooking': 'puffskill.kubejs.cooking.title',
-    'kubejs:smithing': 'skill.kubejs.smithing.name',
-    'kubejs:service': 'skill.kubejs.service.name',
-    'kubejs:other': 'skill.kubejs.other.name',
+    'kubejs:smithing': 'puffskill.kubejs.smithing.title',
+    'kubejs:service': 'puffskill.kubejs.service.title',
+    'kubejs:other': 'puffskill.kubejs.other.title',
 }
 
 ItemEvents.tooltip((tooltip) => {
