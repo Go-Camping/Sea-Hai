@@ -42,11 +42,7 @@ ServerEvents.recipes(event => {
             if (!machine.data.exp_bar || machine.data.exp_bar <= 0) {
                 return ctx.error(Text.translatable('errors.kubejs.machine.no_use_output'))
             }
-            let nbt = new $CompoundTag()
-            nbt.putInt('amount', machine.data.exp_bar)
-            // 经验类型
-            nbt.putString('type', 'kubejs:cooking')
-            targetPlayer.give(Item.of('kubejs:exp_bottle').withNBT(nbt))
+            targetPlayer.give(GenExpBottle('kubejs:cooking', machine.data.exp_bar))
             machine.data.exp_bar = 0
             return ctx.success()
         })

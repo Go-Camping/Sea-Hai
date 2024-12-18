@@ -15,7 +15,6 @@ ItemEvents.tooltip((tooltip) => {
         let lineNum = 1
         text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.1', Text.translatable(ExpTypeMapToSkillName[type]).white()).gold())
         text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.2', Text.translatable(amount).white()).gold())
-
         text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.3', Text.translatable('common.kubejs.key.right_click').gold()))
     })
 })
