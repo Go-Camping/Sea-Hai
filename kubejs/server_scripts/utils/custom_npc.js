@@ -64,3 +64,15 @@ function ClearLine(mob, type) {
         mob.advanced.setLine(type, 0, '', '')
     }
 }
+
+/**
+ * 
+ * @param {Internal.EntityCustomNpc} target 
+ * @param {string} type 
+ * @returns 
+ */
+function NPCSaySurrounding(target, type) {
+    if (!target instanceof $EntityCustomNpc) return
+    let typeLine = RandomGet(NPC_SURROUNDING_LINE_MAP[type])
+    target.saySurrounding(new $Line(Text.translatable(typeLine)))
+}

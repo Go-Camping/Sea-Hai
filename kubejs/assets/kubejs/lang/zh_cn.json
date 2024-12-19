@@ -34,7 +34,17 @@
     "status.kubejs.relate_position_tool.remove_relate_position.1": "已将该容器解绑该POI",
     "status.kubejs.relate_position_tool.clear_selected_poi.1": "取消了POI方块的绑定",
 
+    "status.kubejs.flyer.select_poi.1": "传单上被你写满了关于该门店的信息",
+    "status.kubejs.flyer.had_selected.1": "传单已经绑定过了！",
+
     "status.kubejs.exp_bottle.gain_exp.1": "你在 %s 方面的经验增长了 %s 点",
+
+    "_comment.npcline": "npc消息（通用用途）",
+    "npcline.kubejs.sorry.1": "不好意思。",
+    "npcline.kubejs.thanks.1": "谢谢！",
+    "npcline.kubejs.satisfied.1": "我很满意！",
+    "npcline.kubejs.terrible.1": "糟糕透了！",
+
 
     "_comment_.puffskill": "技能",
     "puffskill.kubejs.fishing.title": "钓鱼",
