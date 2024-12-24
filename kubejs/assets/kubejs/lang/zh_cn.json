@@ -44,7 +44,10 @@
     "npcline.kubejs.thanks.1": "谢谢！",
     "npcline.kubejs.satisfied.1": "我很满意！",
     "npcline.kubejs.terrible.1": "糟糕透了！",
-
+    "npcline.kubejs.flyer.sorry.1": "不好意思，这家店我不是很感兴趣。",
+    "npcline.kubejs.flyer.sorry.2": "抱歉，我还有其他事。",
+    "npcline.kubejs.flyer.satisfied.1": "看起来还不错！",
+    "npcline.kubejs.flyer.satisfied.2": "偶尔尝试点新东西也不赖！",
 
     "_comment_.puffskill": "技能",
     "puffskill.kubejs.fishing.title": "钓鱼",

@@ -148,6 +148,16 @@ EntityFindPOI.prototype = {
         this.findPOIConfig.put('markedPOIs', markedPOIsNbt)
     },
     /**
+     * 标记当前POI地点
+     * @param {BlockPos} pos
+     */
+    markPOIPos: function (pos) {
+        if (!pos) return
+        this.markedPOIs.push(pos)
+        let markedPOIsNbt = ConvertPosList2Nbt(this.markedPOIs)
+        this.findPOIConfig.put('markedPOIs', markedPOIsNbt)
+    },
+    /**
      * 检查该POI地点是否已经被标记
      * @param {BlockPos} pos
      * @returns {Boolean}

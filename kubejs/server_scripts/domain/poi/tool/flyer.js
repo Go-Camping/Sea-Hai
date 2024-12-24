@@ -6,16 +6,17 @@ ItemEvents.entityInteracted('kubejs:flyer', event => {
     if (!target instanceof $EntityCustomNpc) return
     if (!item.hasNBT() || !item.nbt.contains('poiPos')) return
     let poiPos = ConvertNbt2Pos(item.nbt.get('poiPos'))
-    if (GetEntityStatus(target) != STATUS_IDLE && GetEntityStatus(target) != STATUS_ROUTE_MOVE) {
-        // todo
-        NPCSaySurrounding(target, NPC_LINE_SATISFIED)
+    let findPOIModel = new EntityFindPOI(target)
+    if ((GetEntityStatus(target) != STATUS_IDLE && GetEntityStatus(target) != STATUS_ROUTE_MOVE) || findPOIModel.checkIsMarkedPOI(poiPos)) {
+        NPCSaySurrounding(target, NPC_LINE_FLYER_SORRY)
+        findPOIModel.markPOIPos(poiPos)
         return
     }
     let targetPos = GetEntityPosition(target)
-    if (poiPos.distSqr(new Vec3i(targetPos.x, targetPos.y, targetPos.z)) > 1024) return
-    let findPOIModel = new EntityFindPOI(target)
+    if (poiPos.distSqr(new Vec3i(targetPos.x, targetPos.y, targetPos.z)) > 256) return
     if (findPOIModel.checkIsMarkedPOI(poiPos)) return
     SetEntityStatus(target, STATUS_FIND_POI)
+    NPCSaySurrounding(target, NPC_LINE_FLYER_SATISFIED)
     findPOIModel.setTargetPOI(poiPos)
 })
 

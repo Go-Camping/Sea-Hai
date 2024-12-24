@@ -3,6 +3,8 @@
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
 RegistryPOIStrategy('kubejs:gelato_store', GelatoStorePOIModel)
+RegistryNPCSubStatusItemInteractStrategy(SUB_STATUS_GELATO_WAITING_INTERACT, GelatoStoreNPCItemInteractStrategy)
+
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:gelato_store', 100)
         .requireFunctionOnEnd(ctx => {
@@ -51,7 +53,7 @@ ServerEvents.recipes(event => {
             const machine = ctx.machine
             const block = ctx.block
             const level = block.level
-            
+
             if (!block.entity || !block.entity.persistentData.contains('interactPlayer')) return ctx.error(Text.translatable('errors.kubejs.machine.no_use_output'))
             let playerUuid = block.entity.persistentData.getUUID('interactPlayer')
             let targetPlayer = level.getPlayerByUUID(playerUuid)
@@ -138,60 +140,6 @@ GelatoStorePOIModel.prototype.workInPOITick = function () {
     }
 }
 
-
-ItemEvents.entityInteracted(event => {
-    const { item, player } = event
-    /**@type {Internal.EntityCustomNpc} */
-    const target = event.target
-    if (event.getHand() == 'off_hand') return
-    if (GetEntityStatus(target) != STATUS_WORK_IN_POI) return
-    const workInPOIModel = new EntityWorkInPOI(target)
-
-    if (workInPOIModel.getSubStatus() == SUB_STATUS_GELATO_WAITING_INTERACT && player.isShiftKeyDown()) {
-        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
-    }
-    // todo 打包成为策略方法
-    if (workInPOIModel.getSubStatus() == SUB_STATUS_GELATO_WAITING_INTERACT) {
-        if (item && item.nbt && item.nbt.contains('Flavors')) {
-            let hadFlavors = []
-            item.nbt.getList('Flavors', GET_COMPOUND_TYPE).forEach(/** @param {Internal.CompoundTag} nbt */nbt => {
-                nbt.allKeys.forEach(key => {
-                    hadFlavors.push(nbt.getString(key))
-                })
-            })
-            let needFlavors = workInPOIModel.workInPOIConfig.getList('gelatoFlavors', GET_STRING_TYPE)
-            let flag = true
-            needFlavors.forEach(flavor => {
-                if (hadFlavors.indexOf(flavor.getAsString()) == -1) {
-                    flag = false
-                }
-            })
-            if (flag) {
-                target.saySurrounding(new $Line(Text.translatable('interactline.kubejs.gelato.complete.1').getString()))
-                let holdItem = item.copy()
-                holdItem.setCount(1)
-                target.setMainHandItem(holdItem)
-                if (item.count > 1) {
-                    item.shrink(1)
-                } else {
-                    player.setMainHandItem('minecraft:air')
-                }
-
-                workInPOIModel.setConsumedMoney(10)
-                workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
-                return
-            }
-        } else {
-            let selectedFlavorListNbt = workInPOIModel.workInPOIConfig.getList('gelatoFlavors', GET_STRING_TYPE)
-            if (!selectedFlavorListNbt) return
-            let selectedFlavorList = []
-            selectedFlavorListNbt.forEach(flavor => {
-                selectedFlavorList.push(flavor.getAsString())
-            })
-            target.saySurrounding(new $Line(getGelatoStoreWaitString(selectedFlavorList)))
-        }
-    }
-})
 
 
 /**
@@ -298,5 +246,55 @@ function GelatoStoreStartShopping(gelatoStorePOIModel) {
         mob.advanced.setLine(LINE_INTERACT, 0, '', '')
         // 跳出子状态
         return false
+    }
+}
+/**
+ * 
+ * @param {Internal.ItemEntityInteractedEventJS} event 
+ * @param {EntityWorkInPOI} workInPOIModel 
+ */
+function GelatoStoreNPCItemInteractStrategy(event, workInPOIModel) {
+    const { item, player } = event
+    /**@type {Internal.EntityCustomNpc} */
+    const target = event.target
+    if (player.isShiftKeyDown()) {
+        workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+    }
+    if (item && item.nbt && item.nbt.contains('Flavors')) {
+        let hadFlavors = []
+        item.nbt.getList('Flavors', GET_COMPOUND_TYPE).forEach(/** @param {Internal.CompoundTag} nbt */nbt => {
+            nbt.allKeys.forEach(key => {
+                hadFlavors.push(nbt.getString(key))
+            })
+        })
+        let needFlavors = workInPOIModel.workInPOIConfig.getList('gelatoFlavors', GET_STRING_TYPE)
+        let flag = true
+        needFlavors.forEach(flavor => {
+            if (hadFlavors.indexOf(flavor.getAsString()) == -1) {
+                flag = false
+            }
+        })
+        if (flag) {
+            target.saySurrounding(new $Line(Text.translatable('interactline.kubejs.gelato.complete.1').getString()))
+            let holdItem = item.copy()
+            holdItem.setCount(1)
+            target.setMainHandItem(holdItem)
+            if (item.count > 1) {
+                item.shrink(1)
+            } else {
+                player.setMainHandItem('minecraft:air')
+            }
+            workInPOIModel.setConsumedMoney(10)
+            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+            return
+        }
+    } else {
+        let selectedFlavorListNbt = workInPOIModel.workInPOIConfig.getList('gelatoFlavors', GET_STRING_TYPE)
+        if (!selectedFlavorListNbt) return
+        let selectedFlavorList = []
+        selectedFlavorListNbt.forEach(flavor => {
+            selectedFlavorList.push(flavor.getAsString())
+        })
+        target.saySurrounding(new $Line(getGelatoStoreWaitString(selectedFlavorList)))
     }
 }

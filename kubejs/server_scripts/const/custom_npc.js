@@ -40,9 +40,13 @@ const NPC_LINE_THANKS = 'thanks'
 const NPC_LINE_SORRY = 'sorry'
 const NPC_LINE_SATISFIED = 'satisfied'
 const NPC_LINE_TERRIBLE = 'terrible'
+const NPC_LINE_FLYER_SORRY = 'flyer_sorry'
+const NPC_LINE_FLYER_SATISFIED = 'flyer_satisfied'
 const NPC_SURROUNDING_LINE_MAP = {
     [NPC_LINE_THANKS]: ['npcline.kubejs.thanks.1'],
     [NPC_LINE_SORRY]: ['npcline.kubejs.sorry.1'],
     [NPC_LINE_SATISFIED]: ['npcline.kubejs.satisfied.1'],
     [NPC_LINE_TERRIBLE]: ['npcline.kubejs.terrible.1'],
+    [NPC_LINE_FLYER_SORRY]: ['npcline.kubejs.flyer.sorry.1', 'npcline.kubejs.flyer.sorry.2'],
+    [NPC_LINE_FLYER_SATISFIED]: ['npcline.kubejs.flyer.satisfied.1', 'npcline.kubejs.flyer.satisfied.2'],
 }
