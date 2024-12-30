@@ -17,7 +17,34 @@ const BUILDPOS_OFFSET = [
     new Vec3i(0, 0, ISLAND_SIDE_LENGTH),
     new Vec3i(0, 0, -ISLAND_SIDE_LENGTH)]
 
-// todo 生成
+/**
+ * 获取某维度的某坐标对应的Chunk信息
+ * @param {Internal.Level} level
+ * @param {BlockPos} pos
+ * @returns {Internal.LevelChunk}
+ */
+function GetChunkAccess(level, pos) {
+    let chunkAccess = level.getChunkAt(pos)
+    return chunkAccess
+}
+
+/**
+ * @param {Internal.Level} level 
+ * @param {Object<string, Internal.ChunkAccess>} chunkMap 
+ * @param {BlockPos} pos 
+ */
+function GetChunkFromMap(level, chunkMap, pos) {
+    let chunkX = Math.floor(pos.x / 16)
+    let chunkZ = Math.floor(pos.z / 16)
+    let chunkKey = chunkX + ',' + chunkZ
+    let chunkAccess = chunkMap[chunkKey]
+    if (!chunkAccess) {
+        chunkAccess = level.getChunk(chunkX, chunkZ, $ChunkStatus.FULL, true)
+        chunkMap[chunkKey] = chunkAccess
+    }
+    return chunkAccess
+}
+
 /**
  * @param {Internal.Level} level 
  */
@@ -41,9 +68,7 @@ function GenDungeonIslands(level) {
     let mainIslandSizeRange = ConvertVec3i2BlockPos(mainIslandTemplate.getSize())
     let mainIslandBuildPos = new BlockPos(buildX, 0, buildZ)
 
-    let chunkX = Math.floor(mainIslandBuildPos.x / 16)
-    let chunkZ = Math.floor(mainIslandBuildPos.z / 16)
-    let chunkAccess = dungeonLevel.getChunk(chunkX, chunkZ, $ChunkStatus.FULL, true)
+    let chunkAccess = GetChunkAccess(dungeonLevel, mainIslandBuildPos)
     if (!chunkAccess) return
 
     // 主岛
