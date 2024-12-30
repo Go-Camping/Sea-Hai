@@ -19,17 +19,16 @@ CoreSphereModel.prototype.constructor = CoreSphereModel
 
 /**
  * 生成生态球
- * @param {Internal.Level} level
+ * @param {Internal.ServerLevel} level
  * @param {BlockPos} pos 中心位置
  * @returns
  */
 CoreSphereModel.prototype.generateSphere = function (level, pos) {
     /**@type {Object<string, Internal.ChunkAccess>} */
-    let chunkMap = {}
     for (let x = -this.shellRadius; x <= this.shellRadius; x++) {
         for (let z = -this.shellRadius; z <= this.shellRadius; z++) {
             for (let y = -this.shellRadius; y <= this.shellRadius; y++) {
-                let distance = Math.sqrt(Math.pow(x - pos.x, 2) + Math.pow(y - pos.y, 2) + Math.pow(z - pos.z, 2))
+                let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2))
                 if (distance > this.shellRadius) {
                     // 球壳外部空间
                     
@@ -38,15 +37,13 @@ CoreSphereModel.prototype.generateSphere = function (level, pos) {
                 if (distance <= this.shellRadius && distance >= this.shellRadius - this.shellThickness) {
                     // 球壳填充
                     let shellPos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
-                    let chunkAccess = GetChunkFromMap(level, chunkMap, shellPos)
-                    chunkAccess.setBlockState(shellPos, this.shellBlock, false)
+                    level.setBlock(shellPos, this.shellBlock, 2)
                     continue
                 }
                 if (distance <= this.coreRadius) {
                     // 核心区域填充
                     let corePos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
-                    let chunkAccess = GetChunkFromMap(level, chunkMap, corePos)
-                    chunkAccess.setBlockState(corePos, this.coreBlock, false)
+                    level.setBlock(corePos, this.coreBlock, 2)
                     continue
                 }
                 // 球壳内部空闲空间
@@ -55,3 +52,12 @@ CoreSphereModel.prototype.generateSphere = function (level, pos) {
     }
     return
 }
+
+
+// todo 调试方法
+// ItemEvents.rightClicked('stick', event => {
+//     let player = event.player
+//     let level = event.level
+//     let tempSphere = new CoreSphereModel().setShellProperties(Block.getBlock('minecraft:diamond_block').defaultBlockState(), 14, 3)
+//     tempSphere.generateSphere(level, player.block.getPos().atY(100))
+// })

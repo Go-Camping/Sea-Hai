@@ -17,6 +17,7 @@ ItemEvents.entityInteracted('kubejs:flyer', event => {
     if (findPOIModel.checkIsMarkedPOI(poiPos)) return
     SetEntityStatus(target, STATUS_FIND_POI)
     NPCSaySurrounding(target, NPC_LINE_FLYER_SATISFIED)
+    item.shrink(1)
     findPOIModel.setTargetPOI(poiPos)
 })
 
@@ -25,11 +26,11 @@ ItemEvents.firstRightClicked('kubejs:flyer', event => {
     let { item, player } = event
     let rayTraceResult = player.rayTrace(player.blockReach)
     let block = rayTraceResult.block
-    if (item.hasNBT()) {
-        player.setStatusMessage(Text.translatable('status.kubejs.flyer.had_selected.1'))
-        return
-    }
     if (block) {
+        if (item.hasNBT()) {
+            player.setStatusMessage(Text.translatable('status.kubejs.flyer.had_selected.1'))
+            return
+        }
         if (block.tags.contains(TAG_POI_ENTRANCE)) {
             // 选中POI模式
             let nbt = item.getOrCreateTag()

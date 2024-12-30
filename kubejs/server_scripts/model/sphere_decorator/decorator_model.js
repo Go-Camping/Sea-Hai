@@ -3,8 +3,8 @@
 /**
  * 装饰器模型构建
  * @param {string} type
- * @param {function(Internal.Level, Object<string, Internal.ChunkAccess>, BlockPos, number)} predictor
- * @param {function(Internal.Level, Object<string, Internal.ChunkAccess>, BlockPos, number)} action
+ * @param {function(Internal.Level, BlockPos, number)} predictor
+ * @param {function(Internal.Level, BlockPos, number)} action
  * @returns 
  */
 function SphereDecoratorModel(type, predictor, action) {
@@ -38,10 +38,10 @@ SphereDecoratorPackerModel.prototype = {
                 break
         }
     },
-    runInnerDecorators: function (level, chunkMap, pos, radius) {
+    runInnerDecorators: function (level, pos, radius) {
         for (let i = 0; i < this.innerDecorators.length; i++) {
             let decorator = this.innerDecorators[i]
-            decorator.predictor(level, chunkMap, pos, radius)
+            decorator.predictor(level, pos, radius)
         }
     },
 }

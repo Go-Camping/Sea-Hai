@@ -28,22 +28,6 @@ function GetChunkAccess(level, pos) {
     return chunkAccess
 }
 
-/**
- * @param {Internal.Level} level 
- * @param {Object<string, Internal.ChunkAccess>} chunkMap 
- * @param {BlockPos} pos 
- */
-function GetChunkFromMap(level, chunkMap, pos) {
-    let chunkX = Math.floor(pos.x / 16)
-    let chunkZ = Math.floor(pos.z / 16)
-    let chunkKey = chunkX + ',' + chunkZ
-    let chunkAccess = chunkMap[chunkKey]
-    if (!chunkAccess) {
-        chunkAccess = level.getChunk(chunkX, chunkZ, $ChunkStatus.FULL, true)
-        chunkMap[chunkKey] = chunkAccess
-    }
-    return chunkAccess
-}
 
 /**
  * @param {Internal.Level} level 
