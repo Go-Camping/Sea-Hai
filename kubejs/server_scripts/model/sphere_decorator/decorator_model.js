@@ -3,8 +3,8 @@
 /**
  * 装饰器模型构建
  * @param {string} type
- * @param {function(Internal.Level, BlockPos, number)} predictor
- * @param {function(Internal.Level, BlockPos, number)} action
+ * @param {function(Internal.Level, SphereModel, BlockPos)} predictor
+ * @param {function(Internal.Level, SphereModel, BlockPos)} action
  * @returns 
  */
 function SphereDecoratorModel(type, predictor, action) {
@@ -26,22 +26,74 @@ function SphereDecoratorModel(type, predictor, action) {
  * 按照decorators的type去打包到不同的执行器中
  */
 function SphereDecoratorPackerModel() {
-    this.innerDecorators = []
+    this.inner = []
+    this.shell = []
+    this.ring = []
 }
 
 SphereDecoratorPackerModel.prototype = {
+    /**
+     * 添加装饰器
+     * @param {SphereDecoratorModel} decorator
+     */
     addDecorator: function (decorator) {
         switch (decorator.type) {
             case 'inner':
                 // 球壳内部空闲空间
-                this.innerDecorators.push(decorator)
+                this.inner.push(decorator)
+                break
+            case 'shell':
+                // 下半部球壳
+                this.shell.push(decorator)
+                break
+            case 'ring':
+                // 星环
+                this.ring.push(decorator)
+                break
+            default:
                 break
         }
     },
-    runInnerDecorators: function (level, pos, radius) {
-        for (let i = 0; i < this.innerDecorators.length; i++) {
-            let decorator = this.innerDecorators[i]
-            decorator.predictor(level, pos, radius)
+    /**
+     * 执行球壳内装饰器
+     * @param {Internal.Level} level
+     * @param {SphereModel} sphere
+     * @param {BlockPos} offset
+     */
+    runInnerDecorators: function (level, sphere, offset) {
+        for (let i = 0; i < this.inner.length; i++) {
+            let decorator = this.inner[i]
+            if (decorator.predictor(level, sphere, offset)) {
+                decorator.action(level, sphere, offset)
+            }
         }
     },
+    /**
+     * 执行球壳装饰器
+     * @param {Internal.Level} level
+     * @param {SphereModel} sphere
+     * @param {BlockPos} offset
+     */
+    runShellDecorators: function (level, sphere, offset) {
+        for (let i = 0; i < this.shell.length; i++) {
+            let decorator = this.shell[i]
+            if (decorator.predictor(level, sphere, offset)) {
+                decorator.action(level, sphere, offset)
+            }
+        }
+    },
+    /**
+     * 执行星环装饰器
+     * @param {Internal.Level} level
+     * @param {SphereModel} sphere
+     * @param {BlockPos} offset
+     */
+    runRingDecorators: function (level, sphere, offset) {
+        for (let i = 0; i < this.ring.length; i++) {
+            let decorator = this.ring[i]
+            if (decorator.predictor(level, sphere, offset)) {
+                decorator.action(level, sphere, offset)
+            }
+        }
+    }
 }

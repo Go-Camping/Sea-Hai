@@ -12,6 +12,7 @@ function CoreSphereModel() {
     this.shellRadius = 10
     this.shellThickness = 1
     this.decorator = new SphereDecoratorPackerModel()
+    this.center = new BlockPos(0, 0, 0)
 }
 
 CoreSphereModel.prototype = Object.create(SphereModel.prototype)
@@ -24,29 +25,30 @@ CoreSphereModel.prototype.constructor = CoreSphereModel
  * @returns
  */
 CoreSphereModel.prototype.generateSphere = function (level, pos) {
+    this.center = pos
     /**@type {Object<string, Internal.ChunkAccess>} */
     for (let x = -this.shellRadius; x <= this.shellRadius; x++) {
         for (let z = -this.shellRadius; z <= this.shellRadius; z++) {
             for (let y = -this.shellRadius; y <= this.shellRadius; y++) {
                 let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2))
-                if (distance > this.shellRadius) {
-                    // 球壳外部空间
-                    
-                    continue
-                }
                 if (distance <= this.shellRadius && distance >= this.shellRadius - this.shellThickness) {
                     // 球壳填充
-                    let shellPos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
-                    level.setBlock(shellPos, this.shellBlock, 2)
+                    let curPos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
+                    level.setBlock(curPos, this.shellBlock, 2)
+                    this.decorator.runShellDecorators(level, this, new BlockPos(x, y, z))
                     continue
                 }
                 if (distance <= this.coreRadius) {
                     // 核心区域填充
-                    let corePos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
-                    level.setBlock(corePos, this.coreBlock, 2)
+                    let curPos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
+                    level.setBlock(curPos, this.coreBlock, 2)
                     continue
                 }
-                // 球壳内部空闲空间
+                if (distance <= this.shellRadius - this.shellThickness) {
+                    // 球壳内部空闲空间
+                    this.decorator.runInnerDecorators(level, innerPos, new BlockPos(pos.x + x, pos.y + y, pos.z + z), distance)
+                    continue
+                }
             }
         }
     }
@@ -58,6 +60,6 @@ CoreSphereModel.prototype.generateSphere = function (level, pos) {
 // ItemEvents.rightClicked('stick', event => {
 //     let player = event.player
 //     let level = event.level
-//     let tempSphere = new CoreSphereModel().setShellProperties(Block.getBlock('minecraft:diamond_block').defaultBlockState(), 14, 3)
+//     let tempSphere = new CoreSphereModel().setShellProperties(Block.getBlock('minecraft:diamond_block').defaultBlockState(), 14, 3).addDecorator(UpShellBambooDecorator)
 //     tempSphere.generateSphere(level, player.block.getPos().atY(100))
 // })

@@ -11,6 +11,7 @@ function SphereModel() {
     this.shellRadius = 10
     this.shellThickness = 1
     this.decorator = new SphereDecoratorPackerModel()
+    this.center = new BlockPos(0, 0, 0)
 }
 
 SphereModel.prototype = {

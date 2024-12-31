@@ -47,3 +47,7 @@ const $BlockStateProperties = Java.loadClass('net.minecraft.world.level.block.st
 const $MachineJS = Java.loadClass('fr.frinn.custommachinery.common.integration.kubejs.function.MachineJS')
 const $CustomMachineTile = Java.loadClass('fr.frinn.custommachinery.common.init.CustomMachineTile')
 const $CMRegistration = Java.loadClass('fr.frinn.custommachinery.common.init.Registration')
+
+const $ChorusFlowerBlock = Java.loadClass('net.minecraft.world.level.block.ChorusFlowerBlock')
+const $BambooStalkBlock = Java.loadClass('net.minecraft.world.level.block.BambooStalkBlock')
+const $BambooLeaves = Java.loadClass('net.minecraft.world.level.block.state.properties.BambooLeaves')
