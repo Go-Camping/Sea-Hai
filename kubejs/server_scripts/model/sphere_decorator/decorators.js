@@ -1,14 +1,14 @@
 // priority: 849
 /**
- * 上球壳生成竹子
+ * 上球壳表面生成竹子
  * @type {SphereDecoratorModel}
  */
 const UpShellBambooDecorator = new SphereDecoratorModel(
     'shell',
-    (level, sphere, curPos) => {
-        return IsUpShell(curPos)
+    (level, sphere, offset) => {
+        return RandomChance(0.05) && IsUpShell(offset) && IsUpEmpty(level, sphere, offset)
     }, 
-    (level, sphere, curPos) => {
-        return GenBamboo(level, sphere, curPos)
+    (level, sphere, offset) => {
+        return GenBamboo(level, sphere, offset)
     }
 )

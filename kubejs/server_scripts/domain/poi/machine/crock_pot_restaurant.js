@@ -12,7 +12,11 @@ ServerEvents.recipes(event => {
             machine.data.exp_bar = machine.data.exp_bar ? Math.min(machine.data.exp_bar + consumeMoney, BAR_MAX) : Math.min(consumeMoney, BAR_MAX)
             let coinSlotItem = machine.getItemStored('coin_output')
             if (coinSlotItem && coinSlotItem.hasTag('lightmanscurrency:wallet')) {
-                $WalletItem.PickupCoin(coinSlotItem, Item.of('lightmanscurrency:coin_copper', consumeMoney))
+                let coinItemList = ConvertMoneyIntoCoinItemList(CoinList, worth)
+                coinItemList.forEach(coinItem => {
+                    let unpickableItem = $WalletItem.PickupCoin(coinSlotItem, coinItem)
+                    ctx.block.popItemFromFace(unpickableItem, Direction.UP)
+                })
             } else {
                 let playerBankAccount = $BankSaveData.GetBankAccount(false, ctx.machine.ownerId)
                 playerBankAccount.depositMoney(ConvertMainMoneyValue(consumeMoney))
@@ -29,6 +33,7 @@ ServerEvents.recipes(event => {
             if (shopPOIModel.checkIsShopping()) return ctx.success()
             return ctx.error('invalid')
         })
+        .resetOnError()
 
     event.recipes.custommachinery.custom_machine('kubejs:crock_pot_restaurant', 100)
         .requireFunctionOnEnd(ctx => {

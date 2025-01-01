@@ -5,8 +5,6 @@
  * @returns 
  */
 function SphereModel() {
-    this.coreBlock = Block.getBlock('minecraft:coal_block').defaultBlockState()
-    this.coreRadius = 2
     this.shellBlock = Block.getBlock('minecraft:stone').defaultBlockState()
     this.shellRadius = 10
     this.shellThickness = 1
@@ -15,16 +13,6 @@ function SphereModel() {
 }
 
 SphereModel.prototype = {
-    /**
-     * 设置核心
-     * @param {string} block
-     * @returns
-     */
-    setCoreProperties: function (block, radius) {
-        this.coreBlock = block
-        this.coreRadius = radius
-        return this
-    },
     /**
      * 设置球壳
      * @param {string} block

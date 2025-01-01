@@ -12,53 +12,102 @@
         {
             "type": "custommachinery:item",
             "id": "upgrade_1",
-            "mode": "input",
-            "variant": "custommachinery:upgrade"
+            "mode": "input"
         },
         {
             "type": "custommachinery:item",
-            "id": "route_marker",
-            "mode": "input",
-            "filter": ["kubejs:route_tool"],
-            "whitelist": true
-        }
+            "id": "upgrade_2",
+            "mode": "input"
+          },
+          {
+            "type": "custommachinery:item",
+            "id": "state",
+            "mode": "input"
+          },
+          {
+            "type": "custommachinery:item",
+            "id": "fuel",
+            "mode": "input"
+          }
     ],
     "gui": [
         {
             "type": "custommachinery:status",
-            "x": 3,
-            "y": 3
+            "texture_running": "kubejs:textures/gui/running_sign.png",
+            "texture_idle": "kubejs:textures/gui/idle_sign.png",
+            "texture_errored": "kubejs:textures/gui/error_sign.png",
+            "width": 49,
+            "height": 16,
+            "x": 0,
+            "y": 0
         },
         {
             "type": "custommachinery:player_inventory",
             "x": 7,
-            "y": 83
+            "y": 83,
+            "width": 162,
+            "height": 76,
+            "texture": "kubejs:textures/gui/player_inventory.png"
         },
         {
             "type": "custommachinery:background",
-            "texture": "kubejs:textures/gui/common_background.png",
+            "texture": "kubejs:textures/gui/aether_gate_background.png",
             "width": 176,
             "height": 166
         },
         {
             "type": "custommachinery:progress",
-            "x": 116,
-            "y": 50,
-            "texture_empty": "kubejs:textures/gui/aether_gate_progress_empty.png",
-            "texture_filled": "kubejs:textures/gui/aether_gate_progress.png",
-            "direction": "top"
+            "x": 40,
+            "y": 38,
+            "texture_empty": "kubejs:textures/gui/aether_gate_loader_empty.png",
+            "texture_filled": "kubejs:textures/gui/aether_gate_loader_filled.png",
+            "orientation": "right"
+        },
+        {
+            "type": "custommachinery:progress",
+            "x": 73,
+            "y": 38,
+            "texture_empty": "kubejs:textures/gui/aether_gate_loader_empty_revert.png",
+            "texture_filled": "kubejs:textures/gui/aether_gate_loader_filled_revert.png",
+            "orientation": "left"
         },
         {
             "type": "custommachinery:slot",
-            "x": 10,
-            "y": 40,
-            "id": "upgrade_1"
+            "x": 23,
+            "y": 32,
+            "id": "upgrade_1",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
         },
         {
             "type": "custommachinery:slot",
-            "x": 30,
-            "y": 40,
-            "id": "route_marker"
+            "x": 89,
+            "y": 32,
+            "id": "upgrade_2",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 56,
+            "y": 32,
+            "id": "state",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 131,
+            "y": 32,
+            "id": "fuel",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+          "type": "custommachinery:bar",
+          "x": 155,
+          "y": 11,
+          "id": "energy_bar",
+          "max": 10000,
+          "texture_empty": "kubejs:textures/gui/exp_bar_empty.png",
+          "texture_filled": "kubejs:textures/gui/exp_bar_filled.png",
+          "orientation": "top"
         }
     ],
     "jei": [],

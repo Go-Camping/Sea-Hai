@@ -18,6 +18,18 @@ function CoreSphereModel() {
 CoreSphereModel.prototype = Object.create(SphereModel.prototype)
 CoreSphereModel.prototype.constructor = CoreSphereModel
 
+
+/**
+ * 设置核心
+ * @param {string} block
+ * @returns
+ */
+CoreSphereModel.prototype.setCoreProperties = function (block, radius) {
+    this.coreBlock = block
+    this.coreRadius = radius
+    return this
+}
+
 /**
  * 生成生态球
  * @param {Internal.ServerLevel} level
@@ -46,7 +58,7 @@ CoreSphereModel.prototype.generateSphere = function (level, pos) {
                 }
                 if (distance <= this.shellRadius - this.shellThickness) {
                     // 球壳内部空闲空间
-                    this.decorator.runInnerDecorators(level, innerPos, new BlockPos(pos.x + x, pos.y + y, pos.z + z), distance)
+                    this.decorator.runInnerDecorators(level, this, new BlockPos(x, y, z))
                     continue
                 }
             }
@@ -57,9 +69,9 @@ CoreSphereModel.prototype.generateSphere = function (level, pos) {
 
 
 // todo 调试方法
-// ItemEvents.rightClicked('stick', event => {
-//     let player = event.player
-//     let level = event.level
-//     let tempSphere = new CoreSphereModel().setShellProperties(Block.getBlock('minecraft:diamond_block').defaultBlockState(), 14, 3).addDecorator(UpShellBambooDecorator)
-//     tempSphere.generateSphere(level, player.block.getPos().atY(100))
-// })
+ItemEvents.rightClicked('stick', event => {
+    let player = event.player
+    let level = event.level
+    let tempSphere = new DungeonSphereModel()
+    tempSphere.generateSphere(level, player.block.getPos().atY(100))
+})

@@ -51,3 +51,6 @@ const $CMRegistration = Java.loadClass('fr.frinn.custommachinery.common.init.Reg
 const $ChorusFlowerBlock = Java.loadClass('net.minecraft.world.level.block.ChorusFlowerBlock')
 const $BambooStalkBlock = Java.loadClass('net.minecraft.world.level.block.BambooStalkBlock')
 const $BambooLeaves = Java.loadClass('net.minecraft.world.level.block.state.properties.BambooLeaves')
+
+const $TrialSpawnerBlock = Java.loadClass('net.salju.trialstowers.block.TrialSpawnerBlock')
+const $BlockBehaviour = Java.loadClass('net.minecraft.world.level.block.state.BlockBehaviour')
