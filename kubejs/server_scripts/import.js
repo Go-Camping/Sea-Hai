@@ -54,3 +54,4 @@ const $BambooLeaves = Java.loadClass('net.minecraft.world.level.block.state.prop
 
 const $TrialSpawnerBlock = Java.loadClass('net.salju.trialstowers.block.TrialSpawnerBlock')
 const $BlockBehaviour = Java.loadClass('net.minecraft.world.level.block.state.BlockBehaviour')
+const $DoubleBlockHalf = Java.loadClass('net.minecraft.world.level.block.state.properties.DoubleBlockHalf')

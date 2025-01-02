@@ -64,3 +64,17 @@ const GenBamboo = (level, sphere, offset) => {
         }
     }
 }
+
+
+
+
+/**
+ * 生成花朵
+ * @type {function(Internal.Level, SphereModel, BlockPos)}
+ */
+const GenFlower = (level, sphere, offset) => {
+    let randomFlower = Block.getBlock(RandomGet(FlowerList)).defaultBlockState()
+    let abovePos = sphere.center.offset(offset).above()
+    level.setBlock(abovePos, randomFlower, 2)
+}
+

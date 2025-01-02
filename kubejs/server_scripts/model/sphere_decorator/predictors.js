@@ -25,8 +25,13 @@ const RandomChance = (chance) => {
 
 /**
  * 方块上方为空
- * @type {function(Internal.Level, SphereModel, BlockPos)}
+ * @type {function(Internal.Level, SphereModel, BlockPos, number)}
  */
-const IsUpEmpty = (level, sphere, offset) => {
-    return level.getBlockState(sphere.center.offset(offset).above()).isAir()
+const IsUpEmptyWithinHeight = (level, sphere, offset, height) => {
+    for (let y = 1; y <= height; y++) {
+        if (!level.getBlockState(sphere.center.offset(offset).above(y)).isAir()) {
+            return false
+        }
+    }
+    return true
 }
