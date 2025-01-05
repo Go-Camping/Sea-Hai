@@ -180,6 +180,7 @@ function OnsenResortMoveToOnsenPos(onsenStorePOIModel) {
     mob.teleportTo(targetPosV3d.x(), targetPosV3d.y(), targetPosV3d.z())
     workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_WAITING)
     mob.ais.setAnimation(ANIMATION_SIT)
+    mob.navigation.stop()
     workInPOIModel.setWaitTimer(Math.random() * 1200 + 600)
     return true
 }

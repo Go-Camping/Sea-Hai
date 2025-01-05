@@ -117,8 +117,11 @@ RegisterFishValue('aquaculture:red_grouper', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:red_shrooma'), 20)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:mushroom_fields",1)
-        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of("kubejs:mushroom_bait") ? weight : 0)
+        .withWeatherModifier('rain', 1)
+        .withWeatherModifier('thunder', 100)
+        .withPlayerModifier((player, weight) => {
+            return $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:mushroom_bait' ? weight : 0
+        })
 )
 RegisterFishValue('aquaculture:red_shrooma', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -126,7 +129,7 @@ RegisterFishValue('aquaculture:red_shrooma', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:piranha'), 4)
         .withFluidModifier('minecraft:water', 1)
-        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of("kubejs:meat_bait") ? weight * 10 : weight)
+        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).getId() == 'kubejs:meat_bait' ? weight * 10 : weight)
 )
 RegisterFishValue('aquaculture:piranha', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -153,7 +156,7 @@ RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:tuna'), 20)
         .withFluidModifier('minecraft:water', 1)
         .withBiomeModifier("minecraft:deep_ocean",1)
-        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of("kubejs:fish_bait") ? weight : 0)
+        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).getId() == 'kubejs:fish_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:tuna', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -207,7 +210,7 @@ RegisterFishingLoot(
         .withFluidModifier('minecraft:water', 1)
         .withBiomeModifier("minecraft:river",1)
         .withTimeRangeModifier((time, weight) => time > 13800 && time < 22200 ? weight * 3 : weight)
-        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))).hasTag("forge:raw_fishes") ? weight * 5 : weight)
+        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).hasTag("forge:raw_fishes") ? weight * 5 : weight)
 )
 RegisterFishValue('aquaculture:bayad', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -228,7 +231,7 @@ RegisterFishingLoot(
         .withFluidModifier('minecraft:water', 1)
         .withBiomeModifier("minecraft:deep_ocean",1)
         .withTimeRangeModifier((time, weight) => time > 12000 && time < 18000 ? weight * 4 : weight)
-        .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of('kubejs:cod_bait') ? weight : 0)
+        .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:cod_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:pollock', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -272,7 +275,7 @@ RegisterFishingLoot(
     .withBiomeModifier("minecraft:cold_ocean",5)
     .withBiomeModifier("minecraft:frozen_ocean",1)
     .withTimeRangeModifier((time, weight) => time > 12000 ? weight * 2 : weight)
-    .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of('kubejs:salmon_bait') ? weight : 0)
+    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:salmon_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:brown_trout', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -291,7 +294,7 @@ RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:smallmouth_bass'), 20)
     .withFluidModifier('minecraft:water', 1)
     .withBiomeModifier("minecraft:river",1)
-    .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of('kubejs:perch_bait') ? weight : 0)
+    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:perch_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:smallmouth_bass', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -319,7 +322,7 @@ RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:capitaine'), 20)
     .withFluidModifier('minecraft:water', 1)
     .withBiomeModifier("minecraft:river",1)
-    .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of('kubejs:bass_bait') ? weight : 0)
+    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:capitaine', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -328,7 +331,7 @@ RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:boulti'), 5)
     .withFluidModifier('minecraft:water', 1)
     .withBiomeModifier("minecraft:river",1)
-    .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBobber(GetFishingRodInHand(player))) == Item.of('kubejs:bass_bait') && player.hasEffect("minecraft:strength") ? weight * 10 : weight)
+    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' && player.hasEffect("minecraft:strength") ? weight * 10 : weight)
 )
 RegisterFishValue('aquaculture:boulti', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)

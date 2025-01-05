@@ -6,6 +6,7 @@ const FISH_TAG = 'forge:raw_fishes'
 
 LootJS.modifiers((event) => {
     event.addLootTypeModifier(LootType.FISHING)
+        .removeLoot(ItemFilter.ALWAYS_TRUE)
         .apply(ctx => {
             ctx.loot.clear()
             if (!ctx.player) return
@@ -78,8 +79,6 @@ LootJS.modifiers((event) => {
             strategyList.sort((a, b) => b.priority - a.priority).forEach(itemModel => {
                 itemModel.lootModify(ctx)
             })
-
-
 
         })
 })

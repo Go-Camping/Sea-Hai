@@ -5,4 +5,6 @@
 	#How high of a resolution should the rainbow render in? Lower value = lower resolution and quality but more FPS.
 	#Range: > 0
 	rainbowDetail = 150
+	#If set to true, then the configs will update every mod update. Set to false if you want to manage config changes yourself.
+	globalShouldAutoUpdate = true
 
