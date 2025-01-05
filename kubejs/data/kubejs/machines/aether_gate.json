@@ -1,12 +1,13 @@
 {
     "name": "Aether Gate",
     "appearance": {
-        "block": "minecraft:furnace",
+        "item": "kubejs:machine/aether_gate",
+        "shape": [[0.0, 0.0, 0.0, 1.0, 0.1875, 1.0]],
         "running": {
-            "block": "minecraft:furnace[lit=true]",
-            "light": 15
-        }
-    },
+          "custommachinery:block": "kubejs:machine/aether_gate"
+        },
+        "custommachinery:block": "kubejs:machine/aether_gate_idle"
+      },
     "tooltips": [],
     "components": [
         {

@@ -74,5 +74,5 @@ function ClearLine(mob, type) {
 function NPCSaySurrounding(target, type) {
     if (!target instanceof $EntityCustomNpc) return
     let typeLine = RandomGet(NPC_SURROUNDING_LINE_MAP[type])
-    target.saySurrounding(new $Line(Text.translatable(typeLine)))
+    target.saySurrounding(new $Line(Text.translatable(typeLine).toString()))
 }

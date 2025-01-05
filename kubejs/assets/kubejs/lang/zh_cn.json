@@ -8,10 +8,10 @@
     "common.kubejs.key.right_click": "[右键]",
 
     "_comment.item": "物品",
-    "item.kubejs.route_tool": "路径工具",
-    "item.kubejs.relate_position_tool": "容器链接工具",
+    "item.kubejs.relate_node_tool": "节点链接工具",
+    "item.kubejs.relate_position_tool": "地点链接工具",
+    "item.kubejs.flyer": "传单",
     "_comment.tooltips": "物品提示",
-    "tooltips.kubejs.item.route_tool.1": "当前标记的移动路径：",
     "tooltips.kubejs.item.relate_position_tool.1": "当前选定POI：",
     "tooltips.kubejs.item.duck_bobber.1": "鱼钩将更少的受到重力的影响",
     "tooltips.kubejs.item.octopus_bobber.1": "鱼会变得懒惰",
@@ -33,6 +33,13 @@
     "status.kubejs.relate_position_tool.clear_relate_position.1": "已清空该POI绑定的所有容器",
     "status.kubejs.relate_position_tool.remove_relate_position.1": "已将该容器解绑该POI",
     "status.kubejs.relate_position_tool.clear_selected_poi.1": "取消了POI方块的绑定",
+
+    "status.kubejs.relate_node_tool.selected_poi.1": "已选定节点方块",
+    "status.kubejs.relate_node_tool.add_relate_position.1": "已将选中节点绑定到先前选定节点",
+    "status.kubejs.relate_node_tool.show_relate_position.1": "已展示当前节点绑定的所有节点位置",
+    "status.kubejs.relate_node_tool.clear_relate_position.1": "已清空该节点绑定的所有节点",
+    "status.kubejs.relate_node_tool.remove_relate_position.1": "已将选中节点解除对先前选定节点的绑定",
+    "status.kubejs.relate_node_tool.clear_selected_poi.1": "取消了节点的选定",
 
     "status.kubejs.flyer.select_poi.1": "传单上被你写满了关于该门店的信息",
     "status.kubejs.flyer.had_selected.1": "传单已经绑定过了！",

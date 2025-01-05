@@ -25,6 +25,6 @@ ItemEvents.entityInteracted(event => {
     const subStatus = workInPOIModel.getSubStatus()
 
     if (NPCSubStatusItemInteractModelStrategies[subStatus]) {
-        NPCSubStatusItemInteractModelStrategies[subStatus](workInPOIModel, poiBlock)
+        NPCSubStatusItemInteractModelStrategies[subStatus](event, workInPOIModel)
     }
 })

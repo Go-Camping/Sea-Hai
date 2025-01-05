@@ -1,6 +1,15 @@
 // priority: 800
 ServerEvents.recipes(event => {
     event.recipes.custommachinery.custom_machine('kubejs:aether_gate', 300)
+        .requireFunctionEachTick(ctx => {
+            const { machine, block } = ctx
+            let particle = Utils.particleOptions(`crit`)
+            block.level.spawnParticles(particle, true, block.x, block.y + 0.1, block.z, 0, 0.5, 0, 1, 0.1)
+            block.level.spawnParticles(particle, true, block.x + 1, block.y + 0.1, block.z, 0, 0.5, 0, 1, 0.1)
+            block.level.spawnParticles(particle, true, block.x, block.y + 0.1, block.z + 1, 0, 0.5, 0, 1, 0.1)
+            block.level.spawnParticles(particle, true, block.x + 1, block.y + 0.1, block.z + 1, 0, 0.5, 0, 1, 0.1)
+            return ctx.success()
+        })
         .requireFunctionOnEnd(ctx => {
             const { machine, block } = ctx
             let stateItem = machine.getItemStored('state')
