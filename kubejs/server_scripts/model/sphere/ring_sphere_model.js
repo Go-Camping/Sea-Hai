@@ -11,6 +11,7 @@ function RingSphereModel() {
     this.shellBlock = Block.getBlock('minecraft:stone').defaultBlockState()
     this.shellRadius = 10
     this.shellThickness = 1
+    /** @type {RingProperty[]} */ 
     this.ringProperties = []
 
     this.decorator = new SphereDecoratorPackerModel()
@@ -20,13 +21,10 @@ function RingSphereModel() {
 RingSphereModel.prototype = Object.create(SphereModel.prototype)
 RingSphereModel.prototype.constructor = RingSphereModel
 
-function RingProperty(block, radius, thickness, width, polarAngle, azimuthAngle) {
-    this.ringBlock = block
-    this.ringRadius = radius
-    this.ringThickness = thickness
-    this.ringWidth = width
-    this.ringPolarAngle = polarAngle
-    this.ringAzimuthAngle = azimuthAngle    
+function RingProperty(block, radius, width) {
+    this.block = block
+    this.radius = radius
+    this.width = width
 }
 
 
@@ -45,14 +43,11 @@ RingSphereModel.prototype.setCoreProperties = function (block, radius) {
  * 设置环
  * @param {string} block
  * @param {number} radius
- * @param {number} thickness
  * @param {number} width
- * @param {number} polarAngle
- * @param {number} azimuthAngle
  * @returns
  */
-RingSphereModel.prototype.addRingProperties = function (block, radius, thickness, width, polarAngle, azimuthAngle) {
-    this.ringProperties.push(new RingProperty(block, radius, thickness, width, polarAngle, azimuthAngle))
+RingSphereModel.prototype.addRingProperties = function (block, radius, width) {
+    this.ringProperties.push(new RingProperty(block, radius, width))
     return this
 }
 
@@ -92,5 +87,19 @@ RingSphereModel.prototype.generateSphere = function (level, pos) {
             }
         }
     }
+    // 环填充
+    this.ringProperties.forEach(ring => {
+        for (let x = -ring.radius; x <= ring.radius; x++) {
+            for (let z = -ring.radius; z <= ring.radius; z++) {
+                let distance = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2))
+                if (distance <= ring.radius && distance >= ring.radius - ring.width) {
+                    let curPos = new BlockPos(pos.x + x, pos.y, pos.z + z)
+                    level.setBlock(curPos, ring.block, 2)
+                    this.decorator.runRingDecorators(level, this, new BlockPos(x, 0, z))
+                    continue
+                }
+            }
+        }
+    })
     return
 }
