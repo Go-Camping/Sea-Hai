@@ -108,11 +108,13 @@ RingSphereModel.prototype.generateSphere = function (level, pos) {
                  * 那么y的坐标为 y = distance * tan(angle) 
                  * 即有 (x * tan(azimuthAngle) - z) ^ 2 / (1 + tan(azimuthAngle) ^ 2) * tan(angle) ^ 2 + x ^ 2 + z ^ 2 = r ^ 2
                  */
+
+                // todo 超过45度的情况下的y-z或者y-x遍历
                 let xyDistanceSquare = Math.pow(x, 2) + Math.pow(z, 2)
                 let ySquare = Math.pow(x * azimuthAngleTan - z, 2) / (1 + azimuthAngleTanSquare) * Math.pow(polarAngleTan, 2)
                 let rSquare = ySquare + xyDistanceSquare
                 if (rSquare <= Math.pow(ring.radius, 2) && rSquare >= Math.pow(ring.radius - ring.width, 2)) {
-                    let y = Math.sqrt(ySquare)
+                    let y = Math.sqrt(ySquare) * Math.sign(x * azimuthAngleTan - z)
                     let curPos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
                     level.setBlock(curPos, ring.block, 2)
                     this.decorator.runRingDecorators(level, this, new BlockPos(x, y, z))

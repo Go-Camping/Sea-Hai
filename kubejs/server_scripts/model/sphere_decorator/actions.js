@@ -9,35 +9,6 @@ const GenChorusFruit = (level, sphere, offset) => {
 }
 
 /**
- * 生成地牢房间
- * @type {function(Internal.Level, SphereModel, BlockPos)}
- */
-const GenSquareDungeonRoom = (level, sphere, offset) => {
-    let roomRadius = 1
-    let roomPos = sphere.center.offset(offset)
-    let wallBlock = Block.getBlock('minecraft:stone_bricks').defaultBlockState()
-    for (let x = -roomRadius; x <= roomRadius; x++) {
-        for (let z = -roomRadius; z <= roomRadius; z++) {
-            level.setBlock(roomPos.offset(x, -roomRadius, z), wallBlock, 2)
-            level.setBlock(roomPos.offset(x, roomRadius, z), wallBlock, 2)
-        }
-    }
-    for (let y = -roomRadius; y <= roomRadius; y++) {
-        for (let x = -roomRadius; x <= roomRadius; x++) {
-            level.setBlock(roomPos.offset(x, y, -roomRadius), wallBlock, 2)
-            level.setBlock(roomPos.offset(x, y, roomRadius), wallBlock, 2)
-        }
-    }
-    for (let y = -roomRadius; y <= roomRadius; y++) {
-        for (let z = -roomRadius; z <= roomRadius; z++) {
-            level.setBlock(roomPos.offset(-roomRadius, y, z), wallBlock, 2)
-            level.setBlock(roomPos.offset(roomRadius, y, z), wallBlock, 2)
-        }
-    }
-}
-
-
-/**
  * 生成竹子
  * @type {function(Internal.Level, SphereModel, BlockPos)}
  */
