@@ -23,7 +23,7 @@ ServerEvents.recipes(event => {
             }
 
             shopPOIModel.setIsShopping(false)
-            shopPOIModel.setConsumingMoney  (0)
+            shopPOIModel.setConsumingMoney(0)
             return ctx.success()
         })
         .requireFunctionToStart(ctx => {
@@ -188,14 +188,13 @@ function CrockPotRestaurantWaitingForDishes(crockPotRestaurantPOIModel) {
     let selectBlock = FindNearestBlock(mob, 1, 1, 0, (curBlock) => {
         if (curBlock.id == needMenuItem.id) {
             return true
-        } else if (curBlock.id == 'plonk:placed_items' && curBlock.entityData) {
-            let nbt = curBlock.entityData
-            if (!nbt.contains('Items')) return false
-            let plonkItemsNbt = nbt.getList('Items', GET_COMPOUND_TYPE)
-            for (let i = 0; i < plonkItemsNbt.size(); i++) {
-                let plonkItemNbt = plonkItemsNbt.getCompound(i)
-                if (plonkItemNbt.getString('id') != needMenuItem.id) continue
-                return true
+        } else if (curBlock.entity && curBlock.entity instanceof $TilePlacedItems) {
+            let plonkItemTile = curBlock.entity
+            for (let i = 0; i < plonkItemTile.allItems.size(); i++) {
+                let curItem = plonkItemTile.getItem(i)
+                if (curItem.item.id == needMenuItem.id) {
+                    return true
+                }
             }
         }
     })
@@ -238,30 +237,25 @@ function CrockPotRestaurantEatingFood(crockPotRestaurantPOIModel) {
     let needMenuItem = menuItems[0]
     if (targetBlock.id == needMenuItem.id) {
         level.removeBlock(targetPos, false)
-    } else if (targetBlock.id == 'plonk:placed_items' && targetBlock.entityData) {
-        let nbt = targetBlock.entityData
-        if (!nbt.contains('Items')) {
+    } else if (targetBlock.entity && targetBlock.entity instanceof $TilePlacedItems) {
+        let plonkItemTile = targetBlock.entity
+        let itemLen = plonkItemTile.allItems.size()
+        if (itemLen <= 0) {
             workInPOIModel.setWaitTimer(20 * 5)
             workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
             return true
         }
-        let plonkItemsNbt = nbt.getList('Items', GET_COMPOUND_TYPE)
-        let hasItem = false
-        for (let i = 0; i < plonkItemsNbt.size(); i++) {
-            let plonkItemNbt = plonkItemsNbt.getCompound(i)
-            if (plonkItemNbt.getString('id') != needMenuItem.id) continue
-            let hasCount = plonkItemNbt.getInt('Count')
-            if (hasCount == 1) {
-                plonkItemsNbt.remove(i)
-                hasItem = true
-                break
-            } else {
-                plonkItemNbt.putInt('Count', hasCount - 1)
-                hasItem = true
+
+        let hasMenuItem = false
+        for (let i = 0; i < itemLen; i++) {
+            let curItem = plonkItemTile.getItem(i)
+            if (curItem.item.id == needMenuItem.id) {
+                plonkItemTile.removeItem(i, needMenuItem.count)
+                hasMenuItem = true
                 break
             }
         }
-        if (!hasItem) {
+        if (!hasMenuItem) {
             workInPOIModel.setWaitTimer(20 * 5)
             workInPOIModel.setSubStatus(SUB_STATUS_WAITING_FOR_DISHES)
             return true

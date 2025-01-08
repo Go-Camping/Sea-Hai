@@ -8,7 +8,6 @@ const $ChunkStatus = Java.loadClass('net.minecraft.world.level.chunk.ChunkStatus
 const $PalettedContainer = Java.loadClass('net.minecraft.world.level.chunk.PalettedContainer')
 const $StructureMode = Java.loadClass('net.minecraft.world.level.block.state.properties.StructureMode')
 
-const $TagKey = Java.loadClass('net.minecraft.tags.TagKey')
 const $Registries = Java.loadClass('net.minecraft.core.registries.Registries')
 const $ResourceKey = Java.loadClass('net.minecraft.resources.ResourceKey')
 
@@ -55,3 +54,5 @@ const $BambooLeaves = Java.loadClass('net.minecraft.world.level.block.state.prop
 const $TrialSpawnerBlock = Java.loadClass('net.salju.trialstowers.block.TrialSpawnerBlock')
 const $BlockBehaviour = Java.loadClass('net.minecraft.world.level.block.state.BlockBehaviour')
 const $DoubleBlockHalf = Java.loadClass('net.minecraft.world.level.block.state.properties.DoubleBlockHalf')
+
+const $TilePlacedItems = Java.loadClass('com.breakinblocks.plonk.common.tile.TilePlacedItems')

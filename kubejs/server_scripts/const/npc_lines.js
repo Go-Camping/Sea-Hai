@@ -28,7 +28,7 @@ const NPC_SURROUNDING_LINE_MAP = {
         'npcline.kubejs.flyer.satisfied.1',
         'npcline.kubejs.flyer.satisfied.2',
     ],
-    'after_shopping': [
+    'after_shopping_satisfied': [
         'npcline.kubejs.after_shopping_satisfied.1',
         'npcline.kubejs.after_shopping_satisfied.2',
         'npcline.kubejs.after_shopping_satisfied.3',

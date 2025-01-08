@@ -1,3 +1,4 @@
+// priority: 900
 StartupEvents.registry('item', event => {
     new $HookBuilder('newer').setModID("kubejs").setWeight(new Vec3d(0.8, 1, 0.8)).build()
 
@@ -14,7 +15,6 @@ StartupEvents.registry('item', event => {
 
     event.createCustom('duck_bobber', () => new $DyeableItem(16575488, new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber_overlay.png')))
     event.createCustom('octopus_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
-
 
 })
 

@@ -111,7 +111,7 @@ RingSphereModel.prototype.generateSphere = function (level, pos) {
             for (let x = -ring.radius; x <= ring.radius; x++) {
                 for (let z = -ring.radius; z <= ring.radius; z++) {
                     let xyDistanceSquare = Math.pow(x, 2) + Math.pow(z, 2)
-                    let y = (x * amzimuthAngleSin - z * azimuthAngleCos) * polarAngleTan
+                    let y = Math.ceil((x * amzimuthAngleSin - z * azimuthAngleCos) * polarAngleTan)
                     let rSquare = Math.pow(y, 2) + xyDistanceSquare
                     if (rSquare <= Math.pow(ring.radius, 2) && rSquare >= Math.pow(ring.radius - ring.width, 2)) {
                         let curPos = new BlockPos(pos.x + x, pos.y + y, pos.z + z)
@@ -132,7 +132,7 @@ RingSphereModel.prototype.generateSphere = function (level, pos) {
             let azimuthAngleCos = Math.cos(ring.amzimuthAngle)
             for (let y = -ring.radius; y <= ring.radius; y++) {
                 for (let x = -ring.radius; x <= ring.radius; x++) {
-                    let z = x * azimuthAngleTan - y / (polarAngleTan * azimuthAngleCos)
+                    let z = Math.ceil(x * azimuthAngleTan - y / (polarAngleTan * azimuthAngleCos))
                     let zSquare = Math.pow(z, 2)
                     let rSquare = zSquare + Math.pow(x, 2) + Math.pow(y, 2)
                     if (rSquare <= Math.pow(ring.radius, 2) && rSquare >= Math.pow(ring.radius - ring.width, 2)) {
@@ -154,7 +154,7 @@ RingSphereModel.prototype.generateSphere = function (level, pos) {
             let azimuthAngleTan = Math.tan(ring.amzimuthAngle)
             for (let y = -ring.radius; y <= ring.radius; y++) {
                 for (let z = -ring.radius; z <= ring.radius; z++) {
-                    let x = y / (polarAngleTan * azimuthAngleSin) + z / azimuthAngleTan
+                    let x = Math.ceil(y / (polarAngleTan * azimuthAngleSin) + z / azimuthAngleTan)
                     let xSquare = Math.pow(x, 2)
                     let rSquare = xSquare + Math.pow(y, 2) + Math.pow(z, 2)
                     if (rSquare <= Math.pow(ring.radius, 2) && rSquare >= Math.pow(ring.radius - ring.width, 2)) {

@@ -1,3 +1,4 @@
+// priority: 900
 StartupEvents.registry('item', event => {
     event.create('exp_bottle')
         .maxStackSize(1)

@@ -1,6 +1,6 @@
 // priority: 800
 ServerEvents.recipes(event => {
-    event.recipes.custommachinery.custom_machine('kubejs:aether_gate', 300)
+    event.recipes.custommachinery.custom_machine('kubejs:aether_gate', 40)
         .requireFunctionEachTick(ctx => {
             const { machine, block } = ctx
             let particle = Utils.particleOptions(`crit`)

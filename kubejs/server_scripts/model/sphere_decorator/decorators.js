@@ -29,3 +29,18 @@ const UpShellFlowerDecorator = new SphereDecoratorModel(
         return GenFlower(level, sphere, offset)
     }
 )
+
+
+/**
+ * 上球壳表面生成花
+ * @type {SphereDecoratorModel}
+ */
+const RingFlowerDecorator = new SphereDecoratorModel(
+    'ring',
+    (level, sphere, offset) => {
+        return RandomChance(0.2) && IsUpEmptyWithinHeight(level, sphere, offset, 2)
+    }, 
+    (level, sphere, offset) => {
+        return GenFlower(level, sphere, offset)
+    }
+)

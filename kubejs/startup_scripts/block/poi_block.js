@@ -1,3 +1,4 @@
+// priority: 900
 StartupEvents.registry('block', event => {
     event.create('kubejs:fish_store', 'custommachinery')
         .machine('kubejs:fish_store')
