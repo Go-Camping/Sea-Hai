@@ -39,26 +39,26 @@ RegistryRelatedPositionToolStrategy(
                 const { player } = event
                 if (!savedBlock.entity) return
                 let nodeEntity = savedBlock.entity
-                let relatedNodePosListNbt = nodeEntity.persistentData.getList('relatedNodePos', GET_COMPOUND_TYPE)
-                let relatedNodePosList = ConvertNbt2PosList(relatedNodePosListNbt)
+                let relatedPoiPosListNbt = nodeEntity.persistentData.getList('relatedPoiPos', GET_COMPOUND_TYPE)
+                let relatedPoiPosList = ConvertNbt2PosList(relatedPoiPosListNbt)
                 // 重复右键解绑
-                if (relatedNodePosList.some(pos => { if (pos.equals(block.getPos())) return true })) {
+                if (relatedPoiPosList.some(pos => { if (pos.equals(block.getPos())) return true })) {
                     // 删除node绑定
-                    relatedNodePosListNbt.removeIf(posNbt => {
+                    relatedPoiPosListNbt.removeIf(posNbt => {
                         let pos = ConvertNbt2Pos(posNbt)
                         return pos.equals(block.getPos())
                     })
-                    nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
+                    nodeEntity.persistentData.put('relatedPoiPos', relatedPoiPosListNbt)
                     nodeEntity.setChanged()
                     RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#00ea33')])
                     player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.node.remove_relate_position.1'))
                     return
                 }
                 // 添加节点绑定
-                relatedNodePosListNbt.add(ConvertPos2Nbt(block.getPos()))
-                nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
+                relatedPoiPosListNbt.add(ConvertPos2Nbt(block.getPos()))
+                nodeEntity.persistentData.put('relatedPoiPos', relatedPoiPosListNbt)
                 nodeEntity.setChanged()
-                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#00ea33'), 20 * 15)
+                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedPoiPosListNbt.copy(), '#00ea33'), 20 * 15)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.node.add_relate_position.1'))
                 return
             }
@@ -72,8 +72,8 @@ RegistryRelatedPositionToolStrategy(
                 ClearBlockOutlineRender(player)
                 if (!savedBlock.entity) return
                 let nodeEntity = savedBlock.entity
-                let relatedNodePosListNbt = nodeEntity.persistentData.getList('relatedNodePos', GET_COMPOUND_TYPE)
-                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#00ea33'), 20 * 15)
+                let relatedPoiPosListNbt = nodeEntity.persistentData.getList('relatedPoiPos', GET_COMPOUND_TYPE)
+                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedPoiPosListNbt.copy(), '#00ea33'), 20 * 15)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.node.show_relate_position.1'))
                 return
             }

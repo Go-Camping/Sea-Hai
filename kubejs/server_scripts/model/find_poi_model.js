@@ -194,9 +194,28 @@ EntityFindPOI.prototype = {
     findAheadPOIs(mob, dist, secondaryRange) {
         let blockList = FindDirectionNearBlocks(mob, dist, secondaryRange, 3, -1, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
-            return curBlock.tags.contains(TAG_POI_ENTRANCE)
+            return curBlock.tags.contains(TAG_POI_ENTRANCE) || curBlock.tags.contains(TAG_SIGN_POST_BLOCK)
         })
-        return blockList.filter(curBlock => {
+        /** @type {Internal.BlockContainerJS[]} */
+        let poiBlockList = []
+        blockList.forEach(curBlock => {
+            if (curBlock.tags.contains(TAG_SIGN_POST_BLOCK)) {
+                if (!curBlock.entity) return
+                let curEntity = curBlock.entity
+                let relatedPoiPosListNbt = curEntity.persistentData.getList('relatedPoiPos', GET_COMPOUND_TYPE)
+                let relatedPoiPosList = ConvertNbt2PosList(relatedPoiPosListNbt)
+                relatedPoiPosList.forEach(relatedNodePos => {
+                    let relatedPoiBlock = mob.level.getBlock(relatedNodePos)
+                    if (relatedPoiBlock.tags.contains(TAG_POI_ENTRANCE)) {
+                        poiBlockList.push(relatedPoiBlock)
+                    }
+                })
+            } else {
+                poiBlockList.push(curBlock)
+            }
+        })
+        console.log('找到POI列表：', poiBlockList)
+        return poiBlockList.filter(curBlock => {
             return !this.checkIsMarkedPOI(curBlock.pos)
         })
     }

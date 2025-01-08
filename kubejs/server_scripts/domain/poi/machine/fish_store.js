@@ -87,5 +87,5 @@ FishStorePOIModel.prototype.constructor = FishStorePOIModel
  */
 FishStorePOIModel.prototype.consumeConatinerTester = function (item) {
     let res = item.hasNBT() && item.nbt.contains('value')
-    return res && item.hasTag('kubejs:fish_store_goods')
+    return res
 }
