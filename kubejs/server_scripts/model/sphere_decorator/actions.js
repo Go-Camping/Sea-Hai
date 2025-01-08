@@ -49,3 +49,24 @@ const GenFlower = (level, sphere, offset) => {
     level.setBlock(abovePos, randomFlower, 2)
 }
 
+/**
+ * 仅限全局，设置生态群系
+ * @type {function(Internal.Level, SphereModel, BlockPos)}
+ */
+const GlobalSetBiomeAction = (level, sphere, biomeName) => {
+    let radius = sphere.shellRadius
+    if (sphere.ringProperties && sphere.ringProperties.length > 0) {
+        sphere.ringProperties.forEach(ring => {
+            if (ring.radius > radius) {
+                radius = ring.radius
+            }
+        })
+    }
+    for (let x = sphere.center.x - radius; x <= sphere.center.x + radius; x += 16) {
+        for (let z = sphere.center.z - radius; z <= sphere.center.z + radius; z += 16) {
+            let chunkAccess = level.getChunk(x >> 4, z >> 4)
+            console.log(`GlobalSetBiomeAction3: ${chunkAccess.getPos()} ${radius} ${x} ${z}`)
+            SetBiomeByChunk(level, chunkAccess, biomeName)
+        }
+    }
+}

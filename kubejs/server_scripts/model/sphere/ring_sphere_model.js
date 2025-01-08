@@ -66,6 +66,7 @@ RingSphereModel.prototype.addRingProperties = function (block, radius, width, po
 // todo 需要测试
 RingSphereModel.prototype.generateSphere = function (level, pos) {
     this.center = pos
+    this.decorator.runGlobalDecorators(level, this)
     /**@type {Object<string, Internal.ChunkAccess>} */
     for (let x = -this.shellRadius; x <= this.shellRadius; x++) {
         for (let z = -this.shellRadius; z <= this.shellRadius; z++) {

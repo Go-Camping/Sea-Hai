@@ -44,3 +44,14 @@ const RingFlowerDecorator = new SphereDecoratorModel(
         return GenFlower(level, sphere, offset)
     }
 )
+
+const GlobalSetBiomeDecorator = new SphereDecoratorModel(
+    'global', 
+    (level, sphere) => {
+        return true
+    },
+    (level, sphere) => {
+        return GlobalSetBiomeAction(level, sphere, 'minecraft:plains')
+    }
+)
+

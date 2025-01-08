@@ -29,6 +29,7 @@ function SphereDecoratorPackerModel() {
     this.inner = []
     this.shell = []
     this.ring = []
+    this.global = []
 }
 
 SphereDecoratorPackerModel.prototype = {
@@ -49,6 +50,10 @@ SphereDecoratorPackerModel.prototype = {
             case 'ring':
                 // 星环
                 this.ring.push(decorator)
+                break
+            case 'global':
+                // 全局
+                this.global.push(decorator)
                 break
             default:
                 break
@@ -95,5 +100,19 @@ SphereDecoratorPackerModel.prototype = {
                 decorator.action(level, sphere, offset)
             }
         }
+    },
+    /**
+     * 执行全局装饰器
+     * @param {Internal.Level} level
+     * @param {SphereModel} sphere
+     */
+    runGlobalDecorators: function (level, sphere) {
+        for (let i = 0; i < this.global.length; i++) {
+            let decorator = this.global[i]
+            if (decorator.predictor(level, sphere)) {
+                decorator.action(level, sphere)
+            }
+        }
     }
+
 }
