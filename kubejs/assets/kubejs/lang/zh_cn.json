@@ -55,6 +55,11 @@
     "npcline.kubejs.flyer.sorry.2": "抱歉，我还有其他事。",
     "npcline.kubejs.flyer.satisfied.1": "看起来还不错！",
     "npcline.kubejs.flyer.satisfied.2": "偶尔尝试点新东西也不赖！",
+    "npcline.kubejs.flyer.after_shopping_satisfied.1": "还挺实惠！",
+    "npcline.kubejs.flyer.after_shopping_satisfied.2": "下次再来吧！",
+    "npcline.kubejs.flyer.after_shopping_satisfied.3": "感觉还不错！",
+    "npcline.kubejs.flyer.after_shopping_satisfied.4": "我会推荐给朋友的！",
+    "npcline.kubejs.flyer.after_shopping_satisfied.5": "每次都是全新的体验！",
 
     "_comment_.puffskill": "技能",
     "puffskill.kubejs.fishing.title": "钓鱼",

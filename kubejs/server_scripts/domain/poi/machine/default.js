@@ -197,7 +197,7 @@ function DefaultStartShopping(defaultPOIModel) {
         return true
     } else {
         // todo 调试方法
-        mob.saySurrounding(new $Line('感觉很实惠！'))
+        NPCSaySurrounding(mob, NPC_LINE_AFTER_SHOPPING_SATISFIED)
         workInPOIModel.clearMovePos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         // 跳出子状态

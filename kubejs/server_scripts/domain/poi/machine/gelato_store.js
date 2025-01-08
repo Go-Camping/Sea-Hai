@@ -245,7 +245,7 @@ function GelatoStoreStartShopping(gelatoStorePOIModel) {
     if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
         return true
     } else {
-        mob.saySurrounding(new $Line('感觉很实惠！'))
+        NPCSaySurrounding(mob, NPC_LINE_AFTER_SHOPPING_SATISFIED)
         workInPOIModel.clearMovePos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         mob.advanced.setLine(LINE_INTERACT, 0, '', '')

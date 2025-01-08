@@ -34,19 +34,3 @@ const ANIMATION_FLY_IDLE = 18
 const ANIMATION_STATIC = 19
 const ANIMATION_SWIM = 20
 const ANIMATION_WAG = 21
-
-
-const NPC_LINE_THANKS = 'thanks'
-const NPC_LINE_SORRY = 'sorry'
-const NPC_LINE_SATISFIED = 'satisfied'
-const NPC_LINE_TERRIBLE = 'terrible'
-const NPC_LINE_FLYER_SORRY = 'flyer_sorry'
-const NPC_LINE_FLYER_SATISFIED = 'flyer_satisfied'
-const NPC_SURROUNDING_LINE_MAP = {
-    'thanks': ['npcline.kubejs.thanks.1'],
-    'sorry': ['npcline.kubejs.sorry.1'],
-    'satisfied': ['npcline.kubejs.satisfied.1'],
-    'terrible': ['npcline.kubejs.terrible.1'],
-    'flyer_sorry': ['npcline.kubejs.flyer.sorry.1', 'npcline.kubejs.flyer.sorry.2'],
-    'flyer_satisfied': ['npcline.kubejs.flyer.satisfied.1', 'npcline.kubejs.flyer.satisfied.2'],
-}
