@@ -214,7 +214,6 @@ EntityFindPOI.prototype = {
                 poiBlockList.push(curBlock)
             }
         })
-        console.log('找到POI列表：', poiBlockList)
         return poiBlockList.filter(curBlock => {
             return !this.checkIsMarkedPOI(curBlock.pos)
         })

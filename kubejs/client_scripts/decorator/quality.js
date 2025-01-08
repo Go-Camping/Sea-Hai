@@ -6,7 +6,7 @@ QualityDecorator.setRender(ctx => {
     let item = ctx.itemStack
     let guiGraphics = ctx.guiGraphics
     RenderJSRenderSystem.disableDepthTestJS()
-    if (item.getOrCreateTag().contains('quality')) {
+    if (!item.isEmpty() && item.getOrCreateTag().contains('quality')) {
         let qualityNum = item.nbt.getInt('quality')
         switch (qualityNum) {
             case 1:

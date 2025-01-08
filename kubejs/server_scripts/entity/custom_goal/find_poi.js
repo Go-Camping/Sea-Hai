@@ -24,7 +24,7 @@ const FindPOIGoal = (entity) => new $CustomGoal(
     },
     false,
     /** @param {Internal.PathfinderMob} mob **/ mob => {
-        // console.log('status findPOI BeginBehavior')
+        // .log('status findPOI BeginBehavior')
         let findPOIModel = new EntityFindPOI(mob)
         mob.navigation.setSpeedModifier(0.5)
         findPOIModel.setIdleCenter(GetEntityPosition(mob).offset(0, -1, 0))

@@ -27,7 +27,7 @@ function AverageScoreDistri(itemStack, min, max) {
     let random = Math.random()
     let value = Math.floor(random * (max - min)) + min
     let quality = 1
-    switch (random) {
+    switch (true) {
         case (random < 0.4):
             quality = 1
             break
