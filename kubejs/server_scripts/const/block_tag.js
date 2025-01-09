@@ -16,7 +16,6 @@ const TAG_SIGN_POST_BLOCK = new ResourceLocation('kubejs:sign_post_block')
 ServerEvents.tags('block', event => {
     event.add('kubejs:poi_entrance', [
         'kubejs:fish_store', 
-        'kubejs:grocery', 
         'kubejs:onsen_resort', 
         'kubejs:gelato_store', 
         'kubejs:crock_pot_restaurant',
