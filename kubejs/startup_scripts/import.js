@@ -9,3 +9,5 @@ const $AquacultureAPI = Java.loadClass('com.teammetallurgy.aquaculture.api.Aquac
 const $DyeableItem = Java.loadClass('com.teammetallurgy.aquaculture.item.DyeableItem')
 const $AquaItems = Java.loadClass('com.teammetallurgy.aquaculture.init.AquaItems')
 const $ChatFromatting = Java.loadClass('net.minecraft.ChatFormatting')
+const $Registries = Java.loadClass('net.minecraft.core.registries.Registries')
+const $TagKey = Java.loadClass('net.minecraft.tags.TagKey')

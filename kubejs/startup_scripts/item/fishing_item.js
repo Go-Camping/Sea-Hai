@@ -1,7 +1,6 @@
 // priority: 900
+const HookIds = []
 StartupEvents.registry('item', event => {
-    new $HookBuilder('newer').setModID("kubejs").setWeight(new Vec3d(0.8, 1, 0.8)).build()
-
     event.createCustom('hard_fishing_line', () => new $DyeableItem(1))
 
     event.createCustom('newer_bait', () => $AquacultureAPI.createBait(20, 1))
@@ -27,4 +26,34 @@ ClientEvents.init(event => {
         Item.of('kubejs:duck_bobber').getItem(),
         Item.of('kubejs:octopus_bobber').getItem()
     )
+})
+
+/**
+ * @param {Internal.Hook$HookBuilder} hookBuilder 
+ */
+function RegisterHook(hookBuilder) {
+    let hook = hookBuilder.build()
+    let id = 'aquaculture:' + hook.getName() + '_hook'
+    HookIds.push(id)
+    return
+}
+'aquaculture:newer_hook'
+RegisterHook(new $HookBuilder('newer')
+    .setWeight(new Vec3d(0.8, 1, 0.8))
+)
+RegisterHook(new $HookBuilder('short_mead')
+    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:short_mead'))
+    .setWeight(new Vec3d(0.8, 1, 0.8))
+)
+
+StartupEvents.modifyCreativeTab('kubejs:tab', event => {
+    HookIds.forEach(id => {
+        event.add(id)
+    })
+})
+
+StartupEvents.modifyCreativeTab('aquaculture:tab', event => {
+    HookIds.forEach(id => {
+        event.remove(id)
+    })
 })
