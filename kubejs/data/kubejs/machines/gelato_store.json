@@ -1,6 +1,6 @@
 {
   "name": {
-    "text": "Gelato Store"
+    "text": "block.kubejs.gelato_store"
   },
   "appearance": {
     "item": "kubejs:machine/gelato_store_item",

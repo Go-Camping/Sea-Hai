@@ -11,7 +11,22 @@
     "item.kubejs.relate_node_tool": "节点链接工具",
     "item.kubejs.relate_position_tool": "地点链接工具",
     "item.kubejs.flyer": "传单",
-    "_comment.tooltips": "物品提示",
+    "item.kubejs.menu": "菜单",
+    "item.kubejs.exp_bottle": "经验瓶",
+    "item.kubejs.duck_bobber": "鸭子浮标",
+    "item.kubejs.octopus_bobber": "章鱼浮标",
+
+
+    "_comment.block": "方块",
+    "block.kubejs.aether_gate": "以太门",
+    "block.kubejs.menu_workbench": "菜单合成台",
+    "block.kubejs.way_node": "路径节点",
+    "block.kubejs.fish_store": "鱼店",
+    "block.kubejs.onsen_resort": "温泉店",
+    "block.kubejs.gelato_store": "冰激凌店",
+    "block.kubejs.crock_pot_restaurant": "烹饪锅店",
+
+    "_comment.tooltips": "工具提示",
     "tooltips.kubejs.item.relate_position_tool.1": "当前选定POI：",
     "tooltips.kubejs.item.duck_bobber.1": "鱼钩将更少的受到重力的影响",
     "tooltips.kubejs.item.octopus_bobber.1": "鱼会变得懒惰",
@@ -67,6 +82,13 @@
     "puffskill.kubejs.smithing.title": "锻造",
     "puffskill.kubejs.service.title": "服务",
     "puffskill.kubejs.other.title": "烹饪",
+
+    "kubejs.puffskill.def.fishing.1_1": "垂钓能者",
+    "kubejs.puffskill.desc.fishing.1_1": "垂钓时浮标的长度+15%",
+    "kubejs.puffskill.def.fishing.1_2": "鱼类学者",
+    "kubejs.puffskill.desc.fishing.1_2": "同等品质的鱼具有更高的价值",
+    "kubejs.puffskill.def.fishing.1_3": "幸运捕手",
+    "kubejs.puffskill.desc.fishing.1_3": "你更容易获得高品质鱼类",
 
     "_comment_.gelato": "冰激凌",
     "interactline.kubejs.gelato.one_ball.1": "我想要一个%s味的单球冰激凌",

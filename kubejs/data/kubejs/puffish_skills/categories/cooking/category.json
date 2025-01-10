@@ -33,7 +33,6 @@
 	"background": {
 		"texture": "kubejs:textures/skill/background/background.png",
 		"width": 699,
-		"height": 330,
-		"position": "fill_width"
+		"height": 330
 	}
 }

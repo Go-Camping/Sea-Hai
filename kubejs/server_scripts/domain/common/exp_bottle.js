@@ -26,5 +26,3 @@ global.ExpBottleFinishUsing = (itemstack, level, entity) => {
     player.setStatusMessage(Text.translatable('status.kubejs.exp_bottle.gain_exp.1', Text.translatable(ExpTypeMapToSkillName[type]).gold(), Text.gold(expAmount.toFixed(0))))
     return
 }
-
-

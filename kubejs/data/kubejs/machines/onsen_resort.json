@@ -1,6 +1,6 @@
 {
   "name": {
-    "text": "Onsen Resort"
+    "text": "block.kubejs.onsen_resort"
   },
   "appearance": {
     "item": "kubejs:machine/onsen_resort_item",

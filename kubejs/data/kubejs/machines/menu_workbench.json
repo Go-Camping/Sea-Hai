@@ -1,5 +1,5 @@
 {
-    "name": "Menu Workbench",
+    "name": "block.kubejs.menu_workbench",
     "appearance": {
         "custommachinery:block": "kubejs:machine/menu_workbench",
         "running": {

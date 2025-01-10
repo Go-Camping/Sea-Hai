@@ -1,6 +1,6 @@
 {
   "name": {
-    "text": "Fish Shop"
+    "text": "block.kubejs.fish_store"
   },
   "appearance": {
     "item": "kubejs:machine/fish_store_item",

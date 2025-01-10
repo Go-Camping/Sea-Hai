@@ -63,7 +63,6 @@ RingSphereModel.prototype.addRingProperties = function (block, radius, width, po
  * @param {BlockPos} pos 中心位置
  * @returns
  */
-// todo 需要测试
 RingSphereModel.prototype.generateSphere = function (level, pos) {
     this.center = pos
     this.decorator.runGlobalDecorators(level, this)

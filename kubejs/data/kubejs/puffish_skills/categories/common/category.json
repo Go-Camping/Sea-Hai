@@ -2,7 +2,7 @@
 	"unlocked_by_default": true,
 	"spent_points_limit": 100,
 	"title": {
-		"translate": "kubejs.puffskill.other.title"
+		"translate": "kubejs.puffskill.common.title"
 	},
 	"icon": {
 		"type": "item",
@@ -33,7 +33,6 @@
 	"background": {
 		"texture": "kubejs:textures/skill/background/background.png",
 		"width": 699,
-		"height": 330,
-		"position": "fill_width"
+		"height": 330
 	}
 }

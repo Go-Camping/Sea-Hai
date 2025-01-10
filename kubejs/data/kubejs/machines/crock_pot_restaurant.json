@@ -1,6 +1,6 @@
 {
   "name": {
-    "text": "Crock Pot Restaurant"
+    "text": "block.kubejs.crock_pot_restaurant"
   },
   "appearance": {
     "item": "kubejs:machine/crock_pot_restaurant_item",

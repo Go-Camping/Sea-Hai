@@ -196,7 +196,6 @@ function DefaultStartShopping(defaultPOIModel) {
     if (poiBlockModel.checkIsUUIDShopping(mob.uuid)) {
         return true
     } else {
-        // todo 调试方法
         NPCSaySurrounding(mob, NPC_LINE_AFTER_SHOPPING_SATISFIED)
         workInPOIModel.clearMovePos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)

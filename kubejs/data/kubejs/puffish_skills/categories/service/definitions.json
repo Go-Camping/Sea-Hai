@@ -1,2 +1,632 @@
 {
+	"1_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.1_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.1_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"1_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.1_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.1_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"1_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.1_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.1_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"2_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.2_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.2_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"2_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.2_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.2_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"2_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.2_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.2_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"3_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.3_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.3_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"3_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.3_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.3_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"3_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.3_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.3_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"4_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.4_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.4_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"4_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.4_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.4_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"4_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.4_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.4_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"5_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.5_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.5_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"5_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.5_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.5_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"5_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.5_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.5_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"6_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.6_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.6_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"6_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.6_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.6_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"6_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.6_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.6_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"7_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.7_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.7_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"7_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.7_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.7_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"7_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.7_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.7_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"8_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.8_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.8_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"8_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.8_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.8_2"
+		},
+		"frame": {
+			"type": "texture",	
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"8_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.8_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.8_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"9_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.9_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.9_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"9_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.9_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.9_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"9_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.9_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.9_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"10_1": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.10_1"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.10_1"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"10_2": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.10_2"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.10_2"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	},
+	"10_3": {
+		"title": {
+			"translate": "kubejs.puffskill.def.service.10_3"
+		},
+		"description": {
+			"translate": "kubejs.puffskill.desc.service.10_3"
+		},
+		"frame": {
+			"type": "texture",
+			"data": {
+				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
+				"available": "kubejs:textures/skill/frame/square_available.png"
+			}
+		},
+		"icon": {
+			"type": "texture",
+			"data": {
+				"texture": "kubejs:textures/skill/todo.png"
+			}
+		}
+	}
 }

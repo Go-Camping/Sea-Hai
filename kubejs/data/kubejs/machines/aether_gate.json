@@ -1,5 +1,5 @@
 {
-    "name": "Aether Gate",
+    "name": "block.kubejs.aether_gate",
     "appearance": {
         "item": "kubejs:machine/aether_gate",
         "shape": [[0.0, 0.0, 0.0, 1.0, 0.1875, 1.0]],
