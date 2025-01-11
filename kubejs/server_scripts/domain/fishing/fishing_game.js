@@ -14,7 +14,7 @@ StardewFishing.miniGameStart(event => {
     strategyList.sort((a, b) => b.priority - a.priority).forEach(itemModel => {
         itemModel.miniGameStart(event)
     })
-    ApplySkillStrategy(FishingMiniGameStartSkill, 'kubejs:fishing', player, [event])
+    FishingMiniGameStartSkill.run(player, [event])
 })
 
 StardewFishing.miniGameEnd(event => {
@@ -31,6 +31,7 @@ StardewFishing.miniGameEnd(event => {
     strategyList.sort((a, b) => b.priority - a.priority).forEach(itemModel => {
         itemModel.miniGameEnd(event)
     })
+    FishingMiniGameEndSkill.run(player, [event])
 })
 
 

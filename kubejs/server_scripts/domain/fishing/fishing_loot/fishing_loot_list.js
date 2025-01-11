@@ -98,7 +98,7 @@ RegisterFishValue('lavafishing:obsidian_sword_fish', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:minnow'), 10)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:river",1)
+        .withBiomeModifier("minecraft:river", 1)
         .withPlayerModifier((player, weight) => player.luck >= 10 ? weight * 2 : weight)
 )
 RegisterFishValue('aquaculture:minnow', (itemStack, player) => {
@@ -107,8 +107,8 @@ RegisterFishValue('aquaculture:minnow', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:red_grouper'), 2)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:warm_ocean",5)
-        .withBiomeModifier("minecraft:lukewarm_ocean",1)
+        .withBiomeModifier("minecraft:warm_ocean", 5)
+        .withBiomeModifier("minecraft:lukewarm_ocean", 1)
         .withTimeRangeModifier((time, weight) => time > 13000 ? weight : 0)
 )
 RegisterFishValue('aquaculture:red_grouper', (itemStack, player) => {
@@ -137,8 +137,8 @@ RegisterFishValue('aquaculture:piranha', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:arapaima'), 5)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:warm_ocean",1)
-        .withBiomeModifier("minecraft:lukewarm_ocean",5)
+        .withBiomeModifier("minecraft:warm_ocean", 1)
+        .withBiomeModifier("minecraft:lukewarm_ocean", 5)
         .withTimeRangeModifier((time, weight) => time < 6000 ? weight * 2 : weight)
 )
 RegisterFishValue('aquaculture:arapaima', (itemStack, player) => {
@@ -147,7 +147,7 @@ RegisterFishValue('aquaculture:arapaima', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:perch'), 20)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:river",1)
+        .withBiomeModifier("minecraft:river", 1)
 )
 RegisterFishValue('aquaculture:perch', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
@@ -155,7 +155,7 @@ RegisterFishValue('aquaculture:perch', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:tuna'), 20)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:deep_ocean",1)
+        .withBiomeModifier("minecraft:deep_ocean", 1)
         .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).getId() == 'kubejs:fish_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:tuna', (itemStack, player) => {
@@ -172,7 +172,7 @@ RegisterFishValue('aquaculture:blackfish', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:atlantic_cod'), 5)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:deep_ocean",1)
+        .withBiomeModifier("minecraft:deep_ocean", 1)
         .withTimeRangeModifier((time, weight) => time > 12000 && time < 18000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:atlantic_cod', (itemStack, player) => {
@@ -181,7 +181,7 @@ RegisterFishValue('aquaculture:atlantic_cod', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:atlantic_herring'), 5)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:deep_ocean",1)
+        .withBiomeModifier("minecraft:deep_ocean", 1)
         .withTimeRangeModifier((time, weight) => time > 18000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:atlantic_herring', (itemStack, player) => {
@@ -190,7 +190,7 @@ RegisterFishValue('aquaculture:atlantic_herring', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:atlantic_halibut'), 5)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:deep_ocean",1)
+        .withBiomeModifier("minecraft:deep_ocean", 1)
         .withTimeRangeModifier((time, weight) => time < 6000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:atlantic_halibut', (itemStack, player) => {
@@ -199,7 +199,7 @@ RegisterFishValue('aquaculture:atlantic_halibut', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:pacific_halibut'), 5)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:deep_lukewarm_ocean",1)
+        .withBiomeModifier("minecraft:deep_lukewarm_ocean", 1)
         .withTimeRangeModifier((time, weight) => time < 6000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:pacific_halibut', (itemStack, player) => {
@@ -208,7 +208,7 @@ RegisterFishValue('aquaculture:pacific_halibut', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:bayad'), 2)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:river",1)
+        .withBiomeModifier("minecraft:river", 1)
         .withTimeRangeModifier((time, weight) => time > 13800 && time < 22200 ? weight * 3 : weight)
         .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).hasTag("forge:raw_fishes") ? weight * 5 : weight)
 )
@@ -229,7 +229,7 @@ RegisterFishValue('aquaculture:rainbow_trout', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:pollock'), 5)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:deep_ocean",1)
+        .withBiomeModifier("minecraft:deep_ocean", 1)
         .withTimeRangeModifier((time, weight) => time > 12000 && time < 18000 ? weight * 4 : weight)
         .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:cod_bait' ? weight : 0)
 )
@@ -239,8 +239,8 @@ RegisterFishValue('aquaculture:pollock', (itemStack, player) => {
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:pink_salmon'), 2)
         .withFluidModifier('minecraft:water', 1)
-        .withBiomeModifier("minecraft:cold_ocean",5)
-        .withBiomeModifier("minecraft:frozen_ocean",1)
+        .withBiomeModifier("minecraft:cold_ocean", 5)
+        .withBiomeModifier("minecraft:frozen_ocean", 1)
         .withTimeRangeModifier((time, weight) => time > 12000 ? weight * 2 : weight)
 )
 RegisterFishValue('aquaculture:pink_salmon', (itemStack, player) => {
@@ -271,87 +271,110 @@ RegisterFishValue('aquaculture:carp', (itemStack, player) => {
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:brown_trout'), 2)
-    .withFluidModifier('minecraft:water', 1)
-    .withBiomeModifier("minecraft:cold_ocean",5)
-    .withBiomeModifier("minecraft:frozen_ocean",1)
-    .withTimeRangeModifier((time, weight) => time > 12000 ? weight * 2 : weight)
-    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:salmon_bait' ? weight : 0)
+        .withFluidModifier('minecraft:water', 1)
+        .withBiomeModifier("minecraft:cold_ocean", 5)
+        .withBiomeModifier("minecraft:frozen_ocean", 1)
+        .withTimeRangeModifier((time, weight) => time > 12000 ? weight * 2 : weight)
+        .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:salmon_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:brown_trout', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:bluegill'), 2)
-    .withFluidModifier('minecraft:water', 5)
-    .withFluidModifier('minecraft:lava', 1)
-    .withTimeRangeModifier((time, weight) => time > 13800 && time < 22200 ? 0 : weight)
-    .withPlayerModifier((player, weight) => player.block.canSeeSky ? weight : 0)
+        .withFluidModifier('minecraft:water', 5)
+        .withFluidModifier('minecraft:lava', 1)
+        .withTimeRangeModifier((time, weight) => time > 13800 && time < 22200 ? 0 : weight)
+        .withPlayerModifier((player, weight) => player.block.canSeeSky ? weight : 0)
 )
 RegisterFishValue('aquaculture:bluegill', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:smallmouth_bass'), 20)
-    .withFluidModifier('minecraft:water', 1)
-    .withBiomeModifier("minecraft:river",1)
-    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:perch_bait' ? weight : 0)
+        .withFluidModifier('minecraft:water', 1)
+        .withBiomeModifier("minecraft:river", 1)
+        .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:perch_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:smallmouth_bass', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:synodontis'), 5)
-    .withFluidModifier('minecraft:water', 1)
-    .withPlayerModifier((player, weight) => {
-        let x = player.x
-        let y = player.y
-        let z = player.z
-        let entityList = player.level.getEntitiesWithin(AABB.of( x + 5, y + 5, z + 5, x - 5, y - 5, z - 5))
-        entityList.forEach((entity)=>{
-            if (entity == "minecraft:cat"){
-                return weight * 9
-            }
+        .withFluidModifier('minecraft:water', 1)
+        .withPlayerModifier((player, weight) => {
+            let { x, y, z } = player
+            let entityList = player.level.getEntitiesWithin(AABB.of(x + 5, y + 5, z + 5, x - 5, y - 5, z - 5))
+            entityList.forEach((entity) => {
+                if (entity == "minecraft:cat") {
+                    return weight * 9
+                }
+            })
+            return weight
         })
-        return weight
-    })
 )
 RegisterFishValue('aquaculture:synodontis', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:capitaine'), 20)
-    .withFluidModifier('minecraft:water', 1)
-    .withBiomeModifier("minecraft:river",1)
-    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' ? weight : 0)
+        .withFluidModifier('minecraft:water', 1)
+        .withBiomeModifier("minecraft:river", 1)
+        .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:capitaine', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:boulti'), 5)
-    .withFluidModifier('minecraft:water', 1)
-    .withBiomeModifier("minecraft:river",1)
-    .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' && player.hasEffect("minecraft:strength") ? weight * 10 : weight)
+        .withFluidModifier('minecraft:water', 1)
+        .withBiomeModifier("minecraft:river", 1)
+        .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' && player.hasEffect("minecraft:strength") ? weight * 10 : weight)
 )
 RegisterFishValue('aquaculture:boulti', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:muskellunge'), 5)
-    .withFluidModifier('minecraft:water', 1)
-    .withPlayerModifier((player, weight) => {
-        let x = player.x
-        let y = player.y
-        let z = player.z
-        let entityList = player.level.getEntitiesWithin(AABB.of( x + 5, y + 5, z + 5, x - 5, y - 5, z - 5))
-        entityList.forEach((entity)=>{
-            if (entity == "minecraft:wolf"){
-                return weight * 10
-            }
+        .withFluidModifier('minecraft:water', 1)
+        .withPlayerModifier((player, weight) => {
+            let { x, y, z } = player
+            let entityList = player.level.getEntitiesWithin(AABB.of(x + 5, y + 5, z + 5, x - 5, y - 5, z - 5))
+            entityList.forEach((entity) => {
+                if (entity == "minecraft:wolf") {
+                    return weight * 10
+                }
+            })
+            return weight
         })
-        return weight
-    })
 )
 RegisterFishValue('aquaculture:muskellunge', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+
+
+// 蟹笼产出
+RegisterFishValue('lavafishing:yeti_crab', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+RegisterFishValue('aquaculture:jellyfish', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+RegisterFishValue('aquaculture:goldfish', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+RegisterFishValue('aquaculture:box_turtle', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+RegisterFishValue('aquaculture:starshell_turtle', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+RegisterFishValue('aquaculture:arrau_turtle', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+RegisterFishValue('lavafishing:scaly_foot_snail', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, 10, 20)
+})
+RegisterFishValue('lavafishing:flame_squat_lobster', (itemStack, player) => {
     return AverageScoreDistri(itemStack, 10, 20)
 })

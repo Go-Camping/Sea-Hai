@@ -8,13 +8,4 @@ StartupEvents.registry('block', event => {
         .machine('kubejs:gelato_store')
     event.create('kubejs:crock_pot_restaurant', 'custommachinery')
         .machine('kubejs:crock_pot_restaurant')
-
-    event.create('kubejs:way_node')
-        .soundType(SoundType.STONE)
-        .box(0, 0, 0, 16, 1, 16)
-        .textureAll('kubejs:block/node')
-        .blockEntity(info => {
-            info.initialData({})
-        })
-        .defaultTranslucent()
 })

@@ -1,0 +1,14 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "lavafishing:scaly_foot_snail",
+                    "weight": 10
+                }
+            ]
+        }
+    ]
+}

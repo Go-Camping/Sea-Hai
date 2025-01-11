@@ -3,14 +3,14 @@ const HookIds = []
 StartupEvents.registry('item', event => {
     event.createCustom('hard_fishing_line', () => new $DyeableItem(1))
 
-    event.createCustom('newer_bait', () => $AquacultureAPI.createBait(20, 1))
-    event.createCustom('mushroom_bait', () => $AquacultureAPI.createBait(20, 1))
-    event.createCustom('cod_bait', () => $AquacultureAPI.createBait(20, 1))
-    event.createCustom('salmon_bait', () => $AquacultureAPI.createBait(20, 1))
-    event.createCustom('perch_bait', () => $AquacultureAPI.createBait(20, 1))
-    event.createCustom('bass_bait', () => $AquacultureAPI.createBait(20, 1))
-    event.createCustom('meat_bait', () => $AquacultureAPI.createBait(20, 1))
-    event.createCustom('fish_bait', () => $AquacultureAPI.createBait(20, 1))
+    event.createCustom('newer_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('mushroom_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('cod_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('salmon_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('perch_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('bass_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('meat_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('fish_bait', () => $AquacultureAPI.createBait(8, 1))
 
     event.createCustom('duck_bobber', () => new $DyeableItem(16575488, new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber_overlay.png')))
     event.createCustom('octopus_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))

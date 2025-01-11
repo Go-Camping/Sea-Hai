@@ -64,7 +64,7 @@ LootJS.modifiers((event) => {
                 for (let i = 0; i < lootItem.count; i++) {
                     ctx.addLoot(FishingValueMap[lootItem.id](lootItem.withCount(1), player))
                     return
-                }   
+                }
             })
 
             let fishingItem = GetFishingRodInHand(player)

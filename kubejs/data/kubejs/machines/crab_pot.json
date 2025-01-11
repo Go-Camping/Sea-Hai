@@ -1,0 +1,127 @@
+{
+  "name": {
+    "text": "block.kubejs.crab_pot"
+  },
+  "appearance": {
+    "item": "kubejs:machine/crab_pot_item",
+    "running": {
+      "custommachinery:block": "kubejs:machine/crab_pot"
+    },
+    "custommachinery:block": "kubejs:machine/crab_pot_idle"
+  },
+  "components": [
+    {
+      "type": "custommachinery:item",
+      "id": "output_1",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "output_2",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "output_3",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "output_4",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "output_5",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "output_6",
+      "mode": "output"
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "bait_input",
+      "mode": "input",
+      "filter": ["#kubejs:crab_pot/water_crab_bait"]
+    },
+    {
+      "type": "custommachinery:item",
+      "id": "upgrade_input",
+      "mode": "input"
+    }
+  ],
+  "gui": [
+    {
+      "type": "custommachinery:player_inventory",
+      "x": 7,
+      "y": 83,
+      "width": 162,
+      "height": 76,
+      "texture": "kubejs:textures/gui/player_inventory.png"
+    },
+    {
+      "type": "custommachinery:background",
+      "texture": "kubejs:textures/gui/menu_workbench_background.png",
+      "width": 176,
+      "height": 166
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 9,
+      "y": 40,
+      "id": "bait_input",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 26,
+      "y": 40,
+      "id": "upgrade_input",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 9,
+      "y": 19,
+      "id": "output_1",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 26,
+      "y": 19,
+      "id": "output_2",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 43,
+      "y": 19,
+      "id": "output_3",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 60,
+      "y": 19,
+      "id": "output_4",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 77,
+      "y": 19,
+      "id": "output_5",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    },
+    {
+      "type": "custommachinery:slot",
+      "x": 94,
+      "y": 19,
+      "id": "output_6",
+      "texture": "kubejs:textures/gui/solt_transparent.png"
+    }
+  ]
+}

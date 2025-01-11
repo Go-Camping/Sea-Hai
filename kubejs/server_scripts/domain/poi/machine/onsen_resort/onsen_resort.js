@@ -23,7 +23,7 @@ ServerEvents.recipes(event => {
             }
 
             shopPOIModel.setIsShopping(false)
-            shopPOIModel.setConsumingMoney  (0)
+            shopPOIModel.setConsumingMoney(0)
             return ctx.success()
         })
         .requireFunctionToStart(ctx => {
@@ -56,7 +56,7 @@ ServerEvents.recipes(event => {
             const machine = ctx.machine
             const block = ctx.block
             const level = block.level
-            
+
             if (!block.entity || !block.entity.persistentData.contains('interactPlayer')) return ctx.error(Text.translatable('errors.kubejs.machine.no_use_output'))
             let playerUuid = block.entity.persistentData.getUUID('interactPlayer')
             let targetPlayer = level.getPlayerByUUID(playerUuid)

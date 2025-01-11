@@ -4,4 +4,12 @@ ServerEvents.tags('item', event => {
     event.add('aquaculture:fishing_line', ['kubejs:hard_fishing_line'])
 
     event.add('aquaculture:bobber', ['kubejs:octopus_bobber', 'kubejs:duck_bobber'])
+
+    event.add('kubejs:fishing_scorable', [
+        '#stardew_fishing:starts_minigame'
+    ])
+
+    event.add('kubejs:crab_bait', [
+        '#forge:seeds'
+    ])
 })
