@@ -96,3 +96,22 @@ WeightRandomModel.prototype = {
     }
 }
 
+
+/**
+ * 幸运重roll
+ * @param {number} luck 
+ * @returns 
+ */
+
+function RandomWithLuck(luck) {
+    let randomList = []
+    if (luck > 0) {
+        for (let i = 0; i < luck / 10; i++) {
+            randomList.push(Math.random())
+        }
+        if (luck % 10 > 0 && luck % 10 > Math.random() * 10) {
+            randomList.push(Math.random())
+        }
+    }
+    return Math.max.apply(null, randomList)
+}

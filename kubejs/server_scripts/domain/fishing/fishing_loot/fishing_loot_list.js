@@ -19,12 +19,17 @@ function RegisterFishingLoot(customFishingLootModel) {
 /**
  * 
  * @param {Internal.ItemStack} itemStack 
+ * @param {Internal.LivingEntity} player
  * @param {number} min 
  * @param {number} max 
  * @returns 
  */
-function AverageScoreDistri(itemStack, min, max) {
-    let random = Math.random()
+function AverageScoreDistri(itemStack, player, min, max) {
+    let luck = 0
+    if (player && player.isPlayer()) {
+        luck = player.luck
+    }
+    let random = RandomWithLuck(luck)
     let value = Math.floor(random * (max - min)) + min
     let quality = 1
     switch (true) {
@@ -44,13 +49,14 @@ function AverageScoreDistri(itemStack, min, max) {
     return itemStack.withNBT({ value: NBT.i(value), quality: NBT.i(quality) })
 }
 
+
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('lavafishing:quartz_fish'), 20)
         .withFluidModifier('minecraft:lava', 1)
         .withTimeRangeModifier((time, weight) => time > 22200 ? weight * 3 : weight)
 )
 RegisterFishValue('lavafishing:quartz_fish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('lavafishing:agni_fish'), 2)
@@ -59,7 +65,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => player.hasEffect('minecraft:glowing') ? weight * 3 : weight)
 )
 RegisterFishValue('lavafishing:agni_fish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('lavafishing:steam_flying_fish'), 2)
@@ -68,7 +74,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => player.y < 30 ? weight * 3 : weight)
 )
 RegisterFishValue('lavafishing:steam_flying_fish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('lavafishing:lava_lamprey'), 10)
@@ -77,7 +83,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 6000 ? weight * 2 : weight)
 )
 RegisterFishValue('lavafishing:lava_lamprey', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('lavafishing:arowana_fish'), 1)
@@ -85,7 +91,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => player.luck >= 10 ? weight * 5 : weight)
 )
 RegisterFishValue('lavafishing:arowana_fish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('lavafishing:obsidian_sword_fish'), 10)
@@ -93,7 +99,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 13800 && time < 22200 ? weight * 3 : weight)
 )
 RegisterFishValue('lavafishing:obsidian_sword_fish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:minnow'), 10)
@@ -102,7 +108,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => player.luck >= 10 ? weight * 2 : weight)
 )
 RegisterFishValue('aquaculture:minnow', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:red_grouper'), 2)
@@ -112,7 +118,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 13000 ? weight : 0)
 )
 RegisterFishValue('aquaculture:red_grouper', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:red_shrooma'), 20)
@@ -124,7 +130,7 @@ RegisterFishingLoot(
         })
 )
 RegisterFishValue('aquaculture:red_shrooma', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:piranha'), 4)
@@ -132,7 +138,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).getId() == 'kubejs:meat_bait' ? weight * 10 : weight)
 )
 RegisterFishValue('aquaculture:piranha', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:arapaima'), 5)
@@ -142,7 +148,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time < 6000 ? weight * 2 : weight)
 )
 RegisterFishValue('aquaculture:arapaima', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:perch'), 20)
@@ -150,7 +156,7 @@ RegisterFishingLoot(
         .withBiomeModifier("minecraft:river", 1)
 )
 RegisterFishValue('aquaculture:perch', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:tuna'), 20)
@@ -159,7 +165,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).getId() == 'kubejs:fish_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:tuna', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:blackfish'), 10)
@@ -167,7 +173,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 13000 ? weight * 2 : weight)
 )
 RegisterFishValue('aquaculture:blackfish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:atlantic_cod'), 5)
@@ -176,7 +182,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 12000 && time < 18000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:atlantic_cod', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:atlantic_herring'), 5)
@@ -185,7 +191,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 18000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:atlantic_herring', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:atlantic_halibut'), 5)
@@ -194,7 +200,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time < 6000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:atlantic_halibut', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:pacific_halibut'), 5)
@@ -203,7 +209,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time < 6000 ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:pacific_halibut', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:bayad'), 2)
@@ -213,7 +219,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => ($AquaFishingRodItem.getBait(GetFishingRodInHand(player))).hasTag("forge:raw_fishes") ? weight * 5 : weight)
 )
 RegisterFishValue('aquaculture:bayad', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:rainbow_trout'), 1)
@@ -224,7 +230,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 18000 && time < 22200 ? weight * 5 : weight)
 )
 RegisterFishValue('aquaculture:rainbow_trout', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:pollock'), 5)
@@ -234,7 +240,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:cod_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:pollock', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:pink_salmon'), 2)
@@ -244,7 +250,7 @@ RegisterFishingLoot(
         .withTimeRangeModifier((time, weight) => time > 12000 ? weight * 2 : weight)
 )
 RegisterFishValue('aquaculture:pink_salmon', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:gar'), 5)
@@ -252,7 +258,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => player.getBlock().down == "minecraft:mud" ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:gar', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:catfish'), 5)
@@ -260,14 +266,14 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => player.level.getBiome(player.getBlock().pos) == "minecraft:swamp" ? weight * 4 : weight)
 )
 RegisterFishValue('aquaculture:catfish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:carp'), 10)
         .withFluidModifier('minecraft:water', 1)
 )
 RegisterFishValue('aquaculture:carp', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:brown_trout'), 2)
@@ -278,7 +284,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:salmon_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:brown_trout', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:bluegill'), 2)
@@ -288,7 +294,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => player.block.canSeeSky ? weight : 0)
 )
 RegisterFishValue('aquaculture:bluegill', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:smallmouth_bass'), 20)
@@ -297,7 +303,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:perch_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:smallmouth_bass', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:synodontis'), 5)
@@ -314,7 +320,7 @@ RegisterFishingLoot(
         })
 )
 RegisterFishValue('aquaculture:synodontis', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:capitaine'), 20)
@@ -323,7 +329,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' ? weight : 0)
 )
 RegisterFishValue('aquaculture:capitaine', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:boulti'), 5)
@@ -332,7 +338,7 @@ RegisterFishingLoot(
         .withPlayerModifier((player, weight) => $AquaFishingRodItem.getBait(GetFishingRodInHand(player)).getId() == 'kubejs:bass_bait' && player.hasEffect("minecraft:strength") ? weight * 10 : weight)
 )
 RegisterFishValue('aquaculture:boulti', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('aquaculture:muskellunge'), 5)
@@ -349,32 +355,32 @@ RegisterFishingLoot(
         })
 )
 RegisterFishValue('aquaculture:muskellunge', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 
 
 // 蟹笼产出
 RegisterFishValue('lavafishing:yeti_crab', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishValue('aquaculture:jellyfish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishValue('aquaculture:goldfish', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishValue('aquaculture:box_turtle', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishValue('aquaculture:starshell_turtle', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishValue('aquaculture:arrau_turtle', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishValue('lavafishing:scaly_foot_snail', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
 RegisterFishValue('lavafishing:flame_squat_lobster', (itemStack, player) => {
-    return AverageScoreDistri(itemStack, 10, 20)
+    return AverageScoreDistri(itemStack, player, 10, 20)
 })
