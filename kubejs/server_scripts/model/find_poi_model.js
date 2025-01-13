@@ -186,15 +186,15 @@ EntityFindPOI.prototype = {
         return true
     },
     /**
- * 在一定范围内寻找可用的POI
- * @param {Internal.PathfinderMob} mob 
- * @param {number} dist 
- * @returns {Internal.BlockPos$MutableBlockPos[]}
- */
+     * 在一定范围内寻找可用的POI
+     * @param {Internal.PathfinderMob} mob 
+     * @param {number} dist 
+     * @returns {Internal.BlockPos$MutableBlockPos[]}
+     */
     findAheadPOIs(mob, dist, secondaryRange) {
         let blockList = FindDirectionNearBlocks(mob, dist, secondaryRange, 3, -1, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
-            return curBlock.tags.contains(TAG_POI_ENTRANCE) || curBlock.tags.contains(TAG_SIGN_POST_BLOCK)
+            return curBlock.tags.some(tag => tag.equals(TAG_POI_ENTRANCE) || tag.equals(TAG_SIGN_POST_BLOCK))
         })
         /** @type {Internal.BlockContainerJS[]} */
         let poiBlockList = []

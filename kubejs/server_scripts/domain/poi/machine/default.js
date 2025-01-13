@@ -150,16 +150,11 @@ function DefaultReturnToPOI(defaultPOIModel) {
     const workInPOIModel = defaultPOIModel.workInPOIModel
     const mob = workInPOIModel.mob
     const poiBlockModel = defaultPOIModel.poiBlockModel
-    if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
+    if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
         workInPOIModel.moveToPOIPos()
         return true
-    }
-    if (mob.navigation.isInProgress()) {
-        if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
-            mob.navigation.stop()
-        } else {
-            mob.navigation.setSpeedModifier(0.1)
-        }
+    } else {
+        mob.navigation.stop()
     }
     if (workInPOIModel.getConsumedMoney() <= 0) {
         // 没有消费则直接返回

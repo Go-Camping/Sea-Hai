@@ -197,17 +197,11 @@ function GelatoStoreReturnToPOI(gelatoStorePOIModel) {
     const workInPOIModel = gelatoStorePOIModel.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
-    if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_SLOW)) {
+    if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
         workInPOIModel.moveToPOIPos()
         return true
-    }
-    if (mob.navigation.isInProgress()) {
-        if (workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
-            mob.navigation.setSpeedModifier(1.0)
-            mob.navigation.stop()
-        } else {
-            mob.navigation.setSpeedModifier(0.1)
-        }
+    } else {
+        mob.navigation.stop()
     }
     if (workInPOIModel.getConsumedMoney() <= 0) {
         // 没有消费则直接返回
