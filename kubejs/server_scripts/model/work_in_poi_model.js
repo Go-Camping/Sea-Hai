@@ -48,7 +48,7 @@ function EntityWorkInPOI(mob) {
     /** @type {Boolean} */
     this.needExtractItem = true
     // 价格系数，这是一个非持久化的变量，因为只有在购物策略完成后才会涉及到该判断
-    this.priceMutiply = 1
+    this.priceAttribute = new AttributeManagerModel(1)
 }
 
 EntityWorkInPOI.prototype = {
@@ -230,16 +230,8 @@ EntityWorkInPOI.prototype = {
     /**
      * 根据付费逻辑，修正消费的金币数额
      */
-    calculateConsumedMoney: function (value) {
-        return value * this.priceMutiply
-    },
-    /**
-     * 设置价格系数
-     * @param {Number} priceMutiply
-     */
-    setPriceMutiply: function (priceMutiply) {
-        this.priceMutiply = priceMutiply
-        return
+    calculateConsumedMoney: function () {
+        return this.priceAttribute.calResult()
     },
     /**
      * 设置等待时间

@@ -1,7 +1,7 @@
 // priority: 802
 /**
  * @constant
- * @type {Record<string, (workInPOIModel: EntityWorkInPOI, container: Internal.BlockContainerJS) => void>}
+ * @type {Record<string, (container: Internal.BlockContainerJS) => void>}
  */
 const ContainerDecorationStrategy = {}
 
@@ -9,16 +9,16 @@ const ContainerDecorationStrategy = {}
 
 /**
  * @param {string} id 
- * @param {Record<string, (workInPOIModel: EntityWorkInPOI, container: Internal.BlockContainerJS) => void>} strategy 
+ * @param {Record<string, (container: Internal.BlockContainerJS) => void>} strategy 
  */
 function RegistryContainerDecorationStrategy(id, strategy) {
     ContainerDecorationStrategy[id] = strategy
 }
 
 
-RegistryContainerDecorationStrategy('minecraft:stone', (workInPOIModel, container) => {
-    if (Math.random() > 0.1) workInPOIModel.setNeedBuyMore(true)
+RegistryContainerDecorationStrategy('minecraft:stone', (container) => {
+    if (Math.random() > 0.1) this.workInPOIModel.setNeedBuyMore(true)
 })
-RegistryContainerDecorationStrategy('minecraft:iron_block', (workInPOIModel, container) => {
-    workInPOIModel.setPriceMutiply(2)
+RegistryContainerDecorationStrategy('minecraft:iron_block', (container) => {
+    this.workInPOIModel.priceAttribute.addAttributeModifier(1, 'multiple', 'base')
 })

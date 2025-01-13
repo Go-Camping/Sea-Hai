@@ -9,6 +9,7 @@ function SkillModel(category) {
     this.customData = {}
     this.skillCategory = category
     this.init = (args) => {}
+    this.defer = (args) => {}
     return this
 }
 
@@ -35,6 +36,13 @@ SkillModel.prototype = {
         this.init = initFunc
         return this
     },
+        /**
+     * @param {function(Internal.ServerPlayer, ...any): void} data
+     */
+    setDefer: function (deferFunc) {
+        this.defer = deferFunc
+        return this
+    },
     /**
      * @param {Internal.ServerPlayer} player 
      * @param {any[]} args 
@@ -51,6 +59,7 @@ SkillModel.prototype = {
             if (!skillState.equals($SkillState.UNLOCKED)) return
             return this.skillMap[skillId].apply(this, args)
         })
+        this.defer.apply(this, args)
         return
     },
 }

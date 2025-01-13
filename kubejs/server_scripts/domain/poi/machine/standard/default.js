@@ -94,22 +94,23 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
     let { slot, pickItem } = FindValidSlotOfInventory(inv, (item) => this.consumeConatinerTester(item))
     if (slot == null || slot < 0) return false
     if (simulate) return true
-
-    let validDecorationAmount = ContainerProperty[container.id]?.validDecorationAmount ?? 0
+    let oriValue = pickItem.nbt.getInt('value')
+    this.workInPOIModel.priceAttribute.setNewBaseAttr(oriValue)
+    let validDecorationAmount = ContainerProperty[container.id]?.validDecorationAmount ?? 1
     if (validDecorationAmount > 0) {
         let decorationBlocks = FindBlocksAroundBlock(container, 3, 3, (curBlock) => {
             if (curBlock.blockState.isAir()) return false
             return curBlock.tags.contains(TAG_DECORATION_BLOCK)
         })
         decorationBlocks.slice(0, validDecorationAmount).forEach(block => {
-            ContainerDecorationStrategy[block.id](this.workInPOIModel, container)
+            ContainerDecorationStrategy[block.id].apply(this, container)
         })
     }
     if (this.workInPOIModel.isNeedExtractItem()) {
         inv.extractItem(slot, 1, false)
         this.workInPOIModel.mob.setMainHandItem(pickItem)
     }
-    let value = this.workInPOIModel.calculateConsumedMoney(pickItem.nbt.getInt('value'))
+    let value = this.workInPOIModel.calculateConsumedMoney()
     this.workInPOIModel.addConsumedMoney(value)
     return true
 }

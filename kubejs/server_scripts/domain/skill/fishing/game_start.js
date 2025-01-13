@@ -6,9 +6,7 @@
 const FishingMiniGameStartSkillMap = {
     'fishing_1_1': (event) => {
         // 浮标高度 +10%
-        let behavior = event.getFishBehavior()
-        let bobberHeight = behavior.getBobberHeight() + this.customData['bobberHeight'] * 0.1
-        behavior.setBobberHeight(bobberHeight)
+        this.customData['bobberHeight'].addAttributeModifier(0.1, 'multiple', 'base')
     },
     'fishing_2_1': (event) => {
         // 钓鱼积分累积速度 +20%
@@ -27,9 +25,7 @@ const FishingMiniGameStartSkillMap = {
     },
     'fishing_5_1': (event) => {
         // 浮标高度 +15%
-        let behavior = event.getFishBehavior()
-        let bobberHeight = behavior.getBobberHeight() + this.customData['bobberHeight'] * 0.15
-        behavior.setBobberHeight(bobberHeight)
+        this.customData['bobberHeight'].addAttributeModifier(0.15, 'multiple', 'base')
     },
     'fishing_6_1': (event) => {
         // 鱼类的最大速度 -20%
@@ -53,9 +49,7 @@ const FishingMiniGameStartSkillMap = {
     },
     'fishing_10_1': (event) => {
         // 浮标高度 +20%
-        let behavior = event.getFishBehavior()
-        let bobberHeight = behavior.getBobberHeight() + this.customData['bobberHeight'] * 0.2
-        behavior.setBobberHeight(bobberHeight)
+        this.customData['bobberHeight'].addAttributeModifier(0.2, 'multiple', 'base')
     },
 }
 
@@ -67,8 +61,17 @@ const FishingMiniGameStartSkill = new SkillModel('kubejs:fishing')
         */
         (event) => {
             this.customData = {
-                'bobberHeight': event.getFishBehavior().getBobberHeight()
+                'bobberHeight': new AttributeManagerModel(event.getFishBehavior().getBobberHeight())
             }
+        }
+    )
+    .setDefer(
+        /**
+         * @param {Internal.MiniGameStartJS} event
+        */
+        (event) => {
+            let behavior = event.getFishBehavior()
+            behavior.setBobberHeight(this.customData['bobberHeight'].calResult())
         }
     )
     .setSkillMap(FishingMiniGameStartSkillMap)
