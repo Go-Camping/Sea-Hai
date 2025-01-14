@@ -115,7 +115,7 @@ CrockPotRestaurantPOIModel.prototype.workInPOIInit = function () {
     /** @type {Internal.ItemStack} */
     let needMenuItem = RandomGet(menuItems)
     workInPOIModel.addMenuItem(needMenuItem)
-    workInPOIModel.setTargetMovePos(RandomGet(validTableList))
+    workInPOIModel.setTargetPos(RandomGet(validTableList))
     workInPOIModel.setSubStatus(SUB_STATUS_MOVE_RESTAURANT_TABLE)
     return true
 }
@@ -137,7 +137,7 @@ CrockPotRestaurantPOIModel.prototype.workInPOITick = function () {
         case SUB_STATUS_START_SHOPPING:
             return CrockPotRestaurantStartShopping(this)
         default:
-            workInPOIModel.clearMovePos()
+            workInPOIModel.clearTargetPos()
             workInPOIModel.setSubStatus(SUB_STATUS_NONE)
             return false
     }
@@ -152,11 +152,11 @@ function CrockPotRestaurantMoveResturantTable(crockPotRestaurantPOIModel) {
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
     const level = mob.level
-    if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POS_DISTANCE_SLOW)) {
+    if (!workInPOIModel.checkArrivedTargetPos(GOTO_POS_DISTANCE_STOP)) {
         workInPOIModel.moveToTargetPos()
         return true
     }
-    let targetTableBlock = level.getBlock(workInPOIModel.getTargetMovePos())
+    let targetTableBlock = level.getBlock(workInPOIModel.getTargetPos())
     let chairBlock = FindNearestBlockAroundBlock(targetTableBlock, 2, 1, (curBlock) => {
         if (curBlock.hasTag(TAG_CHAIR_BLOCK) && !curBlock.blockState.getValue(BLOCKSTATE_TUCKED)) {
             if (IsAnyOnChair(curBlock)) return false
@@ -202,7 +202,7 @@ function CrockPotRestaurantWaitingForDishes(crockPotRestaurantPOIModel) {
         workInPOIModel.setWaitTimer(20 * 5)
         return true
     }
-    workInPOIModel.setTargetMovePos(selectBlock.pos)
+    workInPOIModel.setTargetPos(selectBlock.pos)
     workInPOIModel.setSubStatus(SUB_STATUS_EATING_FOOD)
     workInPOIModel.setWaitTimer(20 * 10)
     return true
@@ -218,7 +218,7 @@ function CrockPotRestaurantEatingFood(crockPotRestaurantPOIModel) {
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
     const level = mob.level
-    let targetPos = workInPOIModel.getTargetMovePos()
+    let targetPos = workInPOIModel.getTargetPos()
     let targetBlock = level.getBlock(targetPos)
     if (!workInPOIModel.checkArriveWaitTimer()) {
         mob.lookControl.setLookAt(targetPos.x, targetPos.y, targetPos.z)
@@ -302,7 +302,7 @@ function CrockPotRestaurantReturnToPOI(crockPotRestaurantPOIModel) {
     }
     if (workInPOIModel.getConsumedMoney() <= 0) {
         // 没有消费则直接返回
-        workInPOIModel.clearMovePos()
+        workInPOIModel.clearTargetPos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         return false
     }
@@ -338,7 +338,7 @@ function CrockPotRestaurantStartShopping(crockPotRestaurantPOIModel) {
         return true
     } else {
         NPCSaySurrounding(mob, NPC_LINE_AFTER_SHOPPING_SATISFIED)
-        workInPOIModel.clearMovePos()
+        workInPOIModel.clearTargetPos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         mob.advanced.setLine(LINE_INTERACT, 0, '', '')
         // 跳出子状态

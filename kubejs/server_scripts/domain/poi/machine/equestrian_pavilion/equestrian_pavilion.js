@@ -2,9 +2,9 @@
 /**
  * 状态配方，用于添加控制POI状态的各种配方，往往用于购买状态后的额外信息的处理和同步
  */
-RegistryPOIStrategy('kubejs:onsen_resort', OnsenStorePOIModel)
+RegistryPOIStrategy('kubejs:equestrian_pavilion', EquestrianPavilionPOIModel)
 ServerEvents.recipes(event => {
-    event.recipes.custommachinery.custom_machine('kubejs:onsen_resort', 100)
+    event.recipes.custommachinery.custom_machine('kubejs:equestrian_pavilion', 100)
         .requireFunctionOnEnd(ctx => {
             const { machine, block } = ctx
             const shopPOIModel = new ShopPOIBlock(block)
@@ -35,7 +35,7 @@ ServerEvents.recipes(event => {
         })
         .resetOnError()
 
-    event.recipes.custommachinery.custom_machine('kubejs:onsen_resort', 100)
+    event.recipes.custommachinery.custom_machine('kubejs:equestrian_pavilion', 100)
         .requireFunctionOnEnd(ctx => {
             const machine = ctx.machine
             const block = ctx.block
@@ -75,17 +75,17 @@ ServerEvents.recipes(event => {
  * @param {EntityWorkInPOI} workInPOIModel 
  * @param {Internal.BlockContainerJS} poiBlock 
  */
-function OnsenStorePOIModel(workInPOIModel, poiBlock) {
+function EquestrianPavilionPOIModel(workInPOIModel, poiBlock) {
     // DefaultPOIModel.call(this, workInPOIModel, poiBlock)
     this.workInPOIModel = workInPOIModel
     this.poiBlock = poiBlock
     this.poiBlockModel = new ShopPOIBlock(poiBlock)
 }
 
-OnsenStorePOIModel.prototype = Object.create(DefaultPOIModel.prototype)
-OnsenStorePOIModel.prototype.constructor = OnsenStorePOIModel
+EquestrianPavilionPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
+EquestrianPavilionPOIModel.prototype.constructor = EquestrianPavilionPOIModel
 
-OnsenStorePOIModel.prototype.workInPOIInit = function () {
+EquestrianPavilionPOIModel.prototype.workInPOIInit = function () {
     const poiBlockModel = this.poiBlockModel
     const workInPOIModel = this.workInPOIModel
     const level = this.poiBlock.level
@@ -97,27 +97,28 @@ OnsenStorePOIModel.prototype.workInPOIInit = function () {
         return true
     })
     if (noInvPos.length <= 0) return false
-    workInPOIModel.setTargetPos(RandomGet(noInvPos))
+    let shuffList = Shuffle(RandomGetN(noInvPos, Math.ceil(noInvPos.length * Math.random())))
+
+    workInPOIModel.setTargetPos(RandomOffsetPos(shuffList.shift(), 1))
+    workInPOIModel.setSelectedPosList(shuffList)
     workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_RELATED_POS)
     return true
 }
 
-OnsenStorePOIModel.prototype.workInPOITick = function () {
+EquestrianPavilionPOIModel.prototype.workInPOITick = function () {
     const workInPOIModel = this.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
     switch (workInPOIModel.getSubStatus()) {
         case SUB_STATUS_MOVE_TO_RELATED_POS:
-            return OnsenResortMoveToRelatedPos(this)
-        case SUB_STATUS_MOVE_TO_ONSEN_POS:
-            return OnsenResortMoveToOnsenPos(this)
-        case SUB_STATUS_ONSEN_WAITING:
-            return OnsenResortOnsenWaiting(this)
-        case SUB_STATUS_ONSEN_DRINKING:
-            return OnsenResortOnsenDrinking(this)
+            return EquestrianPavilionMoveToRelatedPos(this)
+        case SUB_STATUS_OBSERVING_ANIMAL:
+            return EquestrianPavilionObservingAnimal(this)
+        case SUB_STATUS_BUY_SOUVENIRS:
+            return EquestrianPavilionBuySouvenirs(this)
         case SUB_STATUS_RETURN_TO_POI:
-            return OnsenResortReturnToPOI(this)
+            return EquestrianPavilionReturnToPOI(this)
         case SUB_STATUS_START_SHOPPING:
-            return OnsenResortStartShopping(this)
+            return EquestrianPavilionStartShopping(this)
         default:
             workInPOIModel.clearTargetPos()
             workInPOIModel.setSubStatus(SUB_STATUS_NONE)
@@ -127,11 +128,11 @@ OnsenStorePOIModel.prototype.workInPOITick = function () {
 
 
 /**
- * @param {OnsenStorePOIModel} onsenStorePOIModel 
+ * @param {EquestrianPavilionPOIModel} equestrianPavilionPOIModel 
  * @returns {boolean}
  */
-function OnsenResortMoveToRelatedPos(onsenStorePOIModel) {
-    const workInPOIModel = onsenStorePOIModel.workInPOIModel
+function EquestrianPavilionMoveToRelatedPos(equestrianPavilionPOIModel) {
+    const workInPOIModel = equestrianPavilionPOIModel.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
     // 如果没有可用的移动目标，那么会直接跳出，使得该workIn状态结束
@@ -139,97 +140,105 @@ function OnsenResortMoveToRelatedPos(onsenStorePOIModel) {
         workInPOIModel.moveToTargetPos()
         return true
     }
-    // 如果到达了目标位置，搜索可用流体，offset额外下沉以减少搜索范围
-    let validLiquidBlocks = FindNearBlocks(mob, 10, 2, -1, (curBlock) => {
-        let blockState = curBlock.blockState
-        if (blockState.liquid() && !blockState.getFluidState().isEmpty()) {
+    // 如果到达了目标位置，搜索可能的马的位置
+    let validHorseList = GetLivingWithinRadius(mob.level, mob.position(), 10, (level, targetEntity) => {
+        if (!targetEntity || !targetEntity.isAlive()) return false
+        if (targetEntity instanceof $SWEMHorseEntity) {
             return true
         }
-        return false
     })
-    if (validLiquidBlocks.length <= 0) {
-        return false
-    }
-    workInPOIModel.setTargetPos(RandomGet(validLiquidBlocks))
-    workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_ONSEN_POS)
-    workInPOIModel.setConsumedMoney(100)
+    // 寻找最近的马
+    /**@type {Internal.SWEMHorseEntity} */
+    let nearestHorse = null
+    let nearestHorseDistance = POSITIVE_INFINITY
+    validHorseList.forEach(horse => {
+        let distance = horse.position().distanceTo(mob.position())
+        if (distance < nearestHorseDistance) {
+            nearestHorse = horse
+            nearestHorseDistance = distance
+        }
+    })
+    if (!nearestHorse) return false
+
+    workInPOIModel.setWaitTimer(20 * (5 + Math.random() * 10))
+    workInPOIModel.setSubStatus(SUB_STATUS_OBSERVING_ANIMAL)
     return true
 }
 
 /**
- * @param {OnsenStorePOIModel} onsenStorePOIModel 
+ * @param {EquestrianPavilionPOIModel} equestrianPavilionPOIModel 
  * @returns {boolean}
  */
-function OnsenResortMoveToOnsenPos(onsenStorePOIModel) {
-    const workInPOIModel = onsenStorePOIModel.workInPOIModel
-    /**@type {Internal.EntityCustomNpc} */
-    const mob = workInPOIModel.mob
-    if (workInPOIModel.waitTimer > 0) {
-        workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_WAITING)
-        return true
-    }
-    // 如果没有可用的移动目标，那么会直接跳出，使得该workIn状态结束
-    if (!workInPOIModel.checkArrivedTargetPos(GOTO_ONSEN_DISTANCE_STOP)) {
-        workInPOIModel.moveToTargetPos()
-        return true
-    }
-    // 如果到达了目标位置，那么开始进入等待阶段
-    let targetPosV3d = workInPOIModel.getTargetPos().getCenter()
-    mob.teleportTo(targetPosV3d.x(), targetPosV3d.y(), targetPosV3d.z())
-    workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_WAITING)
-    mob.ais.setAnimation(ANIMATION_SIT)
-    mob.navigation.stop()
-    workInPOIModel.setWaitTimer(Math.random() * 1200 + 600)
-    return true
-}
-
-/**
- * @param {OnsenStorePOIModel} onsenStorePOIModel 
- * @returns {boolean}
- */
-function OnsenResortOnsenWaiting(onsenStorePOIModel) {
-    const poiBlockModel = onsenStorePOIModel.poiBlockModel
-    const workInPOIModel = onsenStorePOIModel.workInPOIModel
+function EquestrianPavilionObservingAnimal(equestrianPavilionPOIModel) {
+    const workInPOIModel = equestrianPavilionPOIModel.workInPOIModel
+    const poiBlockModel = equestrianPavilionPOIModel.poiBlockModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
     const level = mob.level
-    if (workInPOIModel.checkArriveWaitTimer()) {
-        mob.ais.setAnimation(ANIMATION_NONE)
-        // 判断是否需要喝饮品
-        let hasInvPos = poiBlockModel.getRelatedPosList().filter(relatedPos => {
-            let relatedBlock = level.getBlock(relatedPos)
-            // 如果绑定了容器，就认为是一个可用的消费地点
-            if (relatedBlock.inventory && this.consumeContainerItem(relatedBlock, true)) return true
-            return false
-        })
 
-        if (hasInvPos.length <= 0) {
-            workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+    if (workInPOIModel.checkArriveWaitTimer()) {
+        workInPOIModel.addConsumedMoney(100)
+        if (workInPOIModel.getSelectedPosList().length <= 0) {
+            // 购买纪念品
+            let hasInvPos = poiBlockModel.getRelatedPosList().filter(relatedPos => {
+                let relatedBlock = level.getBlock(relatedPos)
+                // 如果绑定了容器，就认为是一个可用的消费地点
+                if (relatedBlock.inventory && this.consumeContainerItem(relatedBlock, true)) return true
+                return false
+            })
+
+            if (hasInvPos.length <= 0) {
+                workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
+            } else {
+                workInPOIModel.setTargetPos(RandomGet(hasInvPos))
+                workInPOIModel.moveToTargetPos()
+                workInPOIModel.setSubStatus(SUB_STATUS_BUY_SOUVENIRS)
+            }
             return true
         } else {
-            workInPOIModel.setTargetPos(RandomGet(hasInvPos))
-            workInPOIModel.moveToTargetPos()
-            workInPOIModel.setSubStatus(SUB_STATUS_ONSEN_DRINKING)
+            let targetPos = workInPOIModel.shiftSelectPosList()
+            workInPOIModel.setTargetPos(RandomOffsetPos(targetPos, 1))
+            workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_RELATED_POS)
             return true
         }
-    } else {
-        if (mob.totalTicksAlive % 200 == 0 && Math.random() < 0.2) {
-            mob.saySurrounding(new $Line('舒服！'))
-        }
     }
+    // 如果到达了目标位置，搜索可能的马的位置
+    if (mob.totalTicksAlive % 2 == 0) {
+        let validHorseList = GetLivingWithinRadius(mob.level, mob.position(), 10, (level, targetEntity) => {
+            if (!targetEntity || !targetEntity.isAlive()) return false
+            if (targetEntity instanceof $SWEMHorseEntity) {
+                return true
+            }
+        })
+        // 寻找最近的马
+        /**@type {Internal.SWEMHorseEntity} */
+        let nearestHorse = null
+        let nearestHorseDistance = POSITIVE_INFINITY
+        validHorseList.forEach(horse => {
+            let distance = horse.position().distanceTo(mob.position())
+            if (distance < nearestHorseDistance) {
+                nearestHorse = horse
+                nearestHorseDistance = distance
+            }
+        })
+    
+        let targetPos = GetEntityPosition(nearestHorse).above(2)
+        mob.lookControl.setLookAt(targetPos.x, targetPos.y, targetPos.z)
+    }
+
     return true
 }
 
-
 /**
- * @param {OnsenStorePOIModel} onsenStorePOIModel 
+ * @param {EquestrianPavilionPOIModel} equestrianPavilionPOIModel 
  * @returns {boolean}
  */
-function OnsenResortOnsenDrinking(onsenStorePOIModel) {
-    const poiBlockModel = onsenStorePOIModel.poiBlockModel
-    const workInPOIModel = onsenStorePOIModel.workInPOIModel
+function EquestrianPavilionBuySouvenirs(equestrianPavilionPOIModel) {
+    const workInPOIModel = equestrianPavilionPOIModel.workInPOIModel
+    const poiBlockModel = equestrianPavilionPOIModel.poiBlockModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
+
     const level = mob.level
     if (!workInPOIModel.checkArrivedTargetPos(GOTO_POI_DISTANCE_STOP)) {
         workInPOIModel.moveToTargetPos()
@@ -256,12 +265,12 @@ function OnsenResortOnsenDrinking(onsenStorePOIModel) {
 
 
 /**
- * @param {OnsenStorePOIModel} onsenStorePOIModel 
+ * @param {EquestrianPavilionPOIModel} equestrianPavilionPOIModel 
  * @returns {boolean}
  */
-function OnsenResortReturnToPOI(onsenStorePOIModel) {
-    const poiBlockModel = onsenStorePOIModel.poiBlockModel
-    const workInPOIModel = onsenStorePOIModel.workInPOIModel
+function EquestrianPavilionReturnToPOI(equestrianPavilionPOIModel) {
+    const poiBlockModel = equestrianPavilionPOIModel.poiBlockModel
+    const workInPOIModel = equestrianPavilionPOIModel.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
     if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
@@ -292,12 +301,12 @@ function OnsenResortReturnToPOI(onsenStorePOIModel) {
 }
 
 /**
- * @param {OnsenStorePOIModel} onsenStorePOIModel 
+ * @param {EquestrianPavilionPOIModel} equestrianPavilionPOIModel 
  * @returns {boolean}
  */
-function OnsenResortStartShopping(onsenStorePOIModel) {
-    const poiBlockModel = onsenStorePOIModel.poiBlockModel
-    const workInPOIModel = onsenStorePOIModel.workInPOIModel
+function EquestrianPavilionStartShopping(equestrianPavilionPOIModel) {
+    const poiBlockModel = equestrianPavilionPOIModel.poiBlockModel
+    const workInPOIModel = equestrianPavilionPOIModel.workInPOIModel
     /**@type {Internal.EntityCustomNpc} */
     const mob = workInPOIModel.mob
     let poiPos = workInPOIModel.poiPos
@@ -317,7 +326,8 @@ function OnsenResortStartShopping(onsenStorePOIModel) {
  * @param {Internal.ItemStack} item 
  * @returns 
  */
-OnsenStorePOIModel.prototype.consumeConatinerTester = function (item) {
+EquestrianPavilionPOIModel.prototype.consumeConatinerTester = function (item) {
     let res = item.hasNBT() && item.nbt.contains('value')
-    return res && item.hasTag('kubejs:onsen_resort_goods')
+    return res
 }
+// && item.hasTag('kubejs:equestrian_pavilion_goods')

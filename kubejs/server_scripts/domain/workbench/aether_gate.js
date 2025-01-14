@@ -18,7 +18,7 @@ ServerEvents.recipes(event => {
             let entity = CreateCustomNPCEntity(block.level)
             let pos = RandomOffsetPos(block.pos, 5)
             entity.setPos(pos.x, pos.y + 1, pos.z)
-            let num = Math.ceil(Math.random() * 17)
+            let num = Math.ceil(Math.random() * 32)
             entity.display.setSkinTexture(`kubejs:textures/entity/skin/guest_${num}.png`)
             let routeMoveModel = new EntityRouteMove(entity)
             let nodePosList = genDepthMap(block.level, block.pos)
@@ -156,9 +156,9 @@ function genDepthMap(level, spawnPos) {
 
 
 
-CustomMachineryEvents.upgrades(event => {
-    event.create(Item.of('kubejs:aether_collector_1'))
-        .machine('kubejs:aether_gate')
-        .modifier(CMRecipeModifierBuilder.mulInput('custommachinery:speed', 1.2).min(10))
-        .build()
-})
+// CustomMachineryEvents.upgrades(event => {
+//     event.create(Item.of('kubejs:aether_collector_1'))
+//         .machine('kubejs:aether_gate')
+//         .modifier(CMRecipeModifierBuilder.mulInput('custommachinery:speed', 1.2).min(10))
+//         .build()
+// })

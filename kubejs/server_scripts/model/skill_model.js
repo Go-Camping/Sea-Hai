@@ -51,15 +51,16 @@ SkillModel.prototype = {
         const cateGoryOpt = $SkillsAPI.getCategory(new ResourceLocation(this.skillCategory))
         if (!cateGoryOpt.isPresent()) return
         const category = cateGoryOpt.get()
-        this.init.apply(this, args)
+        args.unshift(this)
+        this.init.apply(null, args)
         Object.keys(this.skillMap).forEach(skillId => {
             let skillOpt = category.getSkill(skillId)
             if (!skillOpt.isPresent()) return
             let skillState = skillOpt.get().getState(player)
             if (!skillState.equals($SkillState.UNLOCKED)) return
-            return this.skillMap[skillId].apply(this, args)
+            return this.skillMap[skillId].apply(null, args)
         })
-        this.defer.apply(this, args)
+        this.defer.apply(null, args)
         return
     },
 }

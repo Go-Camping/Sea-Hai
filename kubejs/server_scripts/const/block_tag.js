@@ -19,6 +19,7 @@ ServerEvents.tags('block', event => {
         'kubejs:onsen_resort', 
         'kubejs:gelato_store', 
         'kubejs:crock_pot_restaurant',
+        'kubejs:equestrian_pavilion'
     ])
 
     event.add('kubejs:decoration_block', [

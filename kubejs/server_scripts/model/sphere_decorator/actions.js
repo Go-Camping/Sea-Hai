@@ -65,7 +65,6 @@ const GlobalSetBiomeAction = (level, sphere, biomeName) => {
     for (let x = sphere.center.x - radius; x <= sphere.center.x + radius; x += 16) {
         for (let z = sphere.center.z - radius; z <= sphere.center.z + radius; z += 16) {
             let chunkAccess = level.getChunk(x >> 4, z >> 4)
-            console.log(`GlobalSetBiomeAction3: ${chunkAccess.getPos()} ${radius} ${x} ${z}`)
             SetBiomeByChunk(level, chunkAccess, biomeName)
         }
     }

@@ -218,10 +218,6 @@ function NavigateWithDegrade(mob, pos, speed) {
     if (navigation.isInProgress() && mob.isInFluidType()) {
         mob.jumpControl.jump()
     }
-    if (navigation.isStuck()) {
-        mob.teleportTo(pos.x, pos.y, pos.z)
-        navigation.recomputePath()
-    }
     if (!navigation.isInProgress() || !navigation.targetPos.equals(pos)) {
         navigation.moveTo(pos.x, pos.y, pos.z, speed)
         return true
@@ -250,4 +246,3 @@ function GetLivingWithinRadius(level, pos, radius, entityTester) {
     })
     return entityList
 }
-

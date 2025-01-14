@@ -37,7 +37,7 @@ function RegisterHook(hookBuilder) {
     HookIds.push(id)
     return
 }
-'aquaculture:newer_hook'
+
 RegisterHook(new $HookBuilder('newer')
     .setWeight(new Vec3d(0.8, 1, 0.8))
 )

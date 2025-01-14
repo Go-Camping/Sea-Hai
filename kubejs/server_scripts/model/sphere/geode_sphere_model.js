@@ -48,7 +48,7 @@ VeinProperty.prototype = {
                 if (distance > this.size) {
                     return false
                 }
-                if (Math.random() > Math.pow(distance / this.size, 1.2)) {
+                if (Math.random() > Math.pow(distance / this.size, 2)) {
                     level.setBlock(pos, this.block, 2)
                     return true
                 }
@@ -57,7 +57,7 @@ VeinProperty.prototype = {
                 if (distance > this.size) {
                     return false
                 }
-                if (Math.random() > 0.05) {
+                if (Math.random() > 0.2) {
                     level.setBlock(pos, this.block, 2)
                     return true
                 }
@@ -66,7 +66,7 @@ VeinProperty.prototype = {
                 if (distance > this.size) {
                     return false
                 }
-                if (Math.random() > 0.7) {
+                if (Math.random() > 0.9) {
                     level.setBlock(pos, this.block, 2)
                     return true
                 }
@@ -77,9 +77,20 @@ VeinProperty.prototype = {
     }
 }
 
-
+/**
+ * 
+ * @param {Internal.BlockState} veinBlock 
+ * @param {number} veinSize 
+ * @param {'cloud'|'dense'|'random'|'flake'} type 
+ */
 GeodeSphereModel.prototype.addVein = function (veinBlock, veinSize, type) {
     this.veinProperties.push(new VeinProperty(veinBlock, veinSize, type))
+    return this
+}
+
+
+GeodeSphereModel.prototype.setFillBlock = function (fillBlock) {
+    this.fillBlock = fillBlock
     return this
 }
 

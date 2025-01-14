@@ -1,2 +1,3 @@
 // priority: 1000
 const BAR_MAX = 10000
+const POSITIVE_INFINITY = 100000000

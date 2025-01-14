@@ -139,7 +139,7 @@ GelatoStorePOIModel.prototype.workInPOITick = function () {
         case SUB_STATUS_START_SHOPPING:
             return GelatoStoreStartShopping(this)
         default:
-            workInPOIModel.clearMovePos()
+            workInPOIModel.clearTargetPos()
             workInPOIModel.setSubStatus(SUB_STATUS_NONE)
             return false
     }
@@ -205,7 +205,7 @@ function GelatoStoreReturnToPOI(gelatoStorePOIModel) {
     }
     if (workInPOIModel.getConsumedMoney() <= 0) {
         // 没有消费则直接返回
-        workInPOIModel.clearMovePos()
+        workInPOIModel.clearTargetPos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         return false
     }
@@ -240,7 +240,7 @@ function GelatoStoreStartShopping(gelatoStorePOIModel) {
         return true
     } else {
         NPCSaySurrounding(mob, NPC_LINE_AFTER_SHOPPING_SATISFIED)
-        workInPOIModel.clearMovePos()
+        workInPOIModel.clearTargetPos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         mob.advanced.setLine(LINE_INTERACT, 0, '', '')
         // 跳出子状态

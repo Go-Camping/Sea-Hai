@@ -56,3 +56,4 @@ const $BlockBehaviour = Java.loadClass('net.minecraft.world.level.block.state.Bl
 const $DoubleBlockHalf = Java.loadClass('net.minecraft.world.level.block.state.properties.DoubleBlockHalf')
 
 const $TilePlacedItems = Java.loadClass('com.breakinblocks.plonk.common.tile.TilePlacedItems')
+const $SWEMHorseEntity = Java.loadClass('com.alaharranhonor.swem.forge.entities.horse.SWEMHorseEntity')

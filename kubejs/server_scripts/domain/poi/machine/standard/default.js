@@ -52,7 +52,7 @@ DefaultPOIModel.prototype.workInPOIInit = function () {
     /** @type {Internal.BlockContainerJS} */
     let selectedContainer = containerWeightModel.getWeightRandomObj()
     let selectedPos = selectedContainer.getPos()
-    workInPOIModel.setTargetMovePos(selectedPos)
+    workInPOIModel.setTargetPos(selectedPos)
     workInPOIModel.setSubStatus(SUB_STATUS_MOVE_TO_CONTAINER)
     return true
 }
@@ -67,7 +67,7 @@ DefaultPOIModel.prototype.workInPOITick = function () {
         case SUB_STATUS_START_SHOPPING:
             return DefaultStartShopping(this)
         default:
-            workInPOIModel.clearMovePos()
+            workInPOIModel.clearTargetPos()
             workInPOIModel.setSubStatus(SUB_STATUS_NONE)
             return false
     }
@@ -103,7 +103,7 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
             return curBlock.tags.contains(TAG_DECORATION_BLOCK)
         })
         decorationBlocks.slice(0, validDecorationAmount).forEach(block => {
-            ContainerDecorationStrategy[block.id].apply(this, container)
+            ContainerDecorationStrategy[block.id](this, container)
         })
     }
     if (this.workInPOIModel.isNeedExtractItem()) {
@@ -124,14 +124,14 @@ function DefaultMoveToContainer(defaultPOIModel) {
     const poiBlock = defaultPOIModel.poiBlock
     const workInPOIModel = defaultPOIModel.workInPOIModel
     const level = poiBlock.level
-    if (!workInPOIModel.getTargetMovePos()) return false
+    if (!workInPOIModel.getTargetPos()) return false
     // 子阶段意义为避免无用的判空，进而保证在异常情况下，能够通过check方法的降级正常跳出
-    if (!workInPOIModel.checkArrivedTargetMovePos(GOTO_POI_DISTANCE_SLOW)) {
+    if (!workInPOIModel.checkArrivedTargetPos(GOTO_POI_DISTANCE_STOP)) {
         workInPOIModel.moveToTargetPos()
         return true
     }
     // 容器取出与结算逻辑
-    let containerBlock = level.getBlock(workInPOIModel.getTargetMovePos())
+    let containerBlock = level.getBlock(workInPOIModel.getTargetPos())
     defaultPOIModel.consumeContainerItem(containerBlock, false)
     if (workInPOIModel.isNeedBuyMore()) {
         // 如果让本次购买多个，那么就重新运行一次初始化，这会可能导致taragetPos的变动。
@@ -154,12 +154,10 @@ function DefaultReturnToPOI(defaultPOIModel) {
     if (!workInPOIModel.checkArrivedPOIPos(GOTO_POI_DISTANCE_STOP)) {
         workInPOIModel.moveToPOIPos()
         return true
-    } else {
-        mob.navigation.stop()
     }
     if (workInPOIModel.getConsumedMoney() <= 0) {
         // 没有消费则直接返回
-        workInPOIModel.clearMovePos()
+        workInPOIModel.clearTargetPos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         return false
     }
@@ -193,7 +191,7 @@ function DefaultStartShopping(defaultPOIModel) {
         return true
     } else {
         NPCSaySurrounding(mob, NPC_LINE_AFTER_SHOPPING_SATISFIED)
-        workInPOIModel.clearMovePos()
+        workInPOIModel.clearTargetPos()
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
         // 跳出子状态
         return false
