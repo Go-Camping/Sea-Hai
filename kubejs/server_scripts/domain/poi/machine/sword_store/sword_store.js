@@ -71,18 +71,18 @@ ServerEvents.recipes(event => {
 * @param {EntityWorkInPOI} workInPOIModel 
 * @param {Internal.BlockContainerJS} poiBlock 
 */
-function FishShopPOIModel(workInPOIModel, poiBlock) {
+function SwordStorePOIModel(workInPOIModel, poiBlock) {
     DefaultPOIModel.call(this, workInPOIModel, poiBlock)
 }
 
-FishShopPOIModel.prototype = Object.create(DefaultPOIModel.prototype)
-FishShopPOIModel.prototype.constructor = FishShopPOIModel
+SwordStorePOIModel.prototype = Object.create(DefaultPOIModel.prototype)
+SwordStorePOIModel.prototype.constructor = SwordStorePOIModel
 
 /**
  * @param {Internal.ItemStack} item 
  * @returns 
  */
-FishShopPOIModel.prototype.consumeConatinerTester = function (item) {
+SwordStorePOIModel.prototype.consumeConatinerTester = function (item) {
     let res = item.hasNBT() && item.nbt.contains('value')
     return res && item.hasTag('kubejs:sword_store_goods')
 }

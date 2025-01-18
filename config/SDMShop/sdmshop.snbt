@@ -1,0 +1,551 @@
+{
+	sdmversion: "1.0.0"
+	shopTabs: [
+		{
+			tabEntry: [
+				{
+					entryPrice: 1L
+					entryUUID: [I;
+						1624725407
+						-387825553
+						-1398404859
+						-521766056
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_copper"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 1b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储铜币"
+					entryCondition: [{
+						questID: [ ]
+						entryConditionID: "ftbquestConditions"
+					}]
+				}
+				{
+					entryPrice: 10L
+					entryUUID: [I;
+						1294521124
+						725436512
+						-1166940255
+						613824015
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_iron"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 1b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储铁币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 100L
+					entryUUID: [I;
+						326707049
+						-1707654737
+						-1629841378
+						-588580572
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_gold"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 1b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: [ ]
+					title: "金币"
+					entryCondition: [{
+						questID: [ ]
+						entryConditionID: "ftbquestConditions"
+					}]
+				}
+				{
+					entryPrice: 1000L
+					entryUUID: [I;
+						-756789570
+						1741505210
+						-1442490056
+						-990947624
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_emerald"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 1b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储铜币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 10000L
+					entryUUID: [I;
+						1851557884
+						-1415164710
+						-1156084076
+						-817159450
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_diamond"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 1b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储钻石币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 100000L
+					entryUUID: [I;
+						225636459
+						-1565700210
+						-1543078619
+						-1464924125
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_netherite"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 1b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储下界合金币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						563566624
+						-852801514
+						-1772053810
+						-1475060964
+					]
+					entryType: {
+						elevatePerms: 0b
+						silent: 0b
+						shopEntryTypeID: "commandType"
+						command: "/sh sdm_exchange @p bank false"
+						iconPathNew: {
+							id: "lightmanscurrency:trading_core"
+							Count: 1b
+						}
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["一次性将你银行账户中的所有钱全部转换为虚拟货币"]
+					title: "将银行账户的所有钱上传云"
+					entryCondition: [{
+						questID: [ ]
+						entryConditionID: "ftbquestConditions"
+					}]
+				}
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						1768265701
+						2084651351
+						-1516450463
+						-1734028822
+					]
+					entryType: {
+						elevatePerms: 0b
+						silent: 0b
+						shopEntryTypeID: "commandType"
+						command: "/sh sdm_exchange @p bank true"
+						iconPathNew: {
+							id: "lightmanscurrency:trading_core"
+							Count: 1b
+						}
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["一次性将你的所有虚拟货币全部提取到银行"]
+					title: "将云存储的钱全部退回银行账户"
+					entryCondition: [
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
+				}
+				{
+					entryPrice: 1L
+					entryUUID: [I;
+						-400136792
+						-332772276
+						-1114361208
+						-1248194545
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_copper"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储铜币"
+					entryCondition: [
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
+				}
+				{
+					entryPrice: 10L
+					entryUUID: [I;
+						1403590003
+						-292074966
+						-1315960454
+						1823462900
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_iron"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储铁币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 100L
+					entryUUID: [I;
+						-802999362
+						-636927197
+						-1640652288
+						1819716343
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_gold"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储金币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 1000L
+					entryUUID: [I;
+						670421988
+						111886910
+						-1177333412
+						-1072720621
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_emerald"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储铜币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 10000L
+					entryUUID: [I;
+						-2096455298
+						1030049320
+						-1587266109
+						-103932783
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_diamond"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储钻石币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 100000L
+					entryUUID: [I;
+						-251679685
+						-1702933601
+						-1759367174
+						-1416636895
+					]
+					entryType: {
+						itemStack: {
+							id: "lightmanscurrency:coin_netherite"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["将铜币转化为等值虚拟货币"]
+					title: "云存储下界合金币"
+					entryCondition: [ ]
+				}
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						50797509
+						-400603966
+						-1128960914
+						1944854798
+					]
+					entryType: {
+						elevatePerms: 0b
+						silent: 0b
+						shopEntryTypeID: "commandType"
+						command: "/sh sdm_exchange @p inv false"
+						iconPathNew: {
+							id: "lightmanscurrency:trading_core"
+							Count: 1b
+						}
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["一次性将你背包中的所有零散货币全部转换为虚拟货币"]
+					title: "将背包的所有钱上传云"
+					entryCondition: [
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
+				}
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						30751671
+						121588395
+						-1413415047
+						-498180468
+					]
+					entryType: {
+						elevatePerms: 0b
+						silent: 0b
+						shopEntryTypeID: "commandType"
+						command: "/sh sdm_exchange @p inv true"
+						iconPathNew: {
+							id: "lightmanscurrency:trading_core"
+							Count: 1b
+						}
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: ["一次性将你云存储上的所有货币全部转换为硬币物品"]
+					title: "将云存储的所有钱全部转换为物品"
+					entryCondition: [ ]
+				}
+			]
+			tabLimit: [ ]
+			icon: {
+				id: "lightmanscurrency:coin_chocolate_gold"
+				Count: 1b
+			}
+			tabCondition: [{
+				questID: [ ]
+				entryConditionID: "ftbquestConditions"
+			}]
+			description: ["用于将无法直接用于云交易的货币兑换成可以用于云交易的虚拟货币。"]
+			shopTabUUID: [I;
+				-1517449273
+				-1688386833
+				-1589662605
+				1738742623
+			]
+			title: "货币兑换"
+		}
+		{
+			tabEntry: [{
+				entryPrice: 10L
+				entryUUID: [I;
+					-1854406466
+					1391676154
+					-1797109527
+					1545962624
+				]
+				entryType: {
+					itemStack: {
+						id: "kubejs:onsen_resort"
+						Count: 1b
+					}
+					shopEntryTypeID: "shopItemEntryType"
+					ignoreNBT: 0b
+				}
+				entryCount: 1
+				isSell: 1b
+				limit: 0
+				icon: {
+					id: "minecraft:barrier"
+					Count: 1b
+				}
+				description: [ ]
+				title: ""
+				entryCondition: [{
+					questID: [ ]
+					entryConditionID: "ftbquestConditions"
+				}]
+			}]
+			tabLimit: [ ]
+			icon: {
+				id: "kubejs:onsen_resort"
+				Count: 1b
+			}
+			tabCondition: [{
+				questID: [ ]
+				entryConditionID: "ftbquestConditions"
+			}]
+			description: [ ]
+			shopTabUUID: [I;
+				-397930697
+				558517207
+				-1774577985
+				2108747182
+			]
+			title: "商店"
+		}
+	]
+}

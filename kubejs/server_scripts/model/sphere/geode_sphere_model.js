@@ -48,7 +48,7 @@ VeinProperty.prototype = {
                 if (distance > this.size) {
                     return false
                 }
-                if (Math.random() > Math.pow(distance / this.size, 2)) {
+                if (Math.random() > Math.pow(distance / this.size, 0.5)) {
                     level.setBlock(pos, this.block, 2)
                     return true
                 }
@@ -57,7 +57,7 @@ VeinProperty.prototype = {
                 if (distance > this.size) {
                     return false
                 }
-                if (Math.random() > 0.2) {
+                if (Math.random() > 0.3) {
                     level.setBlock(pos, this.block, 2)
                     return true
                 }
@@ -66,7 +66,7 @@ VeinProperty.prototype = {
                 if (distance > this.size) {
                     return false
                 }
-                if (Math.random() > 0.9) {
+                if (Math.random() > 0.95) {
                     level.setBlock(pos, this.block, 2)
                     return true
                 }

@@ -12,6 +12,14 @@ const CoinList = ['lightmanscurrency:coin_netherite', 'lightmanscurrency:coin_di
 function ConvertMainMoneyValue(value) {
     return $CoinValue.fromNumber('main', value)
 }
+/**
+ * 
+ * @param {Internal.ItemStack} item 
+ * @returns {Internal.MoneyValue}
+ */
+function ConvertItem2MoneyValue(item) {
+    return $CoinValue.fromItemOrValue(item.getItem(), item.getCount(), 0)
+}
 
 /**
  * 

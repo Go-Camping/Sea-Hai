@@ -1,0 +1,11 @@
+{
+	default_hide_dependency_lines: false
+	default_quest_shape: ""
+	filename: "52BC2D2AA87B2707"
+	group: "73B6CC156BB13728"
+	id: "52BC2D2AA87B2707"
+	order_index: 0
+	quest_links: [ ]
+	quests: [ ]
+	title: "开局"
+}
