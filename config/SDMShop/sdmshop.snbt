@@ -500,12 +500,12 @@
 		}
 		{
 			tabEntry: [{
-				entryPrice: 10L
+				entryPrice: 100L
 				entryUUID: [I;
-					-1854406466
-					1391676154
-					-1797109527
-					1545962624
+					1521478846
+					-186954546
+					-1401530504
+					1839607774
 				]
 				entryType: {
 					itemStack: {
@@ -516,18 +516,24 @@
 					ignoreNBT: 0b
 				}
 				entryCount: 1
-				isSell: 1b
+				isSell: 0b
 				limit: 0
 				icon: {
 					id: "minecraft:barrier"
 					Count: 1b
 				}
 				description: [ ]
-				title: ""
-				entryCondition: [{
-					questID: [ ]
-					entryConditionID: "ftbquestConditions"
-				}]
+				title: "温泉店"
+				entryCondition: [
+					{
+						gameStages: [ ]
+						entryConditionID: "gamestagesConditions"
+					}
+					{
+						questID: [ ]
+						entryConditionID: "ftbquestConditions"
+					}
+				]
 			}]
 			tabLimit: [ ]
 			icon: {
@@ -546,6 +552,58 @@
 				2108747182
 			]
 			title: "商店"
+		}
+		{
+			tabEntry: [ ]
+			tabLimit: [ ]
+			icon: {
+				id: "minecraft:barrier"
+				Count: 1b
+			}
+			tabCondition: [
+				{
+					gameStages: [ ]
+					entryConditionID: "gamestagesConditions"
+				}
+				{
+					questID: [ ]
+					entryConditionID: "ftbquestConditions"
+				}
+			]
+			description: [ ]
+			shopTabUUID: [I;
+				339840676
+				-877573969
+				-1101659804
+				-1909801282
+			]
+			title: "装饰物"
+		}
+		{
+			tabEntry: [ ]
+			tabLimit: [ ]
+			icon: {
+				id: "minecraft:barrier"
+				Count: 1b
+			}
+			tabCondition: [
+				{
+					gameStages: [ ]
+					entryConditionID: "gamestagesConditions"
+				}
+				{
+					questID: [ ]
+					entryConditionID: "ftbquestConditions"
+				}
+			]
+			description: [ ]
+			shopTabUUID: [I;
+				1268367056
+				1148471979
+				-1585681818
+				1425398951
+			]
+			title: ""
 		}
 	]
 }
