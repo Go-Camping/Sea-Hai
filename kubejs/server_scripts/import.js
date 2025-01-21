@@ -58,3 +58,5 @@ const $DoubleBlockHalf = Java.loadClass('net.minecraft.world.level.block.state.p
 const $TilePlacedItems = Java.loadClass('com.breakinblocks.plonk.common.tile.TilePlacedItems')
 const $SWEMHorseEntity = Java.loadClass('com.alaharranhonor.swem.forge.entities.horse.SWEMHorseEntity')
 const $SDMShopR = Java.loadClass('net.sixik.sdmshoprework.SDMShopR')
+
+const $Cat = Java.loadClass('net.minecraft.world.entity.animal.Cat')

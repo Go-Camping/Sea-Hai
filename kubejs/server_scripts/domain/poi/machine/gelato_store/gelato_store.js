@@ -258,6 +258,8 @@ function GelatoStoreNPCItemInteractStrategy(event, workInPOIModel) {
     const target = event.target
     if (player.isShiftKeyDown()) {
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        NPCSaySurrounding(target, NPC_LINE_FORCE_TO_LEAVE)
+        return
     }
     if (item && item.nbt && item.nbt.contains('Flavors')) {
         let hadFlavors = []
@@ -283,7 +285,7 @@ function GelatoStoreNPCItemInteractStrategy(event, workInPOIModel) {
             } else {
                 player.setMainHandItem('minecraft:air')
             }
-            workInPOIModel.setConsumedMoney(10)
+            workInPOIModel.setConsumedMoney(30 * hadFlavors.length)
             workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)
             return
         }

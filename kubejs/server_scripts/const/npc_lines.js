@@ -6,6 +6,7 @@ const NPC_LINE_TERRIBLE = 'terrible'
 const NPC_LINE_FLYER_SORRY = 'flyer_sorry'
 const NPC_LINE_FLYER_SATISFIED = 'flyer_satisfied'
 const NPC_LINE_AFTER_SHOPPING_SATISFIED = 'after_shopping_satisfied'
+const NPC_LINE_FORCE_TO_LEAVE = 'force_to_leave'
 
 const NPC_SURROUNDING_LINE_MAP = {
     'thanks': [
@@ -34,5 +35,9 @@ const NPC_SURROUNDING_LINE_MAP = {
         'npcline.kubejs.after_shopping_satisfied.3',
         'npcline.kubejs.after_shopping_satisfied.4',
         'npcline.kubejs.after_shopping_satisfied.5',
+    ],
+    'force_to_leave': [
+        'npcline.kubejs.force_to_leave.1',
+        'npcline.kubejs.force_to_leave.2',
     ],
 }

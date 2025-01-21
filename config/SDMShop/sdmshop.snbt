@@ -499,42 +499,190 @@
 			title: "货币兑换"
 		}
 		{
-			tabEntry: [{
-				entryPrice: 100L
-				entryUUID: [I;
-					1521478846
-					-186954546
-					-1401530504
-					1839607774
-				]
-				entryType: {
-					itemStack: {
-						id: "kubejs:onsen_resort"
+			tabEntry: [
+				{
+					entryPrice: 100L
+					entryUUID: [I;
+						1521478846
+						-186954546
+						-1401530504
+						1839607774
+					]
+					entryType: {
+						itemStack: {
+							id: "kubejs:onsen_resort"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
 						Count: 1b
 					}
-					shopEntryTypeID: "shopItemEntryType"
-					ignoreNBT: 0b
+					description: [ ]
+					title: "温泉店"
+					entryCondition: [
+						{
+							gameStages: [ ]
+							entryConditionID: "gamestagesConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
 				}
-				entryCount: 1
-				isSell: 0b
-				limit: 0
-				icon: {
-					id: "minecraft:barrier"
-					Count: 1b
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						77217823
+						1040074425
+						-1942601556
+						-668708354
+					]
+					entryType: {
+						itemStack: {
+							id: "kubejs:gelato_store"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: [ ]
+					title: ""
+					entryCondition: [
+						{
+							gameStages: [ ]
+							entryConditionID: "gamestagesConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
 				}
-				description: [ ]
-				title: "温泉店"
-				entryCondition: [
-					{
-						gameStages: [ ]
-						entryConditionID: "gamestagesConditions"
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						-593741805
+						1186874307
+						-1410075327
+						606488858
+					]
+					entryType: {
+						itemStack: {
+							id: "kubejs:fish_store"
+							Count: 1b
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
 					}
-					{
-						questID: [ ]
-						entryConditionID: "ftbquestConditions"
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
 					}
-				]
-			}]
+					description: [ ]
+					title: ""
+					entryCondition: [
+						{
+							gameStages: [ ]
+							entryConditionID: "gamestagesConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
+				}
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						-333551869
+						-414562344
+						-1760922109
+						-1259829466
+					]
+					entryType: {
+						itemStack: {
+							id: "kubejs:crock_pot_restaurant"
+							Count: 1b
+							tag: { }
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: [ ]
+					title: ""
+					entryCondition: [
+						{
+							gameStages: [ ]
+							entryConditionID: "gamestagesConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
+				}
+				{
+					entryPrice: 0L
+					entryUUID: [I;
+						775087385
+						-736670217
+						-1542419006
+						634520750
+					]
+					entryType: {
+						itemStack: {
+							id: "kubejs:equestrian_pavilion"
+							Count: 1b
+							tag: { }
+						}
+						shopEntryTypeID: "shopItemEntryType"
+						ignoreNBT: 0b
+					}
+					entryCount: 1
+					isSell: 0b
+					limit: 0
+					icon: {
+						id: "minecraft:barrier"
+						Count: 1b
+					}
+					description: [ ]
+					title: ""
+					entryCondition: [
+						{
+							gameStages: [ ]
+							entryConditionID: "gamestagesConditions"
+						}
+						{
+							questID: [ ]
+							entryConditionID: "ftbquestConditions"
+						}
+					]
+				}
+			]
 			tabLimit: [ ]
 			icon: {
 				id: "kubejs:onsen_resort"
@@ -578,32 +726,6 @@
 				-1909801282
 			]
 			title: "装饰物"
-		}
-		{
-			tabEntry: [ ]
-			tabLimit: [ ]
-			icon: {
-				id: "minecraft:barrier"
-				Count: 1b
-			}
-			tabCondition: [
-				{
-					gameStages: [ ]
-					entryConditionID: "gamestagesConditions"
-				}
-				{
-					questID: [ ]
-					entryConditionID: "ftbquestConditions"
-				}
-			]
-			description: [ ]
-			shopTabUUID: [I;
-				1268367056
-				1148471979
-				-1585681818
-				1425398951
-			]
-			title: ""
 		}
 	]
 }

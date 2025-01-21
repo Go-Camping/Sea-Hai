@@ -10,4 +10,6 @@ StartupEvents.registry('block', event => {
         .machine('kubejs:crock_pot_restaurant')
     event.create('kubejs:equestrian_pavilion', 'custommachinery')
         .machine('kubejs:equestrian_pavilion')
+    event.create('kubejs:cat_cafe', 'custommachinery')
+        .machine('kubejs:cat_cafe')
 })

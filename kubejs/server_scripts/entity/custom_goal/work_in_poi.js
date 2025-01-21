@@ -36,6 +36,10 @@ const WorkInPOIGoal = (entity) => new $CustomGoal(
         let workInPOIModel = new EntityWorkInPOI(mob)
         if (workInPOIModel.getSubStatus() == SUB_STATUS_NONE) return
         workInPOIModel.setSubStatus(SUB_STATUS_NONE)
+        if (workInPOIModel.getSelectedPosList().length > 0) {
+            workInPOIModel.clearSelectedPosList()
+        }
+        return
     },
     true,
     /** @param {Internal.PathfinderMob} mob **/ mob => {

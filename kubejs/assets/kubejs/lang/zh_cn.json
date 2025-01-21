@@ -20,7 +20,6 @@
     "item.kubejs.duck_bobber": "鸭子浮标",
     "item.kubejs.octopus_bobber": "章鱼浮标",
 
-
     "_comment.block": "方块",
     "block.kubejs.aether_gate": "以太门",
     "block.kubejs.menu_workbench": "菜单合成台",
@@ -31,12 +30,12 @@
     "block.kubejs.crock_pot_restaurant": "烹饪锅店",
 
     "_comment.tooltips": "工具提示",
-    "tooltips.kubejs.multi_state.shift.1": "§7▶ 按住 §e§l§o[ Shift ]§r§7 查看使用方法",
-    "tooltips.kubejs.multi_state.ctrl.1": "§7▶ 按住 §e§l§o[ ctrl ]§r§7 查看解锁需求",
-    "tooltips.kubejs.multi_state.alt.1": "§7▶ 按住 §e§l§o[ alt ]§r§7 查看更多信息",
-    "tooltips.kubejs.multi_state.shift_holding.1": "§7▼ 按住 §8§l§o[ Shift ]§r§7 以查看使用方法",
-    "tooltips.kubejs.multi_state.ctrl_holding.1": "§7▼ 按住 §8§l§o[ ctrl ]§r§7 以查看相关技艺",
-    "tooltips.kubejs.multi_state.alt_holding.1": "§7▼ 按住 §8§l§o[ alt ]§r§7 以查看更多信息",
+    "tooltips.kubejs.multi_state.shift.1": "§7▶ 按住 §e§l[ Shift ]§r§7 查看使用方法",
+    "tooltips.kubejs.multi_state.ctrl.1": "§7▶ 按住 §e§l[ ctrl ]§r§7 查看解锁需求",
+    "tooltips.kubejs.multi_state.alt.1": "§7▶ 按住 §e§l[ alt ]§r§7 查看更多信息",
+    "tooltips.kubejs.multi_state.shift_holding.1": "§7▼ 按住 §8§l[ Shift ]§r§7 以查看使用方法",
+    "tooltips.kubejs.multi_state.ctrl_holding.1": "§7▼ 按住 §8§l[ ctrl ]§r§7 以查看相关技艺",
+    "tooltips.kubejs.multi_state.alt_holding.1": "§7▼ 按住 §8§l[ alt ]§r§7 以查看更多信息",
     "tooltips.kubejs.item.relate_position_tool.1": "当前选定POI：",
     "tooltips.kubejs.item.duck_bobber.1": "鱼钩将更少的受到重力的影响",
     "tooltips.kubejs.item.octopus_bobber.1": "鱼会变得懒惰",
@@ -56,6 +55,7 @@
     "tooltips.kubejs.onsen_resort.alt.8": "        §77. §n选取可能的容器地点§r§7：NPC从关联地点中选取包含容器的方块，将其作为可能的购买饮料的地点。",
     "tooltips.kubejs.onsen_resort.alt.9": "        §f8. §n前往饮料地§r§f：如果选取了容器地点，且容器中包含能够被作为饮料售卖的物品，则NPC会前往该地点消费。",
     "tooltips.kubejs.onsen_resort.alt.10": "        §79. §n返回商店结算§r§7：NPC返回商店并且进行消费结算动作，结算后返回原本的行进路径。",
+
 
     "tooltips.kubejs.item.menu.1": "菜单数量：%s / 9",
     "tooltips.kubejs.item.menu.2": "按下 %s 以显示细节",
@@ -100,6 +100,8 @@
     "npcline.kubejs.after_shopping_satisfied.3": "感觉还不错！",
     "npcline.kubejs.after_shopping_satisfied.4": "我会推荐给朋友的！",
     "npcline.kubejs.after_shopping_satisfied.5": "每次都是全新的体验！",
+    "npcline.kubejs.force_to_leave.1": "好吧，那我去其他店看看。",
+    "npcline.kubejs.force_to_leave.2": "真遗憾！",
 
     "_comment_.puffskill": "技能",
     "puffskill.kubejs.fishing.title": "钓鱼",
