@@ -25,7 +25,7 @@ ServerEvents.recipes(event => {
                 ["aaa", "aaa", "aaa"]
             ],
             { "a": "minecraft:water" })
-        // .resetOnError()
+        .resetOnError()
 })
 
 /**

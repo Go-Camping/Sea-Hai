@@ -22,6 +22,7 @@ StardewFishing.miniGameEnd(event => {
     let fishingItem = GetFishingRodInHand(player)
     if (!fishingItem) return
     let fishingItemHandler = $AquaFishingRodItem.getHandler(fishingItem)
+    /**@type {FishingItemModel[]} */
     let strategyList = []
     fishingItemHandler.allItems.forEach(item => {
         if (!FishingItemStrategy[item.id]) return
