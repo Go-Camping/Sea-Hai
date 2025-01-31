@@ -32,14 +32,11 @@ const SaleTagTextMap = {
 
 
 ItemEvents.tooltip((tooltip) => {
-
     tooltip.addAdvancedToAll((item, advanced, text) => {
         let saleTags = []
         item.getTags().toArray().forEach(/**@param {Internal.TagKey<Item>} tag*/tag => {
-            console.log(tag.location())
             if (SaleTagTextMap[tag.location().toString()]) {
                 saleTags.push(SaleTagTextMap[tag.location().toString()])
-                
             }
         })
         if (saleTags.length > 0) {

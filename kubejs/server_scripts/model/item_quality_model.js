@@ -18,8 +18,8 @@ function ItemQaulityModel(itemStack) {
         } else {
             this.value = 0
             this.quality = 1
-            itemStack.nbt.putInt('value', value)
-            itemStack.nbt.putInt('quality', quality)
+            itemStack.nbt.putInt('value', this.value)
+            itemStack.nbt.putInt('quality', this.quality)
             this.itemStack = itemStack
         }
     }
