@@ -14,8 +14,9 @@ ItemEvents.tooltip((tooltip) => {
 
         if (menuItemList.length > 0) {
             if (tooltip.isShift()) {
+                text.add(lineNum++, Text.translatable('tooltips.kubejs.item.menu.3', Text.translatable('common.kubejs.key.shift').darkGray()))
                 menuItemList.forEach(menuItem => {
-                    text.add(lineNum++, Text.translatable('tooltips.kubejs.item.menu.3', Text.yellow(menuItem)))
+                    text.add(lineNum++, Text.translatable('tooltips.kubejs.item.menu.4', Text.yellow(menuItem)))
                 })
             } else {
                 text.add(lineNum++, Text.translatable('tooltips.kubejs.item.menu.2', Text.translatable('common.kubejs.key.shift').gold()))

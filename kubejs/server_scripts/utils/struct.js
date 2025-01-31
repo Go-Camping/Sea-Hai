@@ -35,7 +35,7 @@ function HandleDataBlock(template, position, placementSettings) {
 
 
 /**
- * 在某区块
+ * 在某区块设置生态群系
  * @param {Internal.ServerLevel} level 
  * @param {Internal.ChunkAccess} chunkAccess
  * @param {string} biomeName

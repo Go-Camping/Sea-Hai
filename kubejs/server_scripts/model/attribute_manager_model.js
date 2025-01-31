@@ -17,7 +17,7 @@ AttributeManagerModel.prototype = {
      * 设置新的基础值，这用于某些后验属性值的置入
      * @returns {number}
      */
-    setNewBaseAttr: function (attr) {
+    setBaseAttr: function (attr) {
         this.attr = attr
         return this
     },

@@ -25,3 +25,10 @@ QualityDecorator.setRender(ctx => {
 
     }
 })
+
+ItemEvents.tooltip((tooltip) => {
+    tooltip.addAdvancedToAll((item, advanced, text) => {
+        if (!item.hasNBT() || !item.nbt.contains('value')) return
+        text.add(Text.translatable('tooltips.kubejs.item.value.1').green().append(Text.gold(item.nbt.getInt('value').toFixed(0) + ' ♥')))
+    })
+})

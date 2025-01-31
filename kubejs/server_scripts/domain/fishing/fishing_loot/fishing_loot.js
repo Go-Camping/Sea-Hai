@@ -21,6 +21,7 @@ LootJS.modifiers((event) => {
             let fluid = fishing.getEyeInFluidType().toString()
             let time = ctx.level.dayTime()
 
+            // 根据自定义LootTable选择可能产物
             FishingLootList.forEach(loot => {
                 let weight = loot.weight
                 if (Object.keys(loot.fluid).length > 0) {
@@ -56,6 +57,7 @@ LootJS.modifiers((event) => {
                 lootList.push(validWeightFishingLoot.getWeightRandomObj())
             }
 
+            // 根据价值表计算初始价值
             lootList.forEach(lootItem => {
                 if (!FishingValueMap[lootItem.id]) {
                     ctx.addLoot(lootItem)
@@ -67,6 +69,7 @@ LootJS.modifiers((event) => {
                 }
             })
 
+            // 执行鱼竿策略
             let fishingItem = GetFishingRodInHand(player)
             if (!fishingItem) return
             let fishingItemHandler = $AquaFishingRodItem.getHandler(fishingItem)
@@ -80,6 +83,8 @@ LootJS.modifiers((event) => {
                 itemModel.lootModify(ctx)
             })
 
+            // 执行技能策略
+            FishingLootModifySkill.run(player, [ctx])
         })
 })
 

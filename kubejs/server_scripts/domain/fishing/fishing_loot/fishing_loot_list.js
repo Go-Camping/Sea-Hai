@@ -1,54 +1,4 @@
 // priority: 600
-const FishingLootList = []
-const RainLevelMap = ['clear', 'rain', 'thunder']
-const FishingValueMap = {}
-
-/**
- * 
- * @param {string} itemId 
- * @param {function(Internal.ItemStack, Internal.ServerPlayer):Internal.ItemStack} func 
- */
-function RegisterFishValue(itemId, func) {
-    FishingValueMap[itemId] = func
-}
-
-function RegisterFishingLoot(customFishingLootModel) {
-    FishingLootList.push(customFishingLootModel)
-}
-
-/**
- * 
- * @param {Internal.ItemStack} itemStack 
- * @param {Internal.LivingEntity} player
- * @param {number} min 
- * @param {number} max 
- * @returns 
- */
-function AverageScoreDistri(itemStack, player, min, max) {
-    let luck = 0
-    if (player && player.isPlayer()) {
-        luck = player.luck
-    }
-    let random = RandomWithLuck(luck)
-    let value = Math.floor(random * (max - min)) + min
-    let quality = 1
-    switch (true) {
-        case (random < 0.4):
-            quality = 1
-            break
-        case (random < 0.7):
-            quality = 2
-            break
-        case (random < 0.9):
-            quality = 3
-            break
-        case (random <= 1):
-            quality = 3
-            break
-    }
-    return itemStack.withNBT({ value: NBT.i(value), quality: NBT.i(quality) })
-}
-
 
 RegisterFishingLoot(
     new CustomFishingLootModel(Item.of('lavafishing:quartz_fish'), 20)
@@ -358,6 +308,9 @@ RegisterFishValue('aquaculture:muskellunge', (itemStack, player) => {
     return AverageScoreDistri(itemStack, player, 10, 20)
 })
 
+RegisterFishValue('minecraft:cod', (itemStack, player) => {
+    return AverageScoreDistri(itemStack, player, 1, 12)
+})
 
 // 蟹笼产出
 RegisterFishValue('lavafishing:yeti_crab', (itemStack, player) => {

@@ -2,9 +2,9 @@
 #Client settings
 [client]
 	#Set this to false will disable the food values tooltip.
-	showFoodValuesTooltip = true
+	showFoodValuesTooltip = false
 	#Set this to false will disable the food effect tooltip.
-	showFoodEffectsTooltip = true
+	showFoodEffectsTooltip = false
 	#Set this to false will disable the special hunger bar overlay when the player has Gnaw's Gift effect.
-	gnawsGiftHungerOverlay = true
+	gnawsGiftHungerOverlay = false
 

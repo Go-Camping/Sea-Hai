@@ -13,6 +13,27 @@ function RandomGet(list) {
 }
 
 /**
+ * 对给定的数值进行四舍五入操作，并保留指定的小数位数
+ * @param {number} value 
+ * @param {number} n 
+ * @returns {number}
+ */
+function RoundFix(value, n) {
+    return Math.round(value * Math.pow(10, n)) / Math.pow(10, n);
+}
+
+
+/**
+ * 对给定的数值进行下取整操作，并保留指定的小数位数
+ * @param {number} value 
+ * @param {number} n 
+ * @returns {number}
+ */
+function FloorFix(value, n) {
+    return Math.floor(value * Math.pow(10, n)) / Math.pow(10, n);
+}
+
+/**
  * 洗牌算法
  * @param {any[]} a 
  * @returns {any[]}
@@ -103,15 +124,27 @@ WeightRandomModel.prototype = {
  * @returns 
  */
 
-function RandomWithLuck(luck) {
+function RandomWithLuck(luck, luckThreshold) {
     let randomList = []
     if (luck > 0) {
-        for (let i = 0; i < luck / 10; i++) {
+        for (let i = 0; i < luck / luckThreshold; i++) {
             randomList.push(Math.random())
         }
-        if (luck % 10 > 0 && luck % 10 > Math.random() * 10) {
+        if (luck % luckThreshold > 0 && luck % luckThreshold > Math.random() * luckThreshold) {
             randomList.push(Math.random())
         }
+    } else {
+        randomList.push(Math.random())
     }
     return Math.max.apply(null, randomList)
+}
+
+
+function RandomWithPlayerLuck(player) {
+    let luckDeity = 10
+    let luck = player.luck
+    if (player.hasEffect('kubejs:luck_deity')) {
+        luckDeity = Math.max(9 - player.getEffect('kubejs:luck_deity').getAmplifier(), 2)
+    }
+    return RandomWithLuck(luck, luckDeity)
 }

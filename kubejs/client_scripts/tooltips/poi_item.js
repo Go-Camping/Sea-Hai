@@ -1,5 +1,6 @@
 // priority: 500
 new MultiStateTooltip('kubejs:onsen_resort')
+    .addDefault(Text.translatable('tooltips.kubejs.onsen_resort.default.1'))
     .addShift(Text.translatable('tooltips.kubejs.onsen_resort.shift.1'))
     .addShift(Text.translatable('tooltips.kubejs.onsen_resort.shift.2'))
     .addShift(Text.translatable('tooltips.kubejs.onsen_resort.shift.3'))
