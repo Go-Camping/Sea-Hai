@@ -14,14 +14,6 @@ const TAG_CHAIR_BLOCK = new ResourceLocation('kubejs:chair_block')
 const TAG_SIGN_POST_BLOCK = new ResourceLocation('kubejs:sign_post_block')
 
 ServerEvents.tags('block', event => {
-    event.add('kubejs:poi_entrance', [
-        'kubejs:fish_store', 
-        'kubejs:onsen_resort', 
-        'kubejs:gelato_store', 
-        'kubejs:crock_pot_restaurant',
-        'kubejs:equestrian_pavilion'
-    ])
-
     event.add('kubejs:decoration_block', [
         'minecraft:iron_block', 
         'minecraft:stone',

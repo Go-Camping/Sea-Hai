@@ -130,6 +130,8 @@ CatCafePOIModel.prototype.workInPOITick = function () {
             return CatCafeMoveTable(this)
         case SUB_STATUS_WAITING_FOR_DISHES:
             return CatCafeWaitingForDishes(this)
+        case SUB_STATUS_PLAY_WITH_ANIMAL:
+            return CatCafePlayWithAnimal(this)
         case SUB_STATUS_EATING_FOOD:
             return CatCafeEatingFood(this)
         case SUB_STATUS_RETURN_TO_POI:
@@ -203,6 +205,34 @@ function CatCafeWaitingForDishes(catCafePOIModel) {
         return true
     }
     workInPOIModel.setTargetPos(selectBlock.pos)
+    workInPOIModel.setSubStatus(SUB_STATUS_PLAY_WITH_ANIMAL)
+    workInPOIModel.setWaitTimer(20 * 10)
+    return true
+}
+
+/**
+ * @param {CatCafePOIModel} catCafePOIModel 
+ * @returns {boolean}
+ */
+function CatCafePlayWithAnimal(catCafePOIModel) {
+    const workInPOIModel = catCafePOIModel.workInPOIModel
+    /**@type {Internal.EntityCustomNpc} */
+    const mob = workInPOIModel.mob
+
+    if (!workInPOIModel.checkArriveWaitTimer()) {
+        if (mob.totalTicksAlive % 100 == 0) {
+            let validCatList = GetLivingWithinRadius(mob.level, mob.position(), 4, (level, targetEntity) => {
+                if (!targetEntity || !targetEntity.isAlive()) return false
+                if (targetEntity instanceof $Cat) {
+                    return true
+                }
+            })
+            NPCSaySurrounding(mob, NPC_LINE_PLAY_WITH_CAT)
+            workInPOIModel.addConsumedMoney(validCatList.length * 10)
+        }
+        return true
+    }
+
     workInPOIModel.setSubStatus(SUB_STATUS_EATING_FOOD)
     workInPOIModel.setWaitTimer(20 * 10)
     return true
@@ -222,9 +252,9 @@ function CatCafeEatingFood(catCafePOIModel) {
     let targetBlock = level.getBlock(targetPos)
     if (!workInPOIModel.checkArriveWaitTimer()) {
         mob.lookControl.setLookAt(targetPos.x, targetPos.y, targetPos.z)
-        if (mob.totalTicksAlive % 10 == 0) {
+        if (mob.totalTicksAlive % 20 == 0) {
             mob.swing()
-            mob.playSound('minecraft:entity.generic.eat')
+            mob.playSound('minecraft:entity.generic.drink')
         }
         return true
     }
@@ -274,17 +304,9 @@ function CatCafeEatingFood(catCafePOIModel) {
     }
     
     mob.playSound('minecraft:entity.player.burp')
+    workInPOIModel.addConsumedMoney(100)
     let curMenuItems = workInPOIModel.getMenuItems()
-
-    let validCatList = GetLivingWithinRadius(mob.level, mob.position(), 4, (level, targetEntity) => {
-        if (!targetEntity || !targetEntity.isAlive()) return false
-        if (targetEntity instanceof $Cat) {
-            return true
-        }
-    })
-    workInPOIModel.addConsumedMoney(100 + validCatList.length * 50)
     
-
     if (curMenuItems.length <= 0) {
         mob.unRide()
         workInPOIModel.setSubStatus(SUB_STATUS_RETURN_TO_POI)

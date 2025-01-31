@@ -16,7 +16,6 @@ const STANDARD_FIND_POI_DISTANCE = 3
 
 const STATUS_WORK_IN_POI = 'work_in_poi'
 const NBT_WORK_IN_POI = 'workInPOI'
-// 距离必须大于等于3，否则因为原版寻路逻辑的问题会导致NPC不会继续移动，进而永远的无法到达目标地点
 const GOTO_POI_DISTANCE_STOP = 3
 const GOTO_ONSEN_DISTANCE_STOP = 3
 const GOTO_POS_DISTANCE_STOP = 3
@@ -40,6 +39,8 @@ const SUB_STATUS_EATING_FOOD = 33
 
 const SUB_STATUS_OBSERVING_ANIMAL = 41
 const SUB_STATUS_BUY_SOUVENIRS = 42
+
+const SUB_STATUS_PLAY_WITH_ANIMAL = 51
 
 const STATUS_DISMISS = 'dismiss'
 const NBT_DISMISS = 'dismiss'

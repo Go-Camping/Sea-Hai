@@ -27,7 +27,7 @@ QualityDecorator.setRender(ctx => {
 })
 
 const SaleTagTextMap = {
-    'kubejs:aquatic_products': Text.of('tooltips.kubejs.tag.aquatic_products.1').color(Color.rgba(166, 248, 255, 1))
+    'kubejs:aquatic_products': Text.translatable('tooltips.kubejs.tag.aquatic_products.1').color(Color.rgba(166, 248, 255, 1))
 }
 
 

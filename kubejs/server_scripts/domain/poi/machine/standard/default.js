@@ -15,6 +15,10 @@ function RegistryPOIStrategy(id, model) {
     POIModelStrategies[id] = (workInPOIModel, poiBlock) => new model(workInPOIModel, poiBlock)
 }
 
+ServerEvents.tags('block', event => {
+    let blockList = Object.keys(POIModelStrategies)
+    event.add('kubejs:poi_entrance', blockList) 
+})
 
 /**
  * @param {EntityWorkInPOI} workInPOIModel 
