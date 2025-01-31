@@ -10,7 +10,7 @@ const FishingLootModifySkillMap = {
     },
     'fishing_8_2': (skillModel, event) => {
         // 提升产物额外复制的概率。
-        skillModel.customData['addtionalLootThreshold'] = skillModel.customData['addtionalLootThreshold'] * 0.5
+        skillModel.customData['addtionalLootThreshold'] = skillModel.customData['addtionalLootThreshold'] * 0.8
     },
     'fishing_10_2': (skillModel, event) => {
         // 提升产物额外复制的概率。

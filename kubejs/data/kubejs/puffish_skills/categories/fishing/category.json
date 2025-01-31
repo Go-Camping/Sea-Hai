@@ -2,7 +2,7 @@
 	"unlocked_by_default": true,
 	"spent_points_limit": 100,
 	"title": {
-		"translate": "kubejs.puffskill.fishing.title"
+		"translate": "puffskill.kubejs.fishing.title"
 	},
 	"icon": {
 		"type": "item",

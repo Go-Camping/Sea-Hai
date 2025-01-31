@@ -5,6 +5,13 @@
  */
 const FishingMiniGameEndSkillMap = {
     'fishing_1_2': (skillModel, event) => {
+        // 每次成功的钓鱼会提升你5点的钓鱼经验
+        if (!event.fishSuccess) return
+        let playerSkill = new PufferskillModel(event.player)
+        let skillCategory = playerSkill.getSkillCategory('kubejs:fishing')
+        playerSkill.addExpToCategory(skillCategory, 5)
+    },
+    'fishing_2_2': (skillModel, event) => {
         // 捕鱼成功后会获得1分钟的幸运效果，如果存在幸运，则会累加
         let player = event.player
         if (!event.fishSuccess) {
@@ -18,13 +25,6 @@ const FishingMiniGameEndSkillMap = {
             luckAmplifier = player.getEffect('minecraft:luck').getAmplifier() + 1
         }
         player.potionEffects.add('minecraft:luck', 1200, luckAmplifier, false, false)
-    },
-    'fishing_2_2': (skillModel, event) => {
-        // 每次成功的钓鱼会提升你5点的钓鱼经验
-        if (!event.fishSuccess) return
-        let playerSkill = new PufferskillModel(event.player)
-        let skillCategory = playerSkill.getSkillCategory('kubejs:fishing')
-        playerSkill.addExpToCategory(skillCategory, 5)
     },
     'fishing_4_2': (skillModel, event) => {
         // 如果一次垂钓获得了多于一的战利品，将会根据你获得的战利品的数量来修正战利品的得分
@@ -91,8 +91,7 @@ const FishingMiniGameEndSkill = new SkillModel('kubejs:fishing')
             if (!event.fishSuccess) return
             if (!event.getStoredRewards().isPresent()) return
             event.getStoredRewards().get().forEach(reward => {
-                if (reward.hasTag(AllowQuality)) {
-                    event.player.tell(reward)
+                if (reward.hasTag(AllowQualityTag)) {
                     let itemModel = new ItemQaulityModel(reward)
                     let value = skillModel.customData['valueModel'].setBaseAttr(itemModel.value).calResult()
                     itemModel.setValue(value)

@@ -13,8 +13,8 @@ ItemEvents.tooltip((tooltip) => {
         const type = item.nbt.getString('type')
         if (!ExpTypeMapToSkillName[type]) return
         let lineNum = 1
-        text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.1', Text.translatable(ExpTypeMapToSkillName[type]).white()).gold())
-        text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.2', Text.translatable(amount).white()).gold())
-        text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.3', Text.translatable('common.kubejs.key.right_click').gold()))
+        text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.1', Text.translatable(ExpTypeMapToSkillName[type]).yellow()).green())
+        text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.2', Text.translatable(amount).yellow()).gold())
+        text.add(lineNum++, Text.translatable('tooltips.kubejs.item.exp_bottle.3', Text.translatable('common.kubejs.key.right_click').gold()).gray())
     })
 })

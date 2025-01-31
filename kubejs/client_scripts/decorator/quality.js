@@ -26,8 +26,26 @@ QualityDecorator.setRender(ctx => {
     }
 })
 
+const SaleTagTextMap = {
+    'kubejs:aquatic_products': Text.of('tooltips.kubejs.tag.aquatic_products.1').color(Color.rgba(166, 248, 255, 1))
+}
+
+
 ItemEvents.tooltip((tooltip) => {
+
     tooltip.addAdvancedToAll((item, advanced, text) => {
+        let saleTags = []
+        item.getTags().toArray().forEach(/**@param {Internal.TagKey<Item>} tag*/tag => {
+            console.log(tag.location())
+            if (SaleTagTextMap[tag.location().toString()]) {
+                saleTags.push(SaleTagTextMap[tag.location().toString()])
+                
+            }
+        })
+        if (saleTags.length > 0) {
+            text.add(Text.translatable('@ ').gray().append(JoinWithSeparator(' ', saleTags)))
+        }
+        
         if (!item.hasNBT() || !item.nbt.contains('value')) return
         text.add(Text.translatable('tooltips.kubejs.item.value.1').green().append(Text.gold(item.nbt.getInt('value').toFixed(0) + ' ♥')))
     })

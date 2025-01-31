@@ -60,7 +60,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p fishing_bobber_making true",
+					"lock_command": "gamestage remove @p fishing_bobber_making true"
+				}
+			}
+		]
 	},
 	"2_1": {
 		"title": {
@@ -123,7 +132,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p fishing_line_making true",
+					"lock_command": "gamestage remove @p fishing_line_making true"
+				}
+			}
+		]
 	},
 	"3_1": {
 		"title": {
@@ -186,7 +204,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p fishing_hook_making true",
+					"lock_command": "gamestage remove @p fishing_hook_making true"
+				}
+			}
+		]
 	},
 	"4_1": {
 		"title": {
@@ -249,7 +276,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p fishing_bait_making true",
+					"lock_command": "gamestage remove @p fishing_bait_making true"
+				}
+			}
+		]
 	},
 	"5_1": {
 		"title": {
@@ -312,7 +348,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p fishing_shining_potion true",
+					"lock_command": "gamestage remove @p fishing_shining_potion true"
+				}
+			}
+		]
 	},
 	"6_1": {
 		"title": {
@@ -375,7 +420,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p crab_pot_making true",
+					"lock_command": "gamestage remove @p crab_pot_making true"
+				}
+			}
+		]
 	},
 	"7_1": {
 		"title": {
@@ -438,7 +492,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p lava_crab_pot_upgrade true",
+					"lock_command": "gamestage remove @p lava_crab_pot_upgrade true"
+				}
+			}
+		]
 	},
 	"8_1": {
 		"title": {
@@ -469,7 +532,7 @@
 			"translate": "kubejs.puffskill.desc.fishing.8_2"
 		},
 		"frame": {
-			"type": "texture",	
+			"type": "texture",
 			"data": {
 				"unlocked": "kubejs:textures/skill/frame/square_unlock.png",
 				"available": "kubejs:textures/skill/frame/square_available.png"
@@ -501,7 +564,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p crab_pot_bait_making true",
+					"lock_command": "gamestage remove @p crab_pot_bait_making true"
+				}
+			}
+		]
 	},
 	"9_1": {
 		"title": {
@@ -564,7 +636,16 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p crab_pot_production_upgrade true",
+					"lock_command": "gamestage remove @p crab_pot_production_upgrade true"
+				}
+			}
+		]
 	},
 	"10_1": {
 		"title": {
@@ -627,6 +708,15 @@
 			"data": {
 				"texture": "kubejs:textures/skill/todo.png"
 			}
-		}
+		},
+		"rewards": [
+			{
+				"type": "puffish_skills:command",
+				"data": {
+					"unlock_command": "gamestage add @p ex_fishing_tool_making true",
+					"lock_command": "gamestage remove @p ex_fishing_tool_making true"
+				}
+			}
+		]
 	}
 }

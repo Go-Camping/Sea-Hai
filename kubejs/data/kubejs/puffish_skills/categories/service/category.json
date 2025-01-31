@@ -2,7 +2,7 @@
 	"unlocked_by_default": true,
 	"spent_points_limit": 100,
 	"title": {
-		"translate": "kubejs.puffskill.service.title"
+		"translate": "puffskill.kubejs.service.title"
 	},
 	"icon": {
 		"type": "item",

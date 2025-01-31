@@ -4,9 +4,9 @@ const RainLevelMap = ['clear', 'rain', 'thunder']
 const FishingValueMap = {}
 
 ServerEvents.tags('item', event => {
-    Object.keys(FishingValueMap).forEach(itemId => {
-        event.add('kubejs:allow_quality', itemId)
-    })
+    let itemList = Object.keys(FishingValueMap)
+    event.add(AllowQualityTag, itemList)
+    event.add(AquaticProductsSaleTag, itemList)
 })
 
 /**

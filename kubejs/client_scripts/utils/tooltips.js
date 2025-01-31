@@ -11,3 +11,20 @@ function AddForTextLines(text, textLines, initNum) {
     }
     return initNum
 }
+
+/**
+ * 
+ * @param {string} separator 
+ * @param {Internal.MutableComponent[]} list 
+ */
+function JoinWithSeparator(separator, list) {
+    let result = Text.empty()
+    list.forEach((text, index) => {
+        if (index == list.length - 1) {
+            result.append(text)
+            return result
+        }
+        result.append(text).append(separator)
+    })
+    return result
+}
