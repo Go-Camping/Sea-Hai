@@ -60,6 +60,4 @@ const $SWEMHorseEntity = Java.loadClass('com.alaharranhonor.swem.forge.entities.
 const $SDMShopR = Java.loadClass('net.sixik.sdmshoprework.SDMShopR')
 
 const $Cat = Java.loadClass('net.minecraft.world.entity.animal.Cat')
-
-const $ClientBoundDamageNumberMessage = Java.loadClass('net.mehvahdjukaar.dummmmmmy.network.ClientBoundDamageNumberMessage')
-const $NetworkHandler = Java.loadClass('net.mehvahdjukaar.dummmmmmy.network.NetworkHandler')
+const $UUID = Java.loadClass('java.util.UUID')

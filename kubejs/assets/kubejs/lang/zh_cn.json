@@ -113,6 +113,8 @@
 
     "status.kubejs.exp_bottle.gain_exp.1": "你在 %s 方面的经验增长了 %s 点",
 
+    "status.kubejs.timer_dummy.canot_gain_value.1": "这把武器已经不能再进行磨炼了。",
+
     "_comment.npcline": "npc消息（通用用途）",
     "npcline.kubejs.sorry.1": "不好意思。",
     "npcline.kubejs.thanks.1": "谢谢！",
