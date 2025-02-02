@@ -1,22 +1,9 @@
 // priority: 800
-RegistryFishingItemStrategy('kubejs:octopus_bobber', OctopusBobberModel)
+FishingItemMiniGameStartStrategy.addStrategy('kubejs:octopus_bobber', DuckBobberMiniGameStrat)
 /**
- * 
- * @param {Internal.ItemStack} item 
- */
-function OctopusBobberModel(item) {
-    FishingItemModel.call(this, item)
-}
-
-
-OctopusBobberModel.prototype = Object.create(FishingItemModel.prototype)
-OctopusBobberModel.prototype.constructor = OctopusBobberModel
-
-/**
- * 
+ * @param {StrategyModel} model
  * @param {Internal.MiniGameStartJS} event 
  */
-OctopusBobberModel.prototype.miniGameStart = function (event) {
-    let behavior = event.getFishBehavior()
-    behavior.setAvgDistance(behavior.getAvgDistance() * 0.8)
+function DuckBobberMiniGameStrat(model, event) {
+    model.customData['avgDistance'].addAttributeModifier(-0.2, 'multiple', 'base')
 }

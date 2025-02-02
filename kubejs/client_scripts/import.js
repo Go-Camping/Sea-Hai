@@ -12,3 +12,6 @@ const $OverlayTexture = Java.loadClass('net.minecraft.client.renderer.texture.Ov
 const $GLFWKey = Java.loadClass("org.lwjgl.glfw.GLFW")
 
 const $EntityCustomNpc = Java.loadClass('noppes.npcs.entity.EntityCustomNpc')
+
+const $DynamicColor = Java.loadClass('com.anthonyhilyard.prism.text.DynamicColor')
+const $TextColor = Java.loadClass('net.minecraft.network.chat.TextColor')

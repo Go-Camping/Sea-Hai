@@ -12,8 +12,14 @@ StartupEvents.registry('item', event => {
     event.createCustom('meat_bait', () => $AquacultureAPI.createBait(8, 1))
     event.createCustom('fish_bait', () => $AquacultureAPI.createBait(8, 1))
 
+    // 基础浮标
     event.createCustom('duck_bobber', () => new $DyeableItem(16575488, new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber_overlay.png')))
     event.createCustom('octopus_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
+    event.createCustom('iron_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/iron_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
+    event.createCustom('golden_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/golden_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
+    event.createCustom('ball_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/ball_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
+    event.createCustom('feather_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/feather_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
+    event.createCustom('dish_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/dish_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
 
 })
 
@@ -24,7 +30,11 @@ ClientEvents.init(event => {
         tintIndex > 0 ? -1 : stack.getItem().getColor(stack),
         Item.of('kubejs:hard_fishing_line').getItem(),
         Item.of('kubejs:duck_bobber').getItem(),
-        Item.of('kubejs:octopus_bobber').getItem()
+        Item.of('kubejs:octopus_bobber').getItem(),
+        Item.of('kubejs:iron_bobber').getItem(),
+        Item.of('kubejs:golden_bobber').getItem(),
+        Item.of('kubejs:ball_bobber').getItem(),
+        Item.of('kubejs:dish_bobber').getItem()
     )
 })
 

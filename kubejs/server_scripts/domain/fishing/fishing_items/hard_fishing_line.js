@@ -1,22 +1,9 @@
 // priority: 800
-RegistryFishingItemStrategy('kubejs:hard_fishing_line', HardFishingLineModel)
+FishingItemMiniGameStartStrategy.addStrategy('kubejs:hard_fishing_line', DuckBobberMiniGameStrat)
 /**
- * 
- * @param {Internal.ItemStack} item 
- */
-function HardFishingLineModel(item) {
-    FishingItemModel.call(this, item)
-}
-
-
-HardFishingLineModel.prototype = Object.create(FishingItemModel.prototype)
-HardFishingLineModel.prototype.constructor = HardFishingLineModel
-
-/**
- * 
+ * @param {StrategyModel} model
  * @param {Internal.MiniGameStartJS} event 
  */
-HardFishingLineModel.prototype.miniGameStart = function (event) {
-    let behavior = event.getFishBehavior()
-    behavior.setBobberUpAcceleration(behavior.getBobberUpAcceleration() * 1.1)
+function DuckBobberMiniGameStrat(model, event) {
+    model.customData['pointLoss'].addAttributeModifier(-0.9, 'multiple', 'base')
 }

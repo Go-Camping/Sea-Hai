@@ -73,17 +73,11 @@ LootJS.modifiers((event) => {
             let fishingItem = GetFishingRodInHand(player)
             if (!fishingItem) return
             let fishingItemHandler = $AquaFishingRodItem.getHandler(fishingItem)
-            let strategyList = []
+            let fishingItemList = []
             fishingItemHandler.allItems.forEach(item => {
-                if (!FishingItemStrategy[item.id]) return
-                let itemModel = FishingItemStrategy[item.id](item)
-                strategyList.push(itemModel)
+                fishingItemList.push(item.id)
             })
-            strategyList.sort((a, b) => b.priority - a.priority).forEach(itemModel => {
-                itemModel.lootModify(ctx)
-            })
-
-            // 执行技能策略
+            FishingItemLootModifyStrategy.run(fishingItemList, [event])
             FishingLootModifySkill.run(player, [ctx])
         })
 })
