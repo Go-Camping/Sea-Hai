@@ -11,7 +11,7 @@ RegistryRelatedPositionToolStrategy(
                 let nbt = item.getOrCreateTag()
                 // 选中POI模式
                 nbt.put('savedPos', ConvertPos2Nbt(block.getPos()))
-                RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#00ea33')], 20 * 15)
+                RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#ff0d00')], 20 * 15)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.poi.selected_poi.1'))
                 return
             }
@@ -48,13 +48,14 @@ RegistryRelatedPositionToolStrategy(
                         return pos.equals(block.getPos())
                     })
                     shopPOIModel.setRelatedPosListNbt(posListNbt)
-                    RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#00ea33')])
+                    RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#ff0d00')])
                     player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.poi.remove_relate_position.1'))
                     return
                 }
                 posListNbt.add(ConvertPos2Nbt(block.getPos()))
                 shopPOIModel.setRelatedPosListNbt(posListNbt)
-                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#00ea33'), 20 * 15)
+
+                RenderOutlineWithSavedBlock(player, savedBlock, posListNbt)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.poi.add_relate_position.1'))
                 return
             }
@@ -68,7 +69,8 @@ RegistryRelatedPositionToolStrategy(
                 ClearBlockOutlineRender(player)
                 let shopPOIModel = new ShopPOIBlock(savedBlock)
                 let posListNbt = shopPOIModel.getRelatedPosListNbt()
-                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(posListNbt.copy(), '#00ea33'), 20 * 15)
+                
+                RenderOutlineWithSavedBlock(player, savedBlock, posListNbt)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.poi.show_relate_position.1'))
                 return
             }

@@ -11,7 +11,7 @@ RegistryRelatedPositionToolStrategy(
                 let nbt = item.getOrCreateTag()
                 // 节点选中模式
                 nbt.put('savedPos', ConvertPos2Nbt(block.getPos()))
-                RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#00ea33')], 20 * 15)
+                RenderBlockOutlineInTime(player, [new OutlineRenderModel(block.getPos(), '#ff0d00')], 20 * 15)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.node.selected_poi.1'))
                 return
             }
@@ -51,7 +51,7 @@ RegistryRelatedPositionToolStrategy(
                     })
                     nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
                     nodeEntity.setChanged()
-                    RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#00ea33')])
+                    RemoveBlockOutlineRender(player, [new OutlineRenderModel(block.getPos(), '#ff0d00')])
                     player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.node.remove_relate_position.1'))
                     return
                 }
@@ -59,7 +59,7 @@ RegistryRelatedPositionToolStrategy(
                 relatedNodePosListNbt.add(ConvertPos2Nbt(block.getPos()))
                 nodeEntity.persistentData.put('relatedNodePos', relatedNodePosListNbt)
                 nodeEntity.setChanged()
-                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#00ea33'), 20 * 15)
+                RenderOutlineWithSavedBlock(player, savedBlock, relatedNodePosListNbt)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.node.add_relate_position.1'))
                 return
             }
@@ -74,7 +74,8 @@ RegistryRelatedPositionToolStrategy(
                 if (!savedBlock.entity) return
                 let nodeEntity = savedBlock.entity
                 let relatedNodePosListNbt = nodeEntity.persistentData.getList('relatedNodePos', GET_COMPOUND_TYPE)
-                RenderBlockOutlineInTimeNbt(player, ConvertBlockPosListNbt2OutlineRenderListNbt(relatedNodePosListNbt.copy(), '#00ea33'), 20 * 15)
+
+                RenderOutlineWithSavedBlock(player, savedBlock, relatedNodePosListNbt)
                 player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.node.show_relate_position.1'))
                 return
             }

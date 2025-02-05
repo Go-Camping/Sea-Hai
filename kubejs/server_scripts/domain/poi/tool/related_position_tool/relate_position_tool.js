@@ -48,7 +48,6 @@ ItemEvents.firstRightClicked(RELATE_POSITION_TOOL, event => {
                     }
                 })
             }
-
             return
         }
     } else {
@@ -81,3 +80,18 @@ ItemEvents.firstLeftClicked(RELATE_POSITION_TOOL, event => {
         player.setStatusMessage(Text.translatable('status.kubejs.relate_position_tool.clear_selected_poi.1'))
     }
 })
+
+
+/**
+ * 
+ * @param {Internal.ServerPlayer} player 
+ * @param {Internal.BlockContainerJS} savedBlock 
+ * @param {Internal.ListTag} relatedPoiPosListNbt 
+ */
+function RenderOutlineWithSavedBlock(player, savedBlock, relatedPoiPosListNbt) {
+    let outLineBlockNbtList = ConvertBlockPosListNbt2OutlineRenderListNbt(relatedPoiPosListNbt.copy(), '#ff0d00')
+    let savedPos = ConvertPos2Nbt(savedBlock.pos)
+    savedPos.putString('color', '#00ff0d')
+    outLineBlockNbtList.add(savedPos)
+    RenderBlockOutlineInTimeNbt(player, outLineBlockNbtList, 20 * 15)
+}
