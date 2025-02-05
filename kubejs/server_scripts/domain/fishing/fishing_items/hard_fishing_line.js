@@ -1,9 +1,9 @@
 // priority: 800
-FishingItemMiniGameStartStrategy.addStrategy('kubejs:hard_fishing_line', DuckBobberMiniGameStrat)
+FishingItemMiniGameStartStrategy.addStrategy('kubejs:hard_fishing_line', HardFishingLineMiniGameStart)
 /**
  * @param {StrategyModel} model
  * @param {Internal.MiniGameStartJS} event 
  */
-function DuckBobberMiniGameStrat(model, event) {
-    model.customData['pointLoss'].addAttributeModifier(-0.9, 'multiple', 'base')
+function HardFishingLineMiniGameStart(model, event) {
+    model.customData['pointLoss'].addAttributeModifier(-0.1, 'multiple', 'base')
 }

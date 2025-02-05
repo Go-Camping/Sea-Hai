@@ -23,6 +23,11 @@
     "item.kubejs.exp_bottle": "经验瓶",
     "item.kubejs.duck_bobber": "鸭子浮标",
     "item.kubejs.octopus_bobber": "章鱼浮标",
+    "item.kubejs.ball_bobber": "球形浮标",
+    "item.kubejs.iron_bobber": "铁质浮标",
+    "item.kubejs.golden_bobber": "镀金浮标",
+    "item.kubejs.feather_bobber": "羽毛浮标",
+    "item.kubejs.dish_bobber": "碟型浮标",
 
     "_comment.block": "方块",
     "block.kubejs.aether_gate": "以太门",
@@ -49,8 +54,21 @@
     "tooltips.kubejs.multi_state.ctrl_holding.1": "§7▼ 按住 §8§l[ ctrl ]§r§7 以查看相关技艺",
     "tooltips.kubejs.multi_state.alt_holding.1": "§7▼ 按住 §8§l[ alt ]§r§7 以查看更多信息",
     "tooltips.kubejs.item.relate_position_tool.1": "当前选定POI：",
-    "tooltips.kubejs.item.duck_bobber.1": "鱼钩将更少的受到重力的影响",
-    "tooltips.kubejs.item.octopus_bobber.1": "鱼会变得懒惰",
+
+    "tooltips.kubejs.item.bobber_common.1": "♪ 浮标修正： ",
+    "tooltips.kubejs.item.duck_bobber.1": "    ★ 浮标更容易被拉起。",
+    "tooltips.kubejs.item.duck_bobber.2": "    ★ 浮标略微摆脱了重力。",
+    "tooltips.kubejs.item.duck_bobber.3": "    ★ 更漂亮的鱼会被吸引过来！",
+    "tooltips.kubejs.item.octopus_bobber.1": "    ★ 吃下去的鱼会开始昏昏欲睡 ~",
+    "tooltips.kubejs.item.ball_bobber.1": "    ★ 浮标的体积略微比以前大了一些！",
+    "tooltips.kubejs.item.iron_bobber.1": "    ★ 浮标现在变得无比沉重！",
+    "tooltips.kubejs.item.iron_bobber.2": "    ★ 但鱼儿或许正喜欢沉甸甸的食物 ~",
+    "tooltips.kubejs.item.golden_bobber.1": "    ★ 闪闪发光的浮标让鱼儿变得过于敏感！",
+    "tooltips.kubejs.item.golden_bobber.2": "    ★ 但只有闪亮亮的鱼才会喜欢闪亮亮的浮标！",
+    "tooltips.kubejs.item.feather_bobber.1": "    ★ 羽毛使得浮标几乎没有重量。",
+    "tooltips.kubejs.item.feather_bobber.2": "    ★ 细腻的羽丝吸引来了更美丽的鱼！",
+    "tooltips.kubejs.item.dish_bobber.1": "    ★ 巨大的浮标能够轻易地诱骗到鱼。",
+    "tooltips.kubejs.item.dish_bobber.2": "    ★ 但被诱骗来鱼儿的质量就. . .",
     
     "tooltips.kubejs.item.hard_fishing_line.1": "结实的鱼线使得你的鱼钩略容易被提升",
     "tooltips.kubejs.onsen_resort.default.1": "§7有谁不想在温泉里彻彻底底的放松一下呢？",
@@ -82,7 +100,6 @@
     "tooltips.kubejs.fish_store.alt.4": "        §73. §n前往容器关联地点§r§7：NPC前往之前选取的关联地点。",
     "tooltips.kubejs.fish_store.alt.5": "        §f4. §n进行购物§r§f：NPC从该容器中随机选取物品，并累加到自己的需支付金额中，此时NPC会受到周围装饰方块的影响而影响支付价格。",
     "tooltips.kubejs.fish_store.alt.6": "        §75. §n返回商店结算§r§7：NPC返回商店并且进行消费结算动作，结算后返回原本的行进路径。",
-
 
     "tooltips.kubejs.item.menu.1": "♪ 菜单数量：%s / 9",
     "tooltips.kubejs.item.menu.2": "§6·§r 按下 %s 以显示菜单内容",

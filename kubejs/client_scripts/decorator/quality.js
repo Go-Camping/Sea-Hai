@@ -39,11 +39,13 @@ ItemEvents.tooltip((tooltip) => {
                 saleTags.push(SaleTagTextMap[tag.location().toString()])
             }
         })
+        
         if (saleTags.length > 0) {
             text.add(JoinWithSeparator(' ', saleTags))
         }
         
         if (!item.hasNBT() || !item.nbt.contains('value')) return
         text.add(Text.translatable('tooltips.kubejs.item.value.1').green().append(Text.gold(item.nbt.getInt('value').toFixed(0) + ' ♥')))
+        return
     })
 })

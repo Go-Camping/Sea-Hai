@@ -11,9 +11,12 @@ const FishingItemMiniGameStartStrategy = new StrategyModel()
          */
         (model, event) => {
             model.customData = {
-                'pointLoss': new AttributeManagerModel(event.getFishBehavior().getPointLoss()),
+                'bobberUpAcceleration': new AttributeManagerModel(event.getFishBehavior().getBobberUpAcceleration()),
                 'gravity': new AttributeManagerModel(event.getFishBehavior().getGravity()),
                 'avgDistance': new AttributeManagerModel(event.getFishBehavior().getAvgDistance()),
+                'bobberHeight': new AttributeManagerModel(event.getFishBehavior().getBobberHeight()),
+                'pointLoss': new AttributeManagerModel(event.getFishBehavior().getPointLoss()),
+                'pointGain': new AttributeManagerModel(event.getFishBehavior().getPointGain()),
             }
         }
     )
@@ -25,8 +28,12 @@ const FishingItemMiniGameStartStrategy = new StrategyModel()
         (model, event) => {
             let behavior = event.getFishBehavior()
             behavior.setGravity(model.customData['gravity'].calResult())
-            behavior.setPointLoss(model.customData['pointLoss'].calResult())
             behavior.setAvgDistance(model.customData['avgDistance'].calResult())
+            behavior.setBobberUpAcceleration(model.customData['bobberUpAcceleration'].calResult())
+            behavior.setDownAcceleration(model.customData['downAcceleration'].calResult())
+            behavior.setBobberHeight(model.customData['bobberHeight'].calResult())
+            behavior.setPointLoss(model.customData['pointLoss'].calResult())
+            behavior.setPointGain(model.customData['pointGain'].calResult())
         }
     )
 
@@ -37,27 +44,27 @@ const FishingItemMiniGameStartStrategy = new StrategyModel()
 const FishingItemMiniGameEndStrategy = new StrategyModel()
     .setInit(
         /** 
-         * @param {SkillModel} skillModel
+         * @param {StrategyModel} model
          * @param {Internal.MiniGameEndJS} event
          */
-        (skillModel, event) => {
-            skillModel.customData = {
+        (model, event) => {
+            model.customData = {
                 'valueModel': new AttributeManagerModel(1)
             }
         }
     )
     .setDefer(
         /**
-         * @param {SkillModel} skillModel
+         * @param {StrategyModel} model
          * @param {Internal.MiniGameEndJS} event
          */
-        (skillModel, event) => {
+        (model, event) => {
             if (!event.fishSuccess) return
             if (!event.getStoredRewards().isPresent()) return
             event.getStoredRewards().get().forEach(reward => {
                 if (reward.hasTag(AllowQualityTag)) {
                     let itemModel = new ItemQaulityModel(reward)
-                    let value = skillModel.customData['valueModel'].setBaseAttr(itemModel.value).calResult()
+                    let value = model.customData['valueModel'].setBaseAttr(itemModel.value).calResult()
                     itemModel.setValue(value)
                 }
             })
@@ -69,3 +76,33 @@ const FishingItemMiniGameEndStrategy = new StrategyModel()
  * @type {StrategyModel}
  */
 const FishingItemLootModifyStrategy = new StrategyModel()
+    .setInit(
+        /** 
+         * @param {StrategyModel} model
+         * @param {Internal.LootContextJS} event
+         */
+        (model, event) => {
+            model.customData = {
+                'addtionalLootThreshold': 1,
+                'copyAll': false
+            }
+        }
+    )
+    .setDefer(
+        /**
+         * @param {StrategyModel} model
+         * @param {Internal.LootContextJS} event
+         */
+        (model, event) => {
+            if (RandomWithPlayerLuck(event.player) > model.customData['addtionalLootThreshold']) {
+                if (model.customData['copyAll']) {
+                    event.loot.forEach((loot) => {
+                        loot.setCount(loot.getCount() * 2)
+                    })
+                } else {
+                    let lootCopy = RandomGet(event.loot)
+                    event.addLoot(lootCopy)
+                }
+            }
+        }
+    )

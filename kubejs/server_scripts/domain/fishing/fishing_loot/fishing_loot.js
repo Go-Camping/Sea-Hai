@@ -77,7 +77,7 @@ LootJS.modifiers((event) => {
             fishingItemHandler.allItems.forEach(item => {
                 fishingItemList.push(item.id)
             })
-            FishingItemLootModifyStrategy.run(fishingItemList, [event])
+            FishingItemLootModifyStrategy.run(fishingItemList, [ctx])
             FishingLootModifySkill.run(player, [ctx])
         })
 })

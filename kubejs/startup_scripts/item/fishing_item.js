@@ -1,7 +1,14 @@
 // priority: 900
 const HookIds = []
 StartupEvents.registry('item', event => {
+    // 高级鱼线
     event.createCustom('hard_fishing_line', () => new $DyeableItem(1))
+    event.createCustom('iron_fishing_line', () => new $DyeableItem(1))
+    event.createCustom('golden_fishing_line', () => new $DyeableItem(1))
+    event.createCustom('glowing_fishing_line', () => new $DyeableItem(1))
+    event.createCustom('lucky_fishing_line', () => new $DyeableItem(1))
+    event.createCustom('echo_fishing_line', () => new $DyeableItem(1))
+    event.createCustom('ender_fishing_line', () => new $DyeableItem(1))
 
     event.createCustom('newer_bait', () => $AquacultureAPI.createBait(8, 1))
     event.createCustom('mushroom_bait', () => $AquacultureAPI.createBait(8, 1))
@@ -12,7 +19,7 @@ StartupEvents.registry('item', event => {
     event.createCustom('meat_bait', () => $AquacultureAPI.createBait(8, 1))
     event.createCustom('fish_bait', () => $AquacultureAPI.createBait(8, 1))
 
-    // 基础浮标
+    // 高级浮标
     event.createCustom('duck_bobber', () => new $DyeableItem(16575488, new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber_overlay.png')))
     event.createCustom('octopus_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
     event.createCustom('iron_bobber', () => new $DyeableItem(7316968, new ResourceLocation('kubejs', 'textures/item/fishing/iron_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
@@ -34,6 +41,7 @@ ClientEvents.init(event => {
         Item.of('kubejs:iron_bobber').getItem(),
         Item.of('kubejs:golden_bobber').getItem(),
         Item.of('kubejs:ball_bobber').getItem(),
+        Item.of('kubejs:feather_bobber').getItem(),
         Item.of('kubejs:dish_bobber').getItem()
     )
 })

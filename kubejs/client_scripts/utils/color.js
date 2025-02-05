@@ -37,13 +37,12 @@ function Gradient(startColor, endColor, step) {
  * @param {Internal.MutableComponent} text 
  * @param {string} startColor 
  * @param {string} endColor 
- * @param {number} step 
  */
 function GradientText(text, startColor, endColor) {
-    let textString = text.toString()
+    let textString = text.getString()
     let result = Text.empty()
-    Gradient(startColor, endColor, textString.length).forEach((color, index) => {
-        result.append(Text.of(textString[index]).color(Color.of(color)))
+    Gradient(startColor, endColor, textString.length()).forEach((color, index) => {
+        result.append(Text.of(textString.charCodeAt(index)).color(Color.of(color)))
     })
     return result
 }
