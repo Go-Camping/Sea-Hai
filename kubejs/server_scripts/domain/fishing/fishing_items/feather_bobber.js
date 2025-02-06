@@ -14,5 +14,5 @@ function FeatherBobberMiniGameStart(model, event) {
  * @param {Internal.MiniGameEndJS} event
  */
 function FeatherBobberMiniGameEnd(model, event) {
-    model.customData['valueModel'].addAttributeModifier(0.2, 'multiple', 'base')
+    model.customData['valueModel'].addAttributeModifier(0.3, 'multiple', 'base')
 }

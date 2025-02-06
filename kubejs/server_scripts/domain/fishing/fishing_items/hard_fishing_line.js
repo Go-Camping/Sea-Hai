@@ -5,5 +5,5 @@ FishingItemMiniGameStartStrategy.addStrategy('kubejs:hard_fishing_line', HardFis
  * @param {Internal.MiniGameStartJS} event 
  */
 function HardFishingLineMiniGameStart(model, event) {
-    model.customData['pointLoss'].addAttributeModifier(-0.1, 'multiple', 'base')
+    model.customData['pointLoss'].addAttributeModifier(-0.2, 'multiple', 'base')
 }

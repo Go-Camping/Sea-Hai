@@ -6,7 +6,7 @@ FishingItemMiniGameEndStrategy.addStrategy('kubejs:golden_fishing_line', GoldenF
  * @param {Internal.MiniGameStartJS} event 
  */
 function GoldenFishingLineMiniGameStart(model, event) {
-    model.customData['pointGain'].addAttributeModifier(-0.25, 'multiple', 'base')
+    model.customData['pointGain'].addAttributeModifier(-0.2, 'multiple', 'base')
 }
 
 

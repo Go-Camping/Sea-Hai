@@ -99,7 +99,7 @@ DefaultPOIModel.prototype.consumeContainerItem = function (container, simulate) 
     if (slot == null || slot < 0) return false
     if (simulate) return true
     let oriValue = pickItem.nbt.getInt('value')
-    this.workInPOIModel.priceAttribute.setNewBaseAttr(oriValue)
+    this.workInPOIModel.priceAttribute.setBaseAttr(oriValue)
     let validDecorationAmount = ContainerProperty[container.id]?.validDecorationAmount ?? 1
     if (validDecorationAmount > 0) {
         let decorationBlocks = FindBlocksAroundBlock(container, 3, 3, (curBlock) => {

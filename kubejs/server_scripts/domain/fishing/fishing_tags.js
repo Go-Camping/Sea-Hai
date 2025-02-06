@@ -13,6 +13,7 @@ ServerEvents.tags('item', event => {
         'kubejs:ball_bobber',
         'kubejs:dish_bobber',
         'kubejs:feather_bobber',
+        'kubejs:pants_bobber',
     ])
 
     event.add('kubejs:fishing_scorable', [

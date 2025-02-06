@@ -6,7 +6,7 @@ FishingItemMiniGameEndStrategy.addStrategy('kubejs:golden_bobber', GoldenBobberM
  * @param {Internal.MiniGameStartJS} event 
  */
 function GoldenBobberMiniGameStart(model, event) {
-    model.customData['bobberHeight'].addAttributeModifier(-0.25, 'multiple', 'base')
+    model.customData['bobberHeight'].addAttributeModifier(-0.2, 'multiple', 'base')
 }
 
 /**

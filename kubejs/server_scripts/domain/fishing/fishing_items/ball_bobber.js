@@ -6,5 +6,5 @@ FishingItemMiniGameStartStrategy.addStrategy('kubejs:ball_bobber', BallBobberMin
  * @param {Internal.MiniGameStartJS} event 
  */
 function BallBobberMiniGameStart(model, event) {
-    model.customData['bobberHeight'].addAttributeModifier(0.1, 'multiple', 'base')
+    model.customData['bobberHeight'].addAttributeModifier(0.2, 'multiple', 'base')
 }

@@ -15,5 +15,5 @@ function IronFishingLineMiniGameStart(model, event) {
  * @param {Internal.MiniGameEndJS} event 
  */
 function IronFishingLineMiniGameEnd(model, event) {
-    model.customData['valueModel'].addAttributeModifier(-0.25, 'multiple', 'base')
+    model.customData['valueModel'].addAttributeModifier(-0.2, 'multiple', 'base')
 }

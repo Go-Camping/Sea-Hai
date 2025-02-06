@@ -6,8 +6,5 @@ FishingItemLootModifyStrategy.addStrategy('kubejs:echo_fishing_line', EchoFishin
  * @param {Internal.MiniGameStartJS} event 
  */
 function EchoFishingLineLootModify(model, event) {
-    let random = RandomWithPlayerLuck(event.player)
-    if (random > 0.5) {
-        skillModel.customData['addtionalLootThreshold'] = skillModel.customData['addtionalLootThreshold'] * 0.8
-    }
+    model.customData['addtionalLootThreshold'] = model.customData['addtionalLootThreshold'] * 0.75
 }

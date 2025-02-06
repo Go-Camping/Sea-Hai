@@ -1,8 +1,8 @@
 7 possible world presets found:
 - "minecraft:flat"
-- "survivalisland:survivalisland"
-- "minecraft:debug_all_block_states"
-- "minecraft:normal"
-- "minecraft:large_biomes"
 - "minecraft:single_biome_surface"
+- "minecraft:normal"
+- "minecraft:debug_all_block_states"
+- "survivalisland:survivalisland"
+- "minecraft:large_biomes"
 - "minecraft:amplified"
