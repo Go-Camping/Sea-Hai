@@ -8,14 +8,17 @@ LootJS.modifiers((event) => {
     event.addLootTypeModifier(LootType.FISHING)
         .removeLoot(ItemFilter.ALWAYS_TRUE)
         .apply(ctx => {
-            ctx.loot.clear()
             if (!ctx.player) return
             const player = ctx.player
             if (!ctx.player.fishing) return
             const fishing = ctx.player.fishing
 
             let validWeightFishingLoot = new WeightRandomModel()
-            let biome = ctx.level.getBiome(ctx.blockPos).toString()
+            let optBiome = ctx.level.getBiome(ctx.blockPos).unwrapKey()
+            let biome = 'minecraft:ocean'
+            if (optBiome.isPresent()) {
+                biome = optBiome.get().location()
+            }
             let weather = RainLevelMap[ctx.level.rainLevel]
             if (!fishing.inFluidType) return
             let fluid = fishing.getEyeInFluidType().toString()
@@ -68,7 +71,6 @@ LootJS.modifiers((event) => {
                     return
                 }
             })
-
             // 执行鱼竿策略
             let fishingItem = GetFishingRodInHand(player)
             if (!fishingItem) return

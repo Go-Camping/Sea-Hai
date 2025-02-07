@@ -16,9 +16,6 @@ ServerEvents.tags('item', event => {
         'kubejs:pants_bobber',
     ])
 
-    event.add('kubejs:fishing_scorable', [
-        '#stardew_fishing:starts_minigame'
-    ])
 
     event.add('kubejs:crab_bait', [
         '#forge:seeds'

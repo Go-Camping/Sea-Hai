@@ -1,0 +1,19 @@
+{
+    "com.teammetallurgy.aquaculture.client.gui.screen.TackleBoxScreen": {
+        "playerSideOnly": true,
+        "buttonHints": {
+            "SORT": {
+                "horizontalOffset": -25,
+                "bottom": 26
+            },
+            "SORT_COLUMNS": {
+                "horizontalOffset": -13,
+                "bottom": 14
+            },
+            "SORT_ROWS": {
+                "horizontalOffset": -1,
+                "bottom": 1
+            }
+        }
+    }
+}

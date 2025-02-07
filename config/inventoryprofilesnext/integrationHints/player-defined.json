@@ -1,0 +1,75 @@
+{
+    "fr.frinn.custommachinery.client.screen.CustomMachineScreen": {
+        "buttonHints": {
+            "SETTINGS": {
+                "top": 1
+            }
+        }
+    },
+    "fr.frinn.custommachinery.common.init.CustomMachineContainer": {
+        "ignore": true
+    },
+    "io.github.lightman314.lightmanscurrency.client.gui.screen.inventory.TraderStorageScreen": {
+        "buttonHints": {
+            "MOVE_TO_PLAYER": {
+                "horizontalOffset": 13,
+                "top": 136
+            },
+            "SORT": {
+                "horizontalOffset": 21,
+                "top": 136
+            },
+            "SORT_COLUMNS": {
+                "horizontalOffset": 18,
+                "top": 136
+            },
+            "SORT_ROWS": {
+                "horizontalOffset": 15,
+                "top": 136
+            },
+            "SETTINGS": {
+                "top": 2
+            }
+        }
+    },
+    "com.sihenzhang.crockpot.client.gui.screen.CrockPotScreen": {
+        "buttonHints": {
+            "SETTINGS": {
+                "horizontalOffset": -1,
+                "top": -1
+            }
+        }
+    },
+    "net.minecraft.client.gui.screens.inventory.InventoryScreen": {
+        "buttonHints": {
+            "CONTINUOUS_CRAFTING": {
+                "horizontalOffset": -4,
+                "bottom": -6
+            },
+            "SETTINGS": {
+                "horizontalOffset": 45,
+                "top": -20
+            },
+            "MOVE_TO_CONTAINER": {
+                "horizontalOffset": 9,
+                "bottom": -5
+            },
+            "SORT": {
+                "horizontalOffset": 26,
+                "bottom": 7
+            },
+            "SORT_COLUMNS": {
+                "horizontalOffset": 6,
+                "bottom": 7
+            },
+            "SORT_ROWS": {
+                "horizontalOffset": 7,
+                "bottom": 7
+            },
+            "SHOW_EDITOR": {
+                "horizontalOffset": 61,
+                "top": -5
+            }
+        }
+    }
+}

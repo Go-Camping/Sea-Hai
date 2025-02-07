@@ -6,6 +6,25 @@
         "enable_profiles_ui": {
             "value": false
         },
-        "continuous_crafting_saved_value": false
+        "show_continuous_crafting_checkbox": {
+            "value": false
+        },
+        "continuous_crafting_saved_value": false,
+        "regular_post_action": "GROUP_IN_COLUMNS",
+        "show_sort_in_columns_button": {
+            "value": false
+        },
+        "in_columns_post_action": "NONE",
+        "show_sort_in_rows_button": {
+            "value": false
+        }
+    },
+    "AutoRefillSettings": {
+        "refill_armor": {
+            "value": false
+        },
+        "refill_before_tool_break": {
+            "value": false
+        }
     }
 }

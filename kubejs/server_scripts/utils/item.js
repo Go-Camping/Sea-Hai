@@ -12,3 +12,18 @@ function GenExpBottle(expType, expAmount) {
     nbt.putString('type', expType)
     return Item.of('kubejs:exp_bottle').withNBT(nbt)
 }
+
+
+/**
+ * 
+ * @param {Internal.ItemStack} item 
+ * @param {number} damage 
+ */
+function DamageItem(item, damage) {
+    let currentDamage = item.getDamageValue() + damage
+    if (currentDamage >= item.getMaxDamage()) {
+        item.setCount(item.getCount() - 1)
+    } else {
+        item.setDamageValue(currentDamage)
+    }
+}

@@ -20,6 +20,7 @@
 /config/oculus.properties
 /config/inventoryprofilesnext/*
 !/config/inventoryprofilesnext/inventoryprofiles.json
+!/config/inventoryprofilesnext/integrationHints
 /config/xaerominimap_entities.json
 /*-natives
 /quests_structures
