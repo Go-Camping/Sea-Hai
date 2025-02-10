@@ -3,10 +3,13 @@
 // todo 调试方法
 ItemEvents.rightClicked('stick', event => {
     let player = event.player
-    let level = event.level
-
-    let biome = level.getBiome(player.block.pos)
-    player.tell(biome)
+    let res = []
+    player.inventory.allItems.forEach(itemStack => {
+        let item = itemStack.getItem()
+        if (item instanceof $BucketItem) {
+            res.push(item.getFluid().fluidType)
+        }
+    })
     // let tempSphere = new GeodeSphereModel()
     // .addVein(Block.getBlock('minecraft:diamond_block').defaultBlockState(), 23, 'cloud')
     // .setFillBlock(Block.getBlock('minecraft:glass').defaultBlockState())

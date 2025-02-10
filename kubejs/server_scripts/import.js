@@ -61,3 +61,5 @@ const $SDMShopR = Java.loadClass('net.sixik.sdmshoprework.SDMShopR')
 
 const $Cat = Java.loadClass('net.minecraft.world.entity.animal.Cat')
 const $UUID = Java.loadClass('java.util.UUID')
+
+const $BucketItem = Java.loadClass('net.minecraft.world.item.BucketItem')

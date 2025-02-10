@@ -21,6 +21,10 @@ QualityDecorator.setRender(ctx => {
             case 4:
                 guiGraphics.blit(new ResourceLocation('kubejs:textures/decorator/rose_overlay.png'), ctx.xOffset, ctx.yOffset, 0, 0, 16, 16, 16, 16)
                 break
+            default:
+                guiGraphics.blit(new ResourceLocation('kubejs:textures/decorator/black_overlay.png'), ctx.xOffset, ctx.yOffset, 0, 0, 16, 16, 16, 16)
+                break
+                break
         }
 
     }

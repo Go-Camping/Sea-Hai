@@ -2,6 +2,7 @@
 StartupEvents.registry('item', event => {
     event.create('exp_bottle')
         .maxStackSize(1)
+        .tag('kubejs:exp_bottle')
         .useAnimation('drink')
         .use((level, player, hand) => {
             return true

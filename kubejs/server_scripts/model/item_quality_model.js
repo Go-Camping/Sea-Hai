@@ -29,12 +29,17 @@ function ItemQaulityModel(itemStack) {
 ItemQaulityModel.prototype = {
     setValue: function (value) {
         this.value = value
-        this.itemStack.nbt.putInt('value', value)
+        this.itemStack.nbt.putInt('value', this.value)
         return this
     },
     setQuality: function (quality) {
         this.quality = quality
-        this.itemStack.nbt.putInt('quality', quality)
+        this.itemStack.nbt.putInt('quality', this.quality)
+        return this
+    },
+    increaseQuality: function () {
+        this.quality += 1
+        this.itemStack.nbt.putInt('quality', this.quality)
         return this
     },
 }

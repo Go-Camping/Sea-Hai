@@ -1,6 +1,7 @@
 // priority: 900
 const HookIds = []
 StartupEvents.registry('item', event => {
+    event.createCustom('newer_fishing_line', () => new $DyeableItem(1))
     // 高级鱼线
     event.createCustom('hard_fishing_line', () => new $DyeableItem(1))
     event.createCustom('iron_fishing_line', () => new $DyeableItem(1))
@@ -10,7 +11,7 @@ StartupEvents.registry('item', event => {
     event.createCustom('echo_fishing_line', () => new $DyeableItem(1))
     event.createCustom('ender_fishing_line', () => new $DyeableItem(1))
 
-    event.createCustom('newer_bait', () => $AquacultureAPI.createBait(8, 1))
+    event.createCustom('newer_bait', () => $AquacultureAPI.createBait(8, 3))
     // 高级鱼饵
     event.createCustom('mushroom_bait', () => $AquacultureAPI.createBait(8, 1))
     event.createCustom('cod_bait', () => $AquacultureAPI.createBait(8, 1))
@@ -20,6 +21,7 @@ StartupEvents.registry('item', event => {
     event.createCustom('meat_bait', () => $AquacultureAPI.createBait(8, 1))
     event.createCustom('squid_bait', () => $AquacultureAPI.createBait(8, 1))
 
+    event.createCustom('newer_bobber', () => new $DyeableItem(0xf41000, new ResourceLocation('kubejs', 'textures/item/fishing/newer_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/newer_bobber_overlay.png')))
     // 高级浮标
     event.createCustom('duck_bobber', () => new $DyeableItem(0xfcec00, new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/duck_bobber_overlay.png')))
     event.createCustom('octopus_bobber', () => new $DyeableItem(0x6fa5e8, new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber.png'), new ResourceLocation('kubejs', 'textures/item/fishing/octopus_bobber_overlay.png')))
@@ -38,6 +40,7 @@ ClientEvents.init(event => {
     let itemColor = Client.instance.getItemColors()
     itemColor.register((stack, tintIndex) =>
         tintIndex > 0 ? -1 : stack.getItem().getColor(stack),
+        Item.of('kubejs:newer_fishing_line').getItem(),
         Item.of('kubejs:hard_fishing_line').getItem(),
         Item.of('kubejs:iron_fishing_line').getItem(),
         Item.of('kubejs:golden_fishing_line').getItem(),
@@ -46,6 +49,7 @@ ClientEvents.init(event => {
         Item.of('kubejs:echo_fishing_line').getItem(),
         Item.of('kubejs:ender_fishing_line').getItem(),
         
+        Item.of('kubejs:newer_bobber').getItem(),
         Item.of('kubejs:duck_bobber').getItem(),
         Item.of('kubejs:octopus_bobber').getItem(),
         Item.of('kubejs:iron_bobber').getItem(),
@@ -68,11 +72,32 @@ function RegisterHook(hookBuilder) {
 }
 
 RegisterHook(new $HookBuilder('newer')
+    .setDurabilityChance(0.9)
+    .setWeight(new Vec3d(1, 1, 1))
+)
+RegisterHook(new $HookBuilder('ceramics')
+    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:ceramics_hook_fluid'))
+    .setWeight(new Vec3d(0.5, 1, 0.5))
+)
+RegisterHook(new $HookBuilder('hotbath')
+    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:hotbath_hook_fluid'))
     .setWeight(new Vec3d(0.8, 1, 0.8))
 )
-RegisterHook(new $HookBuilder('ore')
-    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:ore_hook_fluid'))
-    .setWeight(new Vec3d(0.5, 1, 0.5))
+RegisterHook(new $HookBuilder('oil')
+    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:oil_hook_fluid'))
+    .setWeight(new Vec3d(1, 1, 1))
+)
+RegisterHook(new $HookBuilder('bread')
+    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:bread_hook_fluid'))
+    .setWeight(new Vec3d(1, 1, 1))
+)
+RegisterHook(new $HookBuilder('silme')
+    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:silme_hook_fluid'))
+    .setWeight(new Vec3d(1, 1, 1))
+)
+RegisterHook(new $HookBuilder('blood')
+    .setFluid(new $TagKey($Registries.FLUID, 'kubejs:blood_hook_fluid'))
+    .setWeight(new Vec3d(1, 1, 1))
 )
 
 StartupEvents.modifyCreativeTab('kubejs:tab', event => {

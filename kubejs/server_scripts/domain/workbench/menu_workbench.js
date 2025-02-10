@@ -31,5 +31,6 @@ ServerEvents.recipes(event => {
             machine.setItemStored('menu_output', outputMenuItem.withNBT(nbt))
             return ctx.success()
         })
+        .resetOnError()
         
 })

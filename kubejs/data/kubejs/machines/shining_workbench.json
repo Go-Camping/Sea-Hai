@@ -1,0 +1,114 @@
+{
+    "name": "block.kubejs.shining_workbench",
+    "appearance": {
+        "custommachinery:block": "kubejs:machine/shining_workbench",
+        "running": {
+            "light": 15,
+            "custommachinery:block": "kubejs:machine/shining_workbench"
+        }
+    },
+    "tooltips": [],
+    "components": [
+        {
+            "type": "custommachinery:item",
+            "id": "item_input",
+            "mode": "input"
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "potion_input",
+            "mode": "input",
+            "whitelist": true,
+            "filter": [
+                "#kubejs:shining_potion"
+            ]
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "exp_input",
+            "mode": "input",
+            "whitelist": true,
+            "filter": [
+                "#kubejs:exp_bottle"
+            ]
+        },
+        {
+            "type": "custommachinery:item",
+            "id": "item_output",
+            "mode": "output"
+        }
+    ],
+    "gui": [
+        {
+            "type": "custommachinery:status",
+            "texture_running": "kubejs:textures/gui/running_sign.png",
+            "texture_idle": "kubejs:textures/gui/idle_sign.png",
+            "texture_errored": "kubejs:textures/gui/error_sign.png",
+            "width": 49,
+            "height": 16,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "custommachinery:player_inventory",
+            "x": 7,
+            "y": 83,
+            "width": 162,
+            "height": 76,
+            "texture": "kubejs:textures/gui/player_inventory.png"
+        },
+        {
+            "type": "custommachinery:background",
+            "texture": "kubejs:textures/gui/shining_workbench_background.png",
+            "width": 176,
+            "height": 166
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 23,
+            "y": 32,
+            "id": "item_input",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 56,
+            "y": 32,
+            "id": "potion_input",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 132,
+            "y": 32,
+            "id": "exp_input",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:slot",
+            "x": 89,
+            "y": 32,
+            "id": "item_output",
+            "texture": "kubejs:textures/gui/solt_transparent.png"
+        },
+        {
+            "type": "custommachinery:bar",
+            "x": 159,
+            "y": 11,
+            "id": "exp_bar",
+            "max": 10000,
+            "texture_empty": "kubejs:textures/gui/shining_exp_bar_empty.png",
+            "texture_filled": "kubejs:textures/gui/shining_exp_bar_filled.png",
+            "orientation": "top"
+        },
+        {
+            "type": "custommachinery:progress",
+            "x": 40,
+            "y": 38,
+            "texture_empty": "kubejs:textures/gui/shining_recipe_loader_empty.png",
+            "texture_filled": "kubejs:textures/gui/shining_recipe_loader_filled.png"
+        }
+    ],
+    "jei": [],
+    "catalysts": []
+}

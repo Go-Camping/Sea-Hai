@@ -5,5 +5,5 @@ FishingItemMiniGameStartStrategy.addStrategy('kubejs:octopus_bobber', DuckBobber
  * @param {Internal.MiniGameStartJS} event 
  */
 function DuckBobberMiniGameStart(model, event) {
-    model.customData['avgDistance'].addAttributeModifier(-0.2, 'multiple', 'base')
+    model.customData['avgDistance'].addAttributeModifier(-0.3, 'multiple', 'base')
 }

@@ -141,13 +141,14 @@ ShopPOIBlock.prototype = {
      * @returns {boolean}
      */
     consumeMoneyOnMachine: function (machine) {
+        let consumeMoney = this.getConsumingMoney()
         machine.data.exp_bar = machine.data.exp_bar ? Math.min(machine.data.exp_bar + consumeMoney, BAR_MAX) : Math.min(consumeMoney, BAR_MAX)
         let coinSlotItem = machine.getItemStored('coin_output')
         if (coinSlotItem && coinSlotItem.hasTag('lightmanscurrency:wallet')) {
             let coinItemList = ConvertMoneyIntoCoinItemList(CoinList, this.getConsumingMoney())
             coinItemList.forEach(coinItem => {
                 let unpickableItem = $WalletItem.PickupCoin(coinSlotItem, coinItem)
-                ctx.block.popItemFromFace(unpickableItem, Direction.UP)
+                this.block.popItemFromFace(unpickableItem, Direction.UP)
             })
         } else {
             let playerBankAccount = $BankSaveData.GetBankAccount(false, machine.ownerId)
