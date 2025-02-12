@@ -18,7 +18,7 @@ ServerEvents.recipes(event => {
             let block = ctx.block
             let shopPOIModel = new ShopPOIBlock(block)
             if (shopPOIModel.checkIsShopping()) return ctx.success()
-            return ctx.error('invalid')
+            return ctx.error('')
         })
         .resetOnError()
 
@@ -73,6 +73,6 @@ FishStorePOIModel.prototype.constructor = FishStorePOIModel
  * @returns 
  */
 FishStorePOIModel.prototype.consumeConatinerTester = function (item) {
-    let res = item.hasNBT() && item.nbt.contains('value')
+    let res = item.hasTag(AquaticProductsSaleTag) && item.hasNBT() && item.nbt.contains('value')
     return res
 }

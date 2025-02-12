@@ -10,7 +10,7 @@ function FindValidSlotOfInventory(inv, predict) {
         let slotItem = inv.getStackInSlot(slot)
         if (!slotItem) continue
         if (!predict(slotItem)) continue
-        let testItem = inv.extractItem(slot, 1, false)
+        let testItem = inv.extractItem(slot, 1, true)
         if (testItem) return {slot : slot, pickItem : testItem}
     }
     return -1

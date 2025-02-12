@@ -1,0 +1,19 @@
+
+[GUI]
+	#The position X of Player Temperature UI
+	#Range: > -2147483648
+	PlayerTemperatureX = 10
+	#The position Y of Player Temperature UI
+	#Range: > -2147483648
+	PlayerTemperatureY = 40
+	#Info used for development.
+	DebugInfo = false
+
+[Renderer]
+	#Force to update chunk rendering.
+	ForceChunkRenderUpdate = false
+
+[Compat]
+	#Automatically compatible with shader pack foliage swaying effects.
+	Iris = true
+

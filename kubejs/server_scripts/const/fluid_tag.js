@@ -37,6 +37,7 @@ ServerEvents.tags('fluid', event => {
         'tconstruct:rabbit_stew',
         'tconstruct:meat_soup',
         'tconstruct:beetroot_soup',
+        'kubejs:glutinous_lemon_juice_fluid',
     ])
 
     event.add('kubejs:silme_hook_fluid', [

@@ -15,6 +15,10 @@
     "command.kubejs.sdm_exchange.2": "已将%s¥上传到云货币存储",
     "command.kubejs.sdm_exchange.3": "已将%s¥转移到银行账户中",
 
+    "_comment.fluid": "流体",
+    "fluid.kubejs.glutinous_lemon_juice_fluid": "糯香柠檬茶",
+    "item.kubejs.glutinous_lemon_juice_fluid_bucket": "糯香柠檬茶桶",
+
     "_comment.item": "物品",
     "item.kubejs.relate_node_tool": "节点链接工具",
     "item.kubejs.relate_position_tool": "地点链接工具",
@@ -64,6 +68,7 @@
     "block.kubejs.onsen_resort": "温泉店",
     "block.kubejs.gelato_store": "冰激凌店",
     "block.kubejs.crock_pot_restaurant": "烹饪锅店",
+    "block.kubejs.glutinous_lemon_juice": "糯香柠檬茶",
 
     "_comment.tooltips": "工具提示",
     "_comment.tooltips.common": "通用工具提示",

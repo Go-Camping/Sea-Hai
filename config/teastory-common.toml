@@ -1,0 +1,38 @@
+
+[Block]
+	#The capacity of wooden barrel. (mB)
+	#Range: > 100
+	WoodenBarrelCapacity = 4000
+
+[Agriculture]
+	#Can bone meal be used to grow crops?
+	BoneMeal = true
+	#Can ash be used as bone meal?
+	Ash = true
+	#Can players find seeds in the chest of village?
+	AddSeedToHouseChest = true
+	#Let melon vine more interesting.
+	BetterMelon = true
+
+[Temperature]
+	#Ice or snow layer will melt in warm place..
+	IceAndSnowMelt = true
+
+[Season]
+	#Enable solar term season system.
+	EnableSeason = true
+	#The lasting days of each term (24 in total).
+	#Range: 1 ~ 30
+	LastingDaysOfEachTerm = 7
+	#The index of the initial solar term.
+	#Range: 1 ~ 24
+	InitialSolarTermIndex = 1
+
+[Others]
+	#Wooden blocks will drop ashes when burning.
+	WoodDropsAshWhenBurning = true
+
+[Compat]
+	#Enable solar term season compat.
+	EnableSeason = true
+
